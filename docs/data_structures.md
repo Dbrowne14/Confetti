@@ -5,7 +5,9 @@
 - id: Number
 - firstName: String
 - surname: String
-- birthday: Date
+- birthDay: Number
+- birthMonth: Number
+- birthYear: Number | null
 - circleId: Number
 - giftNotes: String
 - photoUrl: String
