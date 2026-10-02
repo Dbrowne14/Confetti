@@ -2,69 +2,39 @@
 import { navigation } from "@/data/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { NavIcon } from "./NavIcons";
 
 const FloatingNav = () => {
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const openAdd = () => setIsAddOpen(true);
-  const closeAdd = () => setIsAddOpen(false);
   const pathname = usePathname();
   return (
-    <div>
-      <nav className="flex justify-center items-center gap-4 p-3">
+    <nav
+      aria-label="Primary"
+      className="order-3 w-full lg:absolute lg:top-1/2 lg:left-1/2 lg:order-0 lg:w-auto lg:-translate-x-1/2 lg:-translate-y-1/2"
+    >
+      <ul className="mx-auto flex w-fit items-center rounded-full border border-white/70 bg-confetti-surface p-1 shadow-pill">
         {navigation.map((item) => {
           const { href, name } = item;
           const isActive = pathname === href;
           return (
-            <Link
-              className={`flex gap-2 ${isActive ? "font-bold" : ""}`}
-              href={`${href}`}
-              key={name}
-            >
-              <span className="h-4 w-4 bg-white"></span>
-              <div>{name}</div>
-            </Link>
+            <li key={name}>
+              <Link
+                className={`flex h-10 items-center gap-2 rounded-full px-4 text-sm whitespace-nowrap transition-colors ${
+                  isActive
+                    ? "bg-confetti-active font-semibold text-confetti-ink"
+                    : "font-medium text-confetti-muted hover:text-confetti-ink"
+                }`}
+                href={`${href}`}
+                key={name}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <NavIcon name={name} isActive={isActive} />
+                <span className="sr-only sm:not-sr-only">{name}</span>
+              </Link>
+            </li>
           );
         })}
-        <AddButton openAdd={openAdd} />
-      </nav>
-      {isAddOpen && (
-        <div className="fixed inset-0 z-50 bg-black/10" onClick={closeAdd}>
-          <AddBirthdayMenu isAddOpen={isAddOpen} closeAdd={closeAdd} />
-        </div>
-      )}
-    </div>
-  );
-};
-
-const AddButton = ({ openAdd }: { openAdd: () => void }) => {
-  return (
-    <button
-      onClick={openAdd}
-      className="flex nowrap items-center justify-center gap-3 py-2 rounded-[22px] px-2 bg-[rgb(245,134,107)] text-black"
-    >
-      <span>+</span>
-      <span>Add Birthday</span>
-    </button>
-  );
-};
-
-const AddBirthdayMenu = ({
-  isAddOpen,
-  closeAdd,
-}: {
-  isAddOpen: boolean;
-  closeAdd: () => void;
-}) => {
-  return (
-    <div
-      className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-100 z-50 h-120 w-90 rounded-2xl ${isAddOpen ? "block" : "hidden"}`}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <span className="text-black" onClick={closeAdd}>
-        Cancel
-      </span>
-    </div>
+      </ul>
+    </nav>
   );
 };
 
