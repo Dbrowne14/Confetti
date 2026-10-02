@@ -28,7 +28,11 @@ const FloatingNav = () => {
         })}
         <AddButton openAdd={openAdd} />
       </nav>
-      <AddBirthdayMenu isAddOpen={isAddOpen} closeAdd={closeAdd}/>
+      {isAddOpen && (
+        <div className="fixed inset-0 z-50 bg-black/10" onClick={closeAdd}>
+          <AddBirthdayMenu isAddOpen={isAddOpen} closeAdd={closeAdd} />
+        </div>
+      )}
     </div>
   );
 };
@@ -45,11 +49,22 @@ const AddButton = ({ openAdd }: { openAdd: () => void }) => {
   );
 };
 
-const AddBirthdayMenu = ({ isAddOpen, closeAdd }: { isAddOpen: boolean; closeAdd: ()=> void }) => {
+const AddBirthdayMenu = ({
+  isAddOpen,
+  closeAdd,
+}: {
+  isAddOpen: boolean;
+  closeAdd: () => void;
+}) => {
   return (
     <div
       className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-100 z-50 h-120 w-90 rounded-2xl ${isAddOpen ? "block" : "hidden"}`}
-    ><span className="text-black" onClick={closeAdd}>Cancel</span></div>
+      onClick={(e) => e.stopPropagation()}
+    >
+      <span className="text-black" onClick={closeAdd}>
+        Cancel
+      </span>
+    </div>
   );
 };
 
