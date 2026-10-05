@@ -1,5 +1,9 @@
+import CalendarMain from "@/components/calendar/CalendarMain";
+
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center font-sans"></div>
+    <div className="flex flex-1 flex-col items-center justify-center font-sans">
+      <CalendarMain />
+    </div>
   );
 }
