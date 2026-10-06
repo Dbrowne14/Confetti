@@ -1,14 +1,6 @@
+"use client";
 import React from "react";
-
-const days = [
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-  "Sun",
-];
+import { useState } from "react";
 
 const months = [
   "January",
@@ -34,18 +26,19 @@ const CalendarMain = () => {
     year,
     month,
   );
+  const [currentMonth, setCurrentMonth] = useState(month);
 
-  const lastDateOfPreviousMonth = new Date(year, month, 0);
+  const lastDateOfPreviousMonth = new Date(year, currentMonth, 0);
   const daysInPreviousMonth = lastDateOfPreviousMonth.getDate();
 
   const startDay =
     firstDayOfMonth > 0
       ? {
-          startMonth: month - 1,
+          startMonth: currentMonth - 1,
           startDay: daysInPreviousMonth - (firstDayOfMonth - 1),
         }
       : {
-          startMonth: month,
+          startMonth: currentMonth,
           startDay: 1,
         };
 
@@ -54,14 +47,21 @@ const CalendarMain = () => {
 
   return (
     <main className="flex flex-col items-center justify-center gap-4">
-      <div>{months[month] + " " + year}</div>
+      <div className="flex w-full justify-between items-center">
+        <ButtonUI direction="left" setMonth={setCurrentMonth} />
+        <div>{months[currentMonth] + " " + year}</div>
+        <ButtonUI direction="right" setMonth={setCurrentMonth} />
+      </div>
 
       <div className="flex flex-col gap-2">
         {weeksArray.map((_, weekIndex) => {
           const weekOffset = weekIndex * 7;
 
           return (
-            <div key={weekIndex} className="flex items-center justify-center gap-4">
+            <div
+              key={weekIndex}
+              className="flex items-center justify-center gap-4"
+            >
               {calendarWeek.map((_, dayIndex) => {
                 const date = new Date(
                   year,
@@ -69,7 +69,6 @@ const CalendarMain = () => {
                   startDay.startDay + weekOffset + dayIndex,
                 );
 
-                const day = date.getDay();
                 const dayDate = date.getDate();
 
                 return (
@@ -114,6 +113,32 @@ export const weeksCalcs = (
     numberOfWeeks,
     firstDayOfMonth,
   };
+};
+
+type ButtonUIProps = {
+  direction: "left" | "right";
+  setMonth: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const ButtonUI = ({ direction, setMonth }: ButtonUIProps) => {
+  const handleClick = () => {
+    direction === "left"
+      ? setMonth((prev) => (prev - 1 + 12) % 12)
+      : setMonth((prev) => (prev + 1 + 12) % 12);
+  };
+  return (
+    <button onClick={handleClick}>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className={direction === "left" ? "rotate-180" : ""}
+      >
+        <path d="M8 5l8 7-8 7V5z" />
+      </svg>
+    </button>
+  );
 };
 
 export default CalendarMain;
