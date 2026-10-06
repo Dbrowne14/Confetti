@@ -21,14 +21,16 @@ const CalendarMain = () => {
   const date = new Date();
 
   const { monthLength, year, month } = currentDate(date);
-  const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
-    monthLength,
-    year,
-    month,
-  );
-  const [currentMonth, setCurrentMonth] = useState(month);
 
-  const lastDateOfPreviousMonth = new Date(year, currentMonth, 0);
+  const [currentMonth, setCurrentMonth] = useState(month);
+  const [currentYear, setCurrentYear] = useState(year);
+    const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
+    monthLength,
+    currentYear,
+    currentMonth,
+  );
+
+  const lastDateOfPreviousMonth = new Date(currentYear, currentMonth, 0);
   const daysInPreviousMonth = lastDateOfPreviousMonth.getDate();
 
   const startDay =
@@ -48,15 +50,25 @@ const CalendarMain = () => {
   return (
     <main className="flex flex-col items-center justify-center gap-4">
       <div className="flex w-full justify-between items-center">
-        <ButtonUI direction="left" setMonth={setCurrentMonth} />
-        <div>{months[currentMonth] + " " + year}</div>
-        <ButtonUI direction="right" setMonth={setCurrentMonth} />
+        <ButtonUI
+          direction="left"
+          month={currentMonth}
+          setMonth={setCurrentMonth}
+          setYear={setCurrentYear}
+        />
+        <div>{months[currentMonth] + " " + currentYear}</div>
+        <ButtonUI
+          direction="right"
+          month={currentMonth}
+          setMonth={setCurrentMonth}
+          setYear={setCurrentYear}
+        />
       </div>
 
       <div className="flex flex-col gap-2">
         {weeksArray.map((_, weekIndex) => {
           const weekOffset = weekIndex * 7;
-
+          console.log({startMonth:startDay.startMonth, startDay:startDay.startDay, lastDate:lastDateOfPreviousMonth, firstDay:firstDayOfMonth})  
           return (
             <div
               key={weekIndex}
@@ -64,7 +76,7 @@ const CalendarMain = () => {
             >
               {calendarWeek.map((_, dayIndex) => {
                 const date = new Date(
-                  year,
+                  currentYear,
                   startDay.startMonth,
                   startDay.startDay + weekOffset + dayIndex,
                 );
@@ -117,17 +129,36 @@ export const weeksCalcs = (
 
 type ButtonUIProps = {
   direction: "left" | "right";
+  month: number;
   setMonth: React.Dispatch<React.SetStateAction<number>>;
+  setYear: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const ButtonUI = ({ direction, setMonth }: ButtonUIProps) => {
-  const handleClick = () => {
-    direction === "left"
-      ? setMonth((prev) => (prev - 1 + 12) % 12)
-      : setMonth((prev) => (prev + 1 + 12) % 12);
+export const ButtonUI = ({
+  direction,
+  month,
+  setMonth,
+  setYear,
+}: ButtonUIProps) => {
+  const changeMonth = () => {
+    if (direction === "right") {
+      if (month === 11) {
+        setMonth(0);
+        setYear((prev) => prev + 1);
+      } else {
+        setMonth((prev) => prev + 1);
+      }
+    } else {
+      if (month === 0) {
+        setMonth(11);
+        setYear((prev) => prev - 1);
+      } else {
+        setMonth((prev) => prev - 1);
+      }
+    }
   };
   return (
-    <button onClick={handleClick}>
+    <button onClick={changeMonth}>
       <svg
         width="24"
         height="24"
