@@ -17,11 +17,14 @@ const months = [
   "December",
 ];
 
+const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 const CalendarMain = () => {
   const date = new Date();
 
   const year = date.getFullYear();
   const month = date.getMonth();
+  const todayDate = date.getDate();
 
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentYear, setCurrentYear] = useState(year);
@@ -64,39 +67,47 @@ const CalendarMain = () => {
   const calendarWeek = new Array(7).fill(null);
 
   return (
-    <main className="flex flex-col items-center justify-center gap-4">
-      <div className="flex w-full justify-between items-center">
-        <ButtonUI
-          direction="left"
-          month={currentMonth}
-          setMonth={setCurrentMonth}
-          setYear={setCurrentYear}
-          disabled={disabled}
-        />
-        <div>{months[currentMonth] + " " + currentYear}</div>
-        <ButtonUI
-          direction="right"
-          month={currentMonth}
-          setMonth={setCurrentMonth}
-          setYear={setCurrentYear}
-          disabled={disabled}
-        />
+    <section className="rounded-2xl bg-confetti-surface p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-4 pb-4 sm:pb-5">
+        <h2 className="font-serif text-2xl leading-tight font-semibold tracking-tight text-confetti-ink sm:text-[2rem]">
+          {months[currentMonth] + " " + currentYear}
+        </h2>
+        <div className="flex shrink-0 items-center gap-2">
+          <ButtonUI
+            direction="left"
+            month={currentMonth}
+            setMonth={setCurrentMonth}
+            setYear={setCurrentYear}
+            disabled={disabled}
+          />
+          <ButtonUI
+            direction="right"
+            month={currentMonth}
+            setMonth={setCurrentMonth}
+            setYear={setCurrentYear}
+            disabled={disabled}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-7 gap-1 pb-2 sm:pb-3">
+        {weekdays.map((weekday) => (
+          <div
+            key={weekday}
+            className="text-center text-[10px] font-semibold tracking-widest text-confetti-muted uppercase sm:text-[11px]"
+          >
+            {weekday}
+          </div>
+        ))}
+      </div>
+
+      {/* Always six rows tall so 4/5/6-week months keep the same card height. */}
+      <div className="grid grid-cols-7 grid-rows-[repeat(6,3rem)] gap-1 sm:grid-rows-[repeat(6,4rem)] lg:grid-rows-[repeat(6,4.5rem)]">
         {weeksArray.map((_, weekIndex) => {
           const weekOffset = weekIndex * 7;
-          console.log({
-            startMonth: startDay.startMonth,
-            startDay: startDay.startDay,
-            lastDate: lastDateOfPreviousMonth,
-            firstDay: firstDayOfMonth,
-          });
           return (
-            <div
-              key={weekIndex}
-              className="flex items-center justify-center gap-4"
-            >
+            // `contents` lets each day sit directly in the 7-column grid.
+            <div key={weekIndex} className="contents">
               {calendarWeek.map((_, dayIndex) => {
                 const date = new Date(
                   currentYear,
@@ -105,11 +116,26 @@ const CalendarMain = () => {
                 );
 
                 const dayDate = date.getDate();
+                const isCurrentMonth =
+                  date.getMonth() === currentMonth &&
+                  date.getFullYear() === currentYear;
+                const isToday =
+                  dayDate === todayDate &&
+                  date.getMonth() === month &&
+                  date.getFullYear() === year;
 
                 return (
                   <div
                     key={dayIndex}
-                    className="flex flex-col items-center justify-center gap-2 w-12 h-12 border rounded-xl text-black"
+                    className={`flex items-center justify-center rounded-xl text-sm sm:text-base ${
+                      isToday
+                        ? "border border-confetti-ink font-semibold"
+                        : ""
+                    } ${
+                      isCurrentMonth
+                        ? "text-confetti-ink"
+                        : "text-confetti-muted/50"
+                    }`}
                   >
                     <span>{dayDate}</span>
                   </div>
@@ -119,7 +145,7 @@ const CalendarMain = () => {
           );
         })}
       </div>
-    </main>
+    </section>
   );
 };
 
@@ -174,15 +200,26 @@ export const ButtonUI = ({
     }
   };
   return (
-    <button onClick={changeMonth} disabled={disabled(direction)}>
+    <button
+      type="button"
+      onClick={changeMonth}
+      disabled={disabled(direction)}
+      aria-label={direction === "left" ? "Previous month" : "Next month"}
+      className="flex size-8 items-center justify-center rounded-lg border border-confetti-border text-confetti-ink transition-colors hover:bg-confetti-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink disabled:cursor-not-allowed disabled:text-confetti-muted disabled:opacity-40 disabled:hover:bg-transparent"
+    >
       <svg
-        width="24"
-        height="24"
+        width="14"
+        height="14"
         viewBox="0 0 24 24"
-        fill="currentColor"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
         className={direction === "left" ? "rotate-180" : ""}
       >
-        <path d="M8 5l8 7-8 7V5z" />
+        <path d="M9 6l6 6-6 6" />
       </svg>
     </button>
   );
