@@ -49,6 +49,7 @@ const AddBirthdayUI = ({
 }) => {
   const birthdays = getBirthdaysForDate(people, date, month);
   const birthdayDate = birthdays.length;
+  //need to add in logic to decide which UI to show depending on what is selected
   return (
     <div>
       <div>{`${weekdays[day - 1]} ${date} ${months[month]}`}</div>
@@ -65,7 +66,7 @@ const AddBirthdayUI = ({
               </div>
               <div className="flex flex-col">
                 <div>{birthday.firstName} {birthday.surname}</div>
-                <div><span>{birthday.circle.name}</span><span>Turns {birthday.birthYear}</span></div>
+                <div><span>{birthday.circle.name}</span><span>Turns {birthday.birthYear}</span></div> 
               </div>
             </div>
           );
