@@ -24,11 +24,24 @@ const CalendarMain = () => {
 
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentYear, setCurrentYear] = useState(year);
-    const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
+  const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
     monthLength,
     currentYear,
     currentMonth,
   );
+
+  const maxDate = new Date(date.getFullYear(), date.getMonth() + 12, 1);
+
+  const canGoBack =
+    currentYear > year || (currentYear === year && currentMonth > month);
+
+  const canGoForward =
+    currentYear < maxDate.getFullYear() ||
+    (currentYear === maxDate.getFullYear() &&
+      currentMonth < maxDate.getMonth());
+
+  const disabled = (direction: "left" | "right") =>
+    direction === "left" ? !canGoBack : !canGoForward;
 
   const lastDateOfPreviousMonth = new Date(currentYear, currentMonth, 0);
   const daysInPreviousMonth = lastDateOfPreviousMonth.getDate();
@@ -55,6 +68,7 @@ const CalendarMain = () => {
           month={currentMonth}
           setMonth={setCurrentMonth}
           setYear={setCurrentYear}
+          disabled={disabled}
         />
         <div>{months[currentMonth] + " " + currentYear}</div>
         <ButtonUI
@@ -62,13 +76,19 @@ const CalendarMain = () => {
           month={currentMonth}
           setMonth={setCurrentMonth}
           setYear={setCurrentYear}
+          disabled={disabled}
         />
       </div>
 
       <div className="flex flex-col gap-2">
         {weeksArray.map((_, weekIndex) => {
           const weekOffset = weekIndex * 7;
-          console.log({startMonth:startDay.startMonth, startDay:startDay.startDay, lastDate:lastDateOfPreviousMonth, firstDay:firstDayOfMonth})  
+          console.log({
+            startMonth: startDay.startMonth,
+            startDay: startDay.startDay,
+            lastDate: lastDateOfPreviousMonth,
+            firstDay: firstDayOfMonth,
+          });
           return (
             <div
               key={weekIndex}
@@ -132,6 +152,7 @@ type ButtonUIProps = {
   month: number;
   setMonth: React.Dispatch<React.SetStateAction<number>>;
   setYear: React.Dispatch<React.SetStateAction<number>>;
+  disabled: (direction: "left" | "right") => boolean;
 };
 
 export const ButtonUI = ({
@@ -139,6 +160,7 @@ export const ButtonUI = ({
   month,
   setMonth,
   setYear,
+  disabled,
 }: ButtonUIProps) => {
   const changeMonth = () => {
     if (direction === "right") {
@@ -158,7 +180,7 @@ export const ButtonUI = ({
     }
   };
   return (
-    <button onClick={changeMonth}>
+    <button onClick={changeMonth} disabled={disabled(direction)}>
       <svg
         width="24"
         height="24"
