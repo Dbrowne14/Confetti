@@ -20,10 +20,13 @@ const months = [
 const CalendarMain = () => {
   const date = new Date();
 
-  const { monthLength, year, month } = currentDate(date);
+  const year = date.getFullYear();
+  const month = date.getMonth();
 
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentYear, setCurrentYear] = useState(year);
+
+  const monthLength = new Date(currentYear, currentMonth + 1, 0).getDate();
   const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
     monthLength,
     currentYear,
@@ -120,15 +123,6 @@ const CalendarMain = () => {
   );
 };
 
-export const currentDate = (date: Date) => {
-  const month = date.getMonth();
-  const year = date.getFullYear();
-
-  const monthEnd = new Date(year, month + 1, 0);
-  const monthLength = monthEnd.getDate();
-
-  return { monthLength, year, month };
-};
 
 export const weeksCalcs = (
   monthLength: number,
