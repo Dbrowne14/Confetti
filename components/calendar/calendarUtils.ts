@@ -1,3 +1,6 @@
+
+import { People } from "@/data/people";
+
 export const months = [
   "January",
   "February",
@@ -14,6 +17,17 @@ export const months = [
 ];
 
 export const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+export const getBirthdaysForDate = (
+  people: People[],
+  day: number,
+  month: number,
+) => {
+  return people.filter(
+    (person) => person.birthDay === day && person.birthMonth - 1 === month,
+  );
+};
+
 
 export const weeksCalcs = (
   monthLength: number,

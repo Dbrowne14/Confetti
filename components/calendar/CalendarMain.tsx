@@ -45,7 +45,7 @@ const CalendarMain = () => {
   const weeks = getCalendarWeeks(currentYear, currentMonth);
 
   return (
-    <section className="self-start rounded-3xl bg-confetti-surface p-4 sm:p-5">
+    <section className="self-start rounded-3xl bg-confetti-surface p-4 sm:p-5 w-180">
       <div className="flex items-center justify-between gap-4 pb-4 sm:pb-5">
         <h2 className="font-serif text-2xl leading-tight font-semibold tracking-tight text-confetti-ink sm:text-[2rem]">
           {months[currentMonth] + " " + currentYear}
@@ -84,12 +84,13 @@ const CalendarMain = () => {
           <div key={weekIndex} className="contents">
             {week.map((date, dayIndex) => {
               const dayDate = date.getDate();
+              const dateMonth = date.getMonth()
               const isCurrentMonth =
-                date.getMonth() === currentMonth &&
+                dateMonth === currentMonth &&
                 date.getFullYear() === currentYear;
               const isToday =
                 dayDate === todayDate &&
-                date.getMonth() === month &&
+                dateMonth === month &&
                 date.getFullYear() === year;
 
               return (
@@ -97,6 +98,7 @@ const CalendarMain = () => {
                   key={dayIndex}
                   dayDate={dayDate}
                   isToday={isToday}
+                  month={dateMonth}
                   isCurrentMonth={isCurrentMonth}
                 />
               );
