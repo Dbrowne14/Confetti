@@ -78,7 +78,7 @@ const AddBirthdayUI = ({
             </div>
           );
         })}
-      <button className="rounded-xl border p-2 flex gap-2">
+      <button className="rounded-xl border p-2 flex gap-2" >
         <span>+</span>
         <span>
           Add {birthdayDate ? "Another" : "Birthday"} on {date} {months[month]}
