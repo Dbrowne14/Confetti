@@ -83,3 +83,23 @@ export const getCalendarWeeks = (year: number, month: number): Date[][] => {
     );
   });
 };
+
+export const getNextBirthday = (person: People) => {
+  const today = new Date();
+
+  let nextBirthday = new Date(
+    today.getFullYear(),
+    person.birthMonth - 1,
+    person.birthDay,
+  );
+
+  if (nextBirthday < today) {
+    nextBirthday = new Date(
+      today.getFullYear() + 1,
+      person.birthMonth - 1,
+      person.birthDay,
+    );
+  }
+
+  return nextBirthday;
+};

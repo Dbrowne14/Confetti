@@ -16,11 +16,18 @@ const PickDay = ({
   const month = selectedDay.getMonth();
   const date = selectedDay.getDate();
   const day = selectedDay.getDay();
+  const year = selectedDay.getFullYear();
   console.log(day);
 
   return (
     <div className="rounded-3xl flex flex-col gap-2 bg-confetti-surface p-4 sm:p-5">
-      <AddBirthdayUI month={month} day={day} date={date} people={people} />
+      <AddBirthdayUI
+        month={month}
+        day={day}
+        date={date}
+        people={people}
+        year={year}
+      />
     </div>
   );
 };
@@ -43,11 +50,13 @@ const AddBirthdayUI = ({
   day,
   date,
   people,
+  year,
 }: {
   month: number;
   day: number;
   date: number;
   people: People[];
+  year: number;
 }) => {
   const birthdays = getBirthdaysForDate(people, date, month);
   const birthdayDate = birthdays.length;
@@ -61,9 +70,7 @@ const AddBirthdayUI = ({
       </div>
       {birthdayDate &&
         birthdays.map((birthday, index) => {
-          return (
-            <BirthdayRow birthday={birthday}/>
-          );
+          return <BirthdayRow birthday={birthday} occurenceYear={year} />;
         })}
       <button className="rounded-xl border p-2 flex gap-2">
         <span>+</span>
