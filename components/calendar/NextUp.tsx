@@ -19,19 +19,25 @@ const NextUp = ({ people }: { people: People[] }) => {
       (1000 * 60 * 60 * 24),
   );
   return (
-    <div className="flex flex-col rounded-3xl bg-confetti-surface p-4 sm:p-5">
-      <div>Next Up</div>
-      <div className="flex">
+    <section className="flex flex-col gap-3 rounded-3xl bg-confetti-surface p-5 sm:p-6">
+      <h2 className="text-[11px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">
+        Next Up
+      </h2>
+      <div className="flex items-center gap-4">
         <BirthdayRow
           birthday={nextBirthday.person}
           occurenceYear={nextBirthday.nextBirthday.getFullYear()}
         />
-        <div className="flex flex-col">
-          <span>{daysAway}</span>
-          <span>day{daysAway === 1 ? "" : "s"}</span>
+        <div className="flex shrink-0 flex-col items-end">
+          <span className="text-3xl leading-none font-bold text-confetti-ink tabular-nums sm:text-[34px]">
+            {daysAway}
+          </span>
+          <span className="mt-2 text-[11px] font-semibold tracking-[0.14em] text-confetti-muted uppercase">
+            day{daysAway === 1 ? "" : "s"}
+          </span>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
