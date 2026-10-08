@@ -4,7 +4,7 @@ import ArrowButton from "@/components/ui/ArrowButton";
 import CalendarDay from "./CalendarDay";
 import { getCalendarWeeks, months, weekdays } from "./calendarUtils";
 
-const CalendarMain = ({setSelected}:{setSelected:React.Dispatch<SetStateAction<Date|null>>}) => {
+const CalendarMain = ({selected, setSelected}:{selected:Date|null; setSelected:React.Dispatch<SetStateAction<Date|null>>}) => {
   const date = new Date();
 
   const year = date.getFullYear();
@@ -101,6 +101,7 @@ const CalendarMain = ({setSelected}:{setSelected:React.Dispatch<SetStateAction<D
                   dayDate={dayDate}
                   isToday={isToday}
                   isCurrentMonth={isCurrentMonth}
+                  selected={selected}
                   setSelectedDay={setSelected}
                 />
               );
