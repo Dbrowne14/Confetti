@@ -12,7 +12,7 @@ type CalendarDayProps = {
 
 import { people } from "@/data/people";
 
-const CalendarDay = ({
+export const CalendarDay = ({
   date,
   dayDate,
   isToday,
@@ -50,5 +50,3 @@ const CalendarDay = ({
     </div>
   );
 };
-
-export default CalendarDay;

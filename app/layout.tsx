@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
+import { Header } from "@/components/layout/Header";
 import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
 
 const geistSans = Geist({

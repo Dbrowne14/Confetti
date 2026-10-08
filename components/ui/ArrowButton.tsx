@@ -5,7 +5,7 @@ type ArrowButtonProps = {
   label: string;
 };
 
-const ArrowButton = ({
+export const ArrowButton = ({
   direction,
   onClick,
   disabled = false,
@@ -36,5 +36,3 @@ const ArrowButton = ({
     </button>
   );
 };
-
-export default ArrowButton;

@@ -1,5 +1,5 @@
-import PickDay from "./PickDay";
-import NextUp from "./NextUp";
+import { PickDay } from "./PickDay";
+import { NextUp } from "./NextUp";
 import { people } from "@/data/people";
 
 export const CalendarSide = ({ selected }: { selected: Date | null }) => {
@@ -10,5 +10,3 @@ export const CalendarSide = ({ selected }: { selected: Date | null }) => {
     </div>
   );
 };
-
-export default CalendarSide;

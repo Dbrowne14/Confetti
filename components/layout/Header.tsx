@@ -1,11 +1,11 @@
 "use client";
-import ConfettiBrand from "./ConfettiBrand";
-import FloatingNav from "./FloatingNav";
-import AddBirthdayButton from "../addBirthday/AddBirthdayButton";
+import { ConfettiBrand } from "./ConfettiBrand";
+import { FloatingNav } from "./FloatingNav";
+import { AddBirthdayButton } from "../addBirthday/AddBirthdayButton";
 import { AddBirthday } from "../addBirthday/AddBirthday";
 import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
 
-const Header = () => {
+export const Header = () => {
   const { isAddOpen, closeAddBirthday } = useAddBirthday();
   return (
     <div>
@@ -29,5 +29,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;

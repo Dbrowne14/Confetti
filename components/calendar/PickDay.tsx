@@ -1,9 +1,9 @@
 import type { People } from "@/data/people";
 import { getBirthdaysForDate, months } from "./calendarUtils";
-import BirthdayRow from "../ui/BirthdayRow";
+import { BirthdayRow } from "../ui/BirthdayRow";
 import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
 
-const PickDay = ({
+export const PickDay = ({
   selectedDay,
   people,
 }: {
@@ -103,5 +103,3 @@ const ChevronIcon = () => (
     <path d="M1 1l5 5-5 5" />
   </svg>
 );
-
-export default PickDay;

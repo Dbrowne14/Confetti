@@ -1,10 +1,9 @@
 import React from "react";
 import { People } from "@/data/people";
-import { getBirthdaysForDate } from "./calendarUtils";
-import BirthdayRow from "../ui/BirthdayRow";
+import { BirthdayRow } from "../ui/BirthdayRow";
 import { getNextBirthday } from "./calendarUtils";
 
-const NextUp = ({ people }: { people: People[] }) => {
+export const NextUp = ({ people }: { people: People[] }) => {
   const upcomingBirthdays = people.map((person) => ({
     person,
     nextBirthday: getNextBirthday(person),
@@ -40,5 +39,3 @@ const NextUp = ({ people }: { people: People[] }) => {
     </section>
   );
 };
-
-export default NextUp;

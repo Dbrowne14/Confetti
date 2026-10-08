@@ -1,7 +1,7 @@
 import { PlusIcon } from "../layout/NavIcons";
 import { useAddBirthday } from "./AddBirthdayProvider";
 
-const AddBirthdayButton = () => {
+export const AddBirthdayButton = () => {
   const { openAddBirthday } = useAddBirthday();
   return (
     <button
@@ -14,5 +14,3 @@ const AddBirthdayButton = () => {
     </button>
   );
 };
-
-export default AddBirthdayButton;

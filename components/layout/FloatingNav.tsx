@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavIcon } from "./NavIcons";
 
-const FloatingNav = () => {
+export const FloatingNav = () => {
   const pathname = usePathname();
   return (
     <nav
@@ -37,5 +37,3 @@ const FloatingNav = () => {
     </nav>
   );
 };
-
-export default FloatingNav;

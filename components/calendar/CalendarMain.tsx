@@ -1,10 +1,10 @@
 "use client";
 import { SetStateAction, useState } from "react";
-import ArrowButton from "@/components/ui/ArrowButton";
-import CalendarDay from "./CalendarDay";
+import { ArrowButton } from "@/components/ui/ArrowButton";
+import { CalendarDay } from "./CalendarDay";
 import { getCalendarWeeks, months, weekdays } from "./calendarUtils";
 
-const CalendarMain = ({selected, setSelected}:{selected:Date|null; setSelected:React.Dispatch<SetStateAction<Date|null>>}) => {
+export const CalendarMain = ({selected, setSelected}:{selected:Date|null; setSelected:React.Dispatch<SetStateAction<Date|null>>}) => {
   const date = new Date();
 
   const year = date.getFullYear();
@@ -112,5 +112,3 @@ const CalendarMain = ({selected, setSelected}:{selected:Date|null; setSelected:R
     </section>
   );
 };
-
-export default CalendarMain;

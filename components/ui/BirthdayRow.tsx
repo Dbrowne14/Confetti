@@ -1,7 +1,7 @@
 import { People } from "@/data/people";
 import { months } from "../calendar/calendarUtils";
 
-const BirthdayRow = ({
+export const BirthdayRow = ({
   birthday,
   occurenceYear,
 }: {
@@ -35,5 +35,3 @@ const BirthdayRow = ({
     </div>
   );
 };
-
-export default BirthdayRow;

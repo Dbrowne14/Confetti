@@ -1,6 +1,6 @@
 'use client'
-import CalendarMain from "@/components/calendar/CalendarMain";
-import CalendarSide from "@/components/calendar/CalendarSide";
+import { CalendarMain } from "@/components/calendar/CalendarMain";
+import { CalendarSide } from "@/components/calendar/CalendarSide";
 import { useState } from "react";
 
 export default function Home() {

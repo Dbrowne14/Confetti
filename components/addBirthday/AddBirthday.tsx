@@ -1,8 +1,6 @@
 import React from "react";
 import { useAddBirthday } from "./AddBirthdayProvider";
-export const AddBirthday = ({
-}: {
-}) => {
+export const AddBirthday = () => {
     const {isAddOpen, closeAddBirthday} = useAddBirthday()
   return (
     <div

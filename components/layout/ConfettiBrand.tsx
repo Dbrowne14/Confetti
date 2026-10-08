@@ -1,4 +1,4 @@
-const ConfettiBrand = () => {
+export const ConfettiBrand = () => {
   return (
     <div className="order-1 flex items-center gap-3">
       <span
@@ -11,5 +11,3 @@ const ConfettiBrand = () => {
     </div>
   );
 };
-
-export default ConfettiBrand;
