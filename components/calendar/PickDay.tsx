@@ -1,7 +1,7 @@
-import React from "react";
 import type { People } from "@/data/people";
 import { getBirthdaysForDate, months, weekdays } from "./calendarUtils";
 import BirthdayRow from "../ui/BirthdayRow";
+import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
 
 const PickDay = ({
   selectedDay,
@@ -13,21 +13,10 @@ const PickDay = ({
   if (!selectedDay) {
     return <NotSelected />;
   }
-  const month = selectedDay.getMonth();
-  const date = selectedDay.getDate();
-  const day = selectedDay.getDay();
-  const year = selectedDay.getFullYear();
-  console.log(day);
 
   return (
     <div className="rounded-3xl flex flex-col gap-2 bg-confetti-surface p-4 sm:p-5">
-      <AddBirthdayUI
-        month={month}
-        day={day}
-        date={date}
-        people={people}
-        year={year}
-      />
+      <AddBirthdayUI selectedDay={selectedDay} people={people} />
     </div>
   );
 };
@@ -46,38 +35,37 @@ const NotSelected = () => {
 };
 
 const AddBirthdayUI = ({
-  month,
-  day,
-  date,
+  selectedDay,
   people,
-  year,
 }: {
-  month: number;
-  day: number;
-  date: number;
+  selectedDay: Date;
   people: People[];
-  year: number;
 }) => {
-  const birthdays = getBirthdaysForDate(people, date, month);
+  const birthdays = getBirthdaysForDate(people, selectedDay);
   const birthdayDate = birthdays.length;
+
   //need to add in logic to decide which UI to show depending on what is selected
-  console.log(day);
+
   return (
     <div>
-      <div>{`${weekdays[(day + 7 - 1) % 7]} ${date} ${months[month]}`}</div>
+      <div>{`${weekdays[(selectedDay.getDay() + 7 - 1) % 7]} ${selectedDay.getDate()} ${months[selectedDay.getMonth()]}`}</div>
       <div>
         {birthdayDate || "No"} Birthday{birthdayDate !== 1 && "s"} on this day
       </div>
-      {birthdayDate &&
-        birthdays.map((birthday, index) => {
-          return <BirthdayRow birthday={birthday} occurenceYear={year} />;
-        })}
-      <button className="rounded-xl border p-2 flex gap-2">
-        <span>+</span>
-        <span>
-          Add {birthdayDate ? "Another" : "Birthday"} on {date} {months[month]}
-        </span>
-      </button>
+
+      {birthdays.map((birthday) => {
+        return (
+          <BirthdayRow
+            key={birthday.id}
+            birthday={birthday}
+            occurenceYear={selectedDay.getFullYear()}
+          />
+        );
+      })}
+      <AddBirthdayForDayButton
+        hasBirthday={!!birthdayDate}
+        selectedDay={selectedDay}
+      />
     </div>
   );
 };

@@ -27,4 +27,13 @@ export const people = [
     birthYear: null,
     circle: { name: "Friends", colour: "rgb(0,0,0)" },
   },
+    {
+    id: 3,
+    firstName: "Alex",
+    surname: "Smoth",
+    birthMonth: 10,
+    birthDay: 7,
+    birthYear: null,
+    circle: { name: "Friends", colour: "rgb(0,0,0)" },
+  },
 ];

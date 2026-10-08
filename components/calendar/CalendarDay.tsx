@@ -6,7 +6,6 @@ type CalendarDayProps = {
   dayDate: number;
   isToday: boolean;
   isCurrentMonth: boolean;
-  month: number;
   setSelectedDay: React.Dispatch<SetStateAction<Date | null>>;
 };
 
@@ -17,10 +16,9 @@ const CalendarDay = ({
   dayDate,
   isToday,
   isCurrentMonth,
-  month,
   setSelectedDay,
 }: CalendarDayProps) => {
-  const birthdays = getBirthdaysForDate(people, dayDate, month);
+  const birthdays = getBirthdaysForDate(people, date);
   console.log(birthdays);
   return (
     <div

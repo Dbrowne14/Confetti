@@ -20,14 +20,14 @@ export const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const getBirthdaysForDate = (
   people: People[],
-  day: number,
-  month: number,
+  date: Date,
 ) => {
   return people.filter(
-    (person) => person.birthDay === day && person.birthMonth - 1 === month,
+    (person) =>
+      person.birthDay === date.getDate() &&
+      person.birthMonth === date.getMonth() + 1,
   );
 };
-
 
 export const weeksCalcs = (
   monthLength: number,

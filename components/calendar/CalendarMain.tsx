@@ -100,7 +100,6 @@ const CalendarMain = ({setSelected}:{setSelected:React.Dispatch<SetStateAction<D
                   date={date}
                   dayDate={dayDate}
                   isToday={isToday}
-                  month={dateMonth}
                   isCurrentMonth={isCurrentMonth}
                   setSelectedDay={setSelected}
                 />

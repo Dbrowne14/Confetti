@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +32,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-confetti-bg text-confetti-ink">
-        <Header />
-        {children}
+        <AddBirthdayProvider>
+          <Header />
+          {children}
+        </AddBirthdayProvider>
       </body>
     </html>
   );
