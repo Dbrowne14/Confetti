@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import ArrowButton from "@/components/ui/ArrowButton";
 import CalendarDay from "./CalendarDay";
 import { getCalendarWeeks, months, weekdays } from "./calendarUtils";
 
-const CalendarMain = () => {
+const CalendarMain = ({setSelected}:{setSelected:React.Dispatch<SetStateAction<Date|null>>}) => {
   const date = new Date();
 
   const year = date.getFullYear();
@@ -13,6 +13,7 @@ const CalendarMain = () => {
 
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentYear, setCurrentYear] = useState(year);
+
 
   const maxDate = new Date(date.getFullYear(), date.getMonth() + 12, 1);
 
@@ -96,10 +97,12 @@ const CalendarMain = () => {
               return (
                 <CalendarDay
                   key={dayIndex}
+                  date={date}
                   dayDate={dayDate}
                   isToday={isToday}
                   month={dateMonth}
                   isCurrentMonth={isCurrentMonth}
+                  setSelectedDay={setSelected}
                 />
               );
             })}

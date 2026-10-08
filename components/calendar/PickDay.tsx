@@ -3,27 +3,28 @@ import type { People } from "@/data/people";
 import { getBirthdaysForDate, months, weekdays } from "./calendarUtils";
 
 const PickDay = ({
-  cellDate,
+  selectedDay,
   people,
 }: {
-  cellDate: Date;
   people: People[];
+  selectedDay: Date | null;
 }) => {
-  const month = cellDate.getMonth();
-  const date = cellDate.getDate();
-  const day = cellDate.getDate();
+  if (!selectedDay) {
+    return <NotSelected />;
+  }
+  const month = selectedDay.getMonth();
+  const date = selectedDay.getDate();
+  const day = selectedDay.getDay();
   console.log(day);
-  const birthdays = getBirthdaysForDate(people, date, month);
 
   return (
     <div className="rounded-3xl flex flex-col gap-2 bg-confetti-surface p-4 sm:p-5">
       <AddBirthdayUI month={month} day={day} date={date} people={people} />
-      <FirstLoadUI />
     </div>
   );
 };
 
-const FirstLoadUI = () => {
+const NotSelected = () => {
   return (
     <>
       {" "}
@@ -50,9 +51,10 @@ const AddBirthdayUI = ({
   const birthdays = getBirthdaysForDate(people, date, month);
   const birthdayDate = birthdays.length;
   //need to add in logic to decide which UI to show depending on what is selected
+  console.log(day);
   return (
     <div>
-      <div>{`${weekdays[day - 1]} ${date} ${months[month]}`}</div>
+      <div>{`${weekdays[(day + 7 - 1) % 7]} ${date} ${months[month]}`}</div>
       <div>
         {birthdayDate || "No"} Birthday{birthdayDate !== 1 && "s"} on this day
       </div>
@@ -65,8 +67,13 @@ const AddBirthdayUI = ({
                 <span>{birthday.birthDay}</span>
               </div>
               <div className="flex flex-col">
-                <div>{birthday.firstName} {birthday.surname}</div>
-                <div><span>{birthday.circle.name}</span><span>Turns {birthday.birthYear}</span></div> 
+                <div>
+                  {birthday.firstName} {birthday.surname}
+                </div>
+                <div>
+                  <span>{birthday.circle.name}</span>
+                  <span>Turns {birthday.birthYear}</span>
+                </div>
               </div>
             </div>
           );
