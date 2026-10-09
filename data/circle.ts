@@ -1,4 +1,11 @@
-export const circles = [
+export type Circle = {
+  id: number;
+  name: string;
+  description: string;
+  colour: string;
+};
+
+export const circles: Circle[] = [
   {
     id: 1,
     name: "Family",

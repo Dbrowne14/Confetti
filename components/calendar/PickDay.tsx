@@ -2,18 +2,21 @@ import type { People } from "@/data/people";
 import { getBirthdaysForDate, months } from "./calendarUtils";
 import { BirthdayRow } from "../ui/BirthdayRow";
 import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
+import { findCorrectCircle } from "./CalendarDay";
 
 export const PickDay = ({
   selectedDay,
   people,
+  circle,
 }: {
   people: People[];
   selectedDay: Date | null;
+  circle: number | null;
 }) => {
   return (
     <section className="flex flex-col rounded-3xl bg-confetti-surface p-5 sm:p-6">
       {selectedDay ? (
-        <AddBirthdayUI selectedDay={selectedDay} people={people} />
+        <AddBirthdayUI selectedDay={selectedDay} people={people} circle={circle} />
       ) : (
         <NotSelected />
       )}
@@ -38,12 +41,15 @@ const NotSelected = () => {
 const AddBirthdayUI = ({
   selectedDay,
   people,
+  circle
 }: {
   selectedDay: Date;
   people: People[];
+  circle:number|null
 }) => {
   const birthdays = getBirthdaysForDate(people, selectedDay);
-  const birthdayDate = birthdays.length;
+  const birthdaysFiltered = findCorrectCircle(birthdays, circle)
+  const birthdayDate = birthdaysFiltered.length;
   const weekday = selectedDay.toLocaleDateString("en-GB", { weekday: "long" });
 
   //need to add in logic to decide which UI to show depending on what is selected
@@ -61,7 +67,7 @@ const AddBirthdayUI = ({
 
       {birthdayDate > 0 && (
         <ul className="mt-5 flex flex-col gap-2.5">
-          {birthdays.map((birthday) => {
+          {birthdaysFiltered.map((birthday) => {
             return (
               <li
                 key={birthday.id}

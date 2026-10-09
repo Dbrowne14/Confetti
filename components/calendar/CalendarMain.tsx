@@ -3,13 +3,18 @@ import { SetStateAction, useState } from "react";
 import { ArrowButton } from "@/components/ui/ArrowButton";
 import { CalendarDay } from "./CalendarDay";
 import { getCalendarWeeks, months, weekdays } from "./calendarUtils";
+import { CalendarFilter } from "./CalendarFilter";
 
 export const CalendarMain = ({
   selected,
   setSelected,
+  circle,
+  setCircle
 }: {
   selected: Date | null;
   setSelected: React.Dispatch<SetStateAction<Date | null>>;
+    circle: number | null;
+  setCircle: React.Dispatch<SetStateAction<number | null>>;
 }) => {
   const date = new Date();
 
@@ -19,6 +24,7 @@ export const CalendarMain = ({
 
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentYear, setCurrentYear] = useState(year);
+
 
   const maxDate = new Date(date.getFullYear(), date.getMonth() + 12, 1);
 
@@ -52,7 +58,7 @@ export const CalendarMain = ({
 
   return (
     <section className="flex flex-col gap-4">
-      <div className="h-20 bg-confetti-surface w-full rounded-3xl"></div>
+      <CalendarFilter setCircle={setCircle}/>
       <div className="self-start rounded-3xl bg-confetti-surface p-4 sm:p-5 w-180">
         <div className="flex items-center justify-between gap-4 pb-4 sm:pb-5">
           <h2 className="font-serif text-2xl leading-tight font-semibold tracking-tight text-confetti-ink sm:text-[2rem]">
@@ -110,6 +116,7 @@ export const CalendarMain = ({
                     isCurrentMonth={isCurrentMonth}
                     selected={selected}
                     setSelectedDay={setSelected}
+                    circle={circle}
                   />
                 );
               })}

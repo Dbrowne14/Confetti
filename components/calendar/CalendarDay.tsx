@@ -1,6 +1,8 @@
 import { SetStateAction } from "react";
 import { getBirthdaysForDate } from "./calendarUtils";
 import { circles } from "@/data/circle";
+import { People } from "@/data/people";
+import { Circle } from "@/data/circle";
 
 type CalendarDayProps = {
   date: Date;
@@ -9,6 +11,7 @@ type CalendarDayProps = {
   isCurrentMonth: boolean;
   setSelectedDay: React.Dispatch<SetStateAction<Date | null>>;
   selected: Date | null;
+  circle: number | null;
 };
 
 import { people } from "@/data/people";
@@ -20,10 +23,11 @@ export const CalendarDay = ({
   isCurrentMonth,
   setSelectedDay,
   selected,
+  circle,
 }: CalendarDayProps) => {
   const birthdays = getBirthdaysForDate(people, date);
   const isSelected = selected?.getTime() === date.getTime();
-
+const filterBirthday = findCorrectCircle(birthdays, circle)
   return (
     <div
       className={`flex flex-col items-center justify-center rounded-xl text-sm tabular-nums sm:text-base ${
@@ -34,8 +38,8 @@ export const CalendarDay = ({
       <span>{dayDate}</span>
       <div className="flex gap-1">
         {" "}
-        {birthdays?.length > 0 &&
-          birthdays?.map((birthday) => {
+        {filterBirthday?.length > 0 &&
+          filterBirthday?.map((birthday) => {
             const circle = circles.find(
               (circle) => circle.id === birthday.circleID,
             );
@@ -52,4 +56,12 @@ export const CalendarDay = ({
       </div>
     </div>
   );
+};
+
+export const findCorrectCircle = (
+  people:People[],
+  circle:number|null
+) => {
+  if(circle === null) {return people}
+  return people.filter((person) => person.circleID === circle);
 };

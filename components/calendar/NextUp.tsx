@@ -2,9 +2,11 @@ import React from "react";
 import { People } from "@/data/people";
 import { BirthdayRow } from "../ui/BirthdayRow";
 import { getNextBirthday } from "./calendarUtils";
+import { findCorrectCircle } from "./CalendarDay";
 
-export const NextUp = ({ people }: { people: People[] }) => {
-  const upcomingBirthdays = people.map((person) => ({
+export const NextUp = ({ people, circle }: { people: People[], circle:number | null }) => {
+  const birthdaysFiltered = findCorrectCircle(people, circle)
+  const upcomingBirthdays = birthdaysFiltered.map((person) => ({
     person,
     nextBirthday: getNextBirthday(person),
   }));
