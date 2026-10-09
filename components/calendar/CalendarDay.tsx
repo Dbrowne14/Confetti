@@ -1,5 +1,6 @@
 import { SetStateAction } from "react";
 import { getBirthdaysForDate } from "./calendarUtils";
+import { circles } from "@/data/circle";
 
 type CalendarDayProps = {
   date: Date;
@@ -22,6 +23,7 @@ export const CalendarDay = ({
 }: CalendarDayProps) => {
   const birthdays = getBirthdaysForDate(people, date);
   const isSelected = selected?.getTime() === date.getTime();
+
   return (
     <div
       className={`flex flex-col items-center justify-center rounded-xl text-sm tabular-nums sm:text-base ${
@@ -34,13 +36,14 @@ export const CalendarDay = ({
         {" "}
         {birthdays?.length > 0 &&
           birthdays?.map((birthday) => {
+            const circle = circles.find(
+              (circle) => circle.id === birthday.circleID,
+            );
             return (
               <div
                 className="size-2 rounded-full"
                 style={{
-                  backgroundColor: isSelected
-                    ? "white"
-                    : birthday.circle.colour,
+                  backgroundColor: isSelected ? "white" : circle?.colour,
                 }}
                 key={birthday.id}
               />

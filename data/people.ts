@@ -5,7 +5,7 @@ export type People = {
   birthMonth: number;
   birthDay: number;
   birthYear: number | null;
-  circle: { name: string; colour: string };
+  circleID: number;
 };
 
 export const people = [
@@ -16,7 +16,7 @@ export const people = [
     birthMonth: 4,
     birthDay: 29,
     birthYear: 1998,
-    circle: { name: "Family", colour: "rgb(122,200,200)" },
+    circleID: 1,
   },
   {
     id: 2,
@@ -25,15 +25,15 @@ export const people = [
     birthMonth: 10,
     birthDay: 7,
     birthYear: null,
-    circle: { name: "Friends", colour: "rgb(0,0,0)" },
+    circleID: 2,
   },
-    {
+  {
     id: 3,
     firstName: "Alex",
     surname: "Smoth",
     birthMonth: 10,
     birthDay: 7,
     birthYear: null,
-    circle: { name: "Friends", colour: "rgb(0,0,0)" },
+    circleID: 2,
   },
 ];
