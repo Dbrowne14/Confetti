@@ -22,7 +22,7 @@ export const TextField = ({
 }: {
   label: string;
   name: string;
-  placeHolder: string;
+  placeHolder?: string;
 }) => {
   return (
     <div className=" flex flex-col text-sm font-medium text-confetti-muted">
