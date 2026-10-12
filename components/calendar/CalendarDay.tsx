@@ -1,67 +1,60 @@
-import { SetStateAction } from "react";
-import { getBirthdaysForDate } from "./calendarUtils";
-import { circles } from "@/data/circle";
-import { People } from "@/data/people";
-import { Circle } from "@/data/circle";
+import type { Circle } from "@/data/circles";
+import type { Person } from "@/data/people";
+import { formatBirthdayCount, getCircleForPerson } from "./calendarUtils";
 
 type CalendarDayProps = {
   date: Date;
-  dayDate: number;
-  isToday: boolean;
   isCurrentMonth: boolean;
-  setSelectedDay: React.Dispatch<SetStateAction<Date | null>>;
-  selected: Date | null;
-  circle: number | null;
+  isToday: boolean;
+  isSelected: boolean;
+  birthdays: Person[];
+  circles: Circle[];
+  onSelect: (date: Date) => void;
 };
-
-import { people } from "@/data/people";
 
 export const CalendarDay = ({
   date,
-  dayDate,
-  isToday,
   isCurrentMonth,
-  setSelectedDay,
-  selected,
-  circle,
+  isToday,
+  isSelected,
+  birthdays,
+  circles,
+  onSelect,
 }: CalendarDayProps) => {
-  const birthdays = getBirthdaysForDate(people, date);
-  const isSelected = selected?.getTime() === date.getTime();
-const filterBirthday = findCorrectCircle(birthdays, circle)
+  const label = date.toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
   return (
-    <div
+    <button
+      type="button"
+      aria-pressed={isSelected}
+      aria-label={
+        birthdays.length > 0
+          ? `${label}, ${formatBirthdayCount(birthdays.length)}`
+          : label
+      }
+      onClick={() => onSelect(date)}
       className={`flex flex-col items-center justify-center rounded-xl text-sm tabular-nums sm:text-base ${
         isToday ? "border-[1.5px] border-confetti-ink font-semibold" : ""
       } ${isSelected ? "bg-gray-700 text-white" : ""} ${isCurrentMonth ? "text-confetti-ink" : "text-confetti-muted/60"}`}
-      onClick={() => setSelectedDay(date)}
     >
-      <span>{dayDate}</span>
-      <div className="flex gap-1">
-        {" "}
-        {filterBirthday?.length > 0 &&
-          filterBirthday?.map((birthday) => {
-            const circle = circles.find(
-              (circle) => circle.id === birthday.circleID,
-            );
-            return (
-              <div
-                className="size-2 rounded-full"
-                style={{
-                  backgroundColor: isSelected ? "white" : circle?.colour,
-                }}
-                key={birthday.id}
-              />
-            );
-          })}
-      </div>
-    </div>
+      <span>{date.getDate()}</span>
+      <span className="flex gap-1">
+        {birthdays.map((person) => (
+          <span
+            key={person.id}
+            className="size-2 rounded-full"
+            style={{
+              backgroundColor: isSelected
+                ? "white"
+                : getCircleForPerson(person, circles)?.colour,
+            }}
+          />
+        ))}
+      </span>
+    </button>
   );
-};
-
-export const findCorrectCircle = (
-  people:People[],
-  circle:number|null
-) => {
-  if(circle === null) {return people}
-  return people.filter((person) => person.circleID === circle);
 };

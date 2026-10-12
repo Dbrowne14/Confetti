@@ -1,14 +1,14 @@
-export type People = {
+export type Person = {
   id: number;
   firstName: string;
   surname: string;
-  birthMonth: number;
+  birthMonth: number; // 1–12 (January = 1), unlike Date#getMonth()
   birthDay: number;
-  birthYear: number | null;
-  circleID: number;
+  birthYear: number | null; // null when the year is unknown
+  circleId: number;
 };
 
-export const people = [
+export const people: Person[] = [
   {
     id: 1,
     firstName: "Sush",
@@ -16,7 +16,7 @@ export const people = [
     birthMonth: 4,
     birthDay: 29,
     birthYear: 1998,
-    circleID: 1,
+    circleId: 1,
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const people = [
     birthMonth: 10,
     birthDay: 7,
     birthYear: null,
-    circleID: 2,
+    circleId: 2,
   },
   {
     id: 3,
@@ -34,6 +34,6 @@ export const people = [
     birthMonth: 10,
     birthDay: 7,
     birthYear: null,
-    circleID: 2,
+    circleId: 2,
   },
 ];

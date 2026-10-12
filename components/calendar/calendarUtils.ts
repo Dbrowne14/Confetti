@@ -1,105 +1,76 @@
+import type { Circle } from "@/data/circles";
+import type { Person } from "@/data/people";
 
-import { People } from "@/data/people";
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-export const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+// ---- Dates ------------------------------------------------------------------
 
-export const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const startOfDay = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-export const getBirthdaysForDate = (
-  people: People[],
-  date: Date,
-) => {
-  return people.filter(
-    (person) =>
-      person.birthDay === date.getDate() &&
-      person.birthMonth === date.getMonth() + 1,
-  );
-};
+export const isSameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
-export const weeksCalcs = (
-  monthLength: number,
-  year: number,
-  month: number,
-) => {
-  const firstDateOfMonth = new Date(year, month, 1);
-  const firstDayOfMonth = (firstDateOfMonth.getDay() - 1 + 7) % 7;
-
-  const totalDaysInCalendar = firstDayOfMonth + monthLength;
-  const numberOfWeeks = Math.ceil(totalDaysInCalendar / 7);
-
-  return {
-    numberOfWeeks,
-    firstDayOfMonth,
-  };
-};
+// Whole calendar days from `from` until `to`, ignoring time of day.
+export const getDaysUntil = (to: Date, from: Date) =>
+  Math.round((startOfDay(to).getTime() - startOfDay(from).getTime()) / MS_PER_DAY);
 
 // Every date shown in the month view, grouped into Monday-first weeks,
 // including the leading/trailing days from adjacent months.
 export const getCalendarWeeks = (year: number, month: number): Date[][] => {
-  const monthLength = new Date(year, month + 1, 0).getDate();
-  const { numberOfWeeks, firstDayOfMonth } = weeksCalcs(
-    monthLength,
-    year,
-    month,
-  );
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // getDay() is Sunday-first; shift it so Monday = 0.
+  const leadingDays = (new Date(year, month, 1).getDay() - 1 + 7) % 7;
+  const numberOfWeeks = Math.ceil((leadingDays + daysInMonth) / 7);
 
-  const lastDateOfPreviousMonth = new Date(year, month, 0);
-  const daysInPreviousMonth = lastDateOfPreviousMonth.getDate();
-
-  const startDay =
-    firstDayOfMonth > 0
-      ? {
-          startMonth: month - 1,
-          startDay: daysInPreviousMonth - (firstDayOfMonth - 1),
-        }
-      : {
-          startMonth: month,
-          startDay: 1,
-        };
-
-  return Array.from({ length: numberOfWeeks }, (_, weekIndex) => {
-    const weekOffset = weekIndex * 7;
-    return Array.from(
+  // Day numbers below 1 (or past the month's end) roll into the adjacent month.
+  return Array.from({ length: numberOfWeeks }, (_, weekIndex) =>
+    Array.from(
       { length: 7 },
       (_, dayIndex) =>
-        new Date(
-          year,
-          startDay.startMonth,
-          startDay.startDay + weekOffset + dayIndex,
-        ),
-    );
-  });
+        new Date(year, month, 1 - leadingDays + weekIndex * 7 + dayIndex),
+    ),
+  );
 };
 
-export const getNextBirthday = (person: People) => {
-  const today = new Date();
+// ---- People & circles -------------------------------------------------------
 
-  let nextBirthday = new Date(
-    today.getFullYear(),
-    person.birthMonth - 1,
-    person.birthDay,
+// `null` means "All circles".
+export const filterPeopleByCircle = (
+  people: Person[],
+  circleId: number | null,
+) =>
+  circleId === null
+    ? people
+    : people.filter((person) => person.circleId === circleId);
+
+export const getCircleForPerson = (person: Person, circles: Circle[]) =>
+  circles.find((circle) => circle.id === person.circleId);
+
+// ---- Birthdays --------------------------------------------------------------
+// Person.birthMonth is 1-based; Date months are 0-based. These helpers are the
+// only place that conversion happens.
+
+export const getBirthdaysForDate = (people: Person[], date: Date) =>
+  people.filter(
+    (person) =>
+      person.birthDay === date.getDate() &&
+      person.birthMonth === date.getMonth() + 1,
   );
 
-  if (nextBirthday < today) {
-    nextBirthday = new Date(
-      today.getFullYear() + 1,
-      person.birthMonth - 1,
-      person.birthDay,
-    );
-  }
+const getBirthdayInYear = (person: Person, year: number) =>
+  new Date(year, person.birthMonth - 1, person.birthDay);
 
-  return nextBirthday;
+// The person's next birthday, counting today as upcoming.
+export const getNextBirthdayDate = (person: Person, today: Date) => {
+  const birthdayThisYear = getBirthdayInYear(person, today.getFullYear());
+
+  return birthdayThisYear < startOfDay(today)
+    ? getBirthdayInYear(person, today.getFullYear() + 1)
+    : birthdayThisYear;
 };
+
+export const formatBirthdayCount = (count: number) =>
+  `${count} birthday${count === 1 ? "" : "s"}`;

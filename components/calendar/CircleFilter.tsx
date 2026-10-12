@@ -1,57 +1,58 @@
-import { circles } from "@/data/circle";
-import { People } from "@/data/people";
-import { Circle } from "@/data/circle";
-import { SetStateAction } from "react";
+import type { Circle } from "@/data/circles";
 
-export const CalendarFilter = ({
-  setCircle,
-}: {
-  setCircle: React.Dispatch<SetStateAction<number | null>>;
-}) => {
+const chipBase =
+  "flex h-9 shrink-0 items-center gap-2 rounded-full border px-4 text-sm whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink";
+
+const chipState = (isSelected: boolean) =>
+  isSelected
+    ? "border-confetti-ink bg-confetti-ink font-semibold text-confetti-surface shadow-raised"
+    : "border-confetti-border bg-confetti-surface font-medium text-confetti-muted hover:border-confetti-ink/20 hover:text-confetti-ink";
+
+type CircleFilterProps = {
+  circles: Circle[];
+  selectedCircleId: number | null; // null = All
+  onSelectCircle: (circleId: number | null) => void;
+};
+
+export const CircleFilter = ({
+  circles,
+  selectedCircleId,
+  onSelectCircle,
+}: CircleFilterProps) => {
   return (
-    <div className="h-20 flex flex-row gap-4 ">
+    // Scrolls sideways rather than wrapping when there are more circles than fit.
+    <div
+      role="group"
+      aria-label="Filter birthdays by circle"
+      className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 scrollbar-none sm:-mx-1 sm:max-w-182 sm:px-1 [&::-webkit-scrollbar]:hidden"
+    >
       <button
-        className=" flex items-center gap-2 p-4 h-fit rounded-3xl border-confetti-border bg-amber-950"
-        onClick={() =>
-          handleCircleFilter({
-            setCircleFilter: setCircle,
-            selectedFilter: null,
-          })
-        }
+        type="button"
+        aria-pressed={selectedCircleId === null}
+        className={`${chipBase} ${chipState(selectedCircleId === null)}`}
+        onClick={() => onSelectCircle(null)}
       >
-        <div className="text-white">All</div>
+        All
       </button>
-      {circles.map((circle) => {
+      {circles.map(({ id, name, colour }) => {
+        const isSelected = selectedCircleId === id;
         return (
           <button
-            className=" flex items-center gap-2 p-4 h-fit rounded-3xl bg-confetti-surface border-confetti-border"
-            onClick={() =>
-              handleCircleFilter({
-                setCircleFilter: setCircle,
-                selectedFilter: circle.id,
-              })
-            }
+            key={id}
+            type="button"
+            aria-pressed={isSelected}
+            className={`${chipBase} ${chipState(isSelected)}`}
+            onClick={() => onSelectCircle(id)}
           >
-            <div
-              className="h-3 w-3 rounded-full"
-              style={{ backgroundColor: circle.colour }}
-            ></div>
-            <div>{circle.name}</div>
+            <span
+              aria-hidden
+              className={`size-2 shrink-0 rounded-full ${isSelected ? "ring-2 ring-confetti-surface/25" : ""}`}
+              style={{ backgroundColor: colour }}
+            />
+            {name}
           </button>
         );
       })}
     </div>
   );
-};
-
-
-
-const handleCircleFilter = ({
-  setCircleFilter,
-  selectedFilter,
-}: {
-  setCircleFilter: React.Dispatch<SetStateAction<number | null>>;
-  selectedFilter: number | null;
-}) => {
-  return setCircleFilter(selectedFilter);
 };
