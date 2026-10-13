@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
+import { AddBirthday } from "@/components/addBirthday/AddBirthday";
+import { getCircle } from "@/lib/fetches/getCircles";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const circles = getCircle();
   return (
     <html
       lang="en"
@@ -34,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-confetti-bg text-confetti-ink">
         <AddBirthdayProvider>
           <Header />
+          <AddBirthday circles={circles} />
           {children}
         </AddBirthdayProvider>
       </body>

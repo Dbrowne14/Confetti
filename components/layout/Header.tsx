@@ -2,7 +2,6 @@
 import { ConfettiBrand } from "./ConfettiBrand";
 import { FloatingNav } from "./FloatingNav";
 import { AddBirthdayButton } from "../addBirthday/AddBirthdayButton";
-import { AddBirthday } from "../addBirthday/AddBirthday";
 import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
 
 export const Header = () => {
@@ -23,7 +22,7 @@ export const Header = () => {
           className="fixed inset-0 z-50 bg-black/10"
           onClick={closeAddBirthday}
         >
-          <AddBirthday />
+         
         </div>
       )}
     </div>
