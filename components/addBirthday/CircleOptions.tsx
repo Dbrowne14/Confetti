@@ -11,11 +11,17 @@ export const CircleOptions = ({
   setSelectedCircleId: (circleId: number | null) => void;
 }) => {
   return (
-    <div>
+    <div role="group" aria-label="Circle" className="flex flex-wrap gap-2">
+      <Pill
+        label="None"
+        isSelected={selectedCircleId === null}
+        onClick={() => setSelectedCircleId(null)}
+      />
       {circles.map(({ name, colour, id }) => {
         const isSelected = selectedCircleId === id;
         return (
           <Pill
+            key={id}
             label={name}
             colour={colour}
             isSelected={isSelected}

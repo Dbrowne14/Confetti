@@ -1,15 +1,19 @@
+import { fieldBase } from "./FormSection";
+
 export const NameField = () => {
   return (
-    <div className="flex gap-2 justify-between">
+    <div className="flex gap-2">
       <TextField
         label="First Name"
         name="firstName"
-        placeHolder="Who's Celebrating?"
+        placeHolder="Who's celebrating?"
+        className="flex-1"
       />
       <TextField
         label="Last Name"
         name="lastName"
-        placeHolder="Their Last Name"
+        placeHolder="Last name"
+        className="flex-1"
       />
     </div>
   );
@@ -19,19 +23,25 @@ export const TextField = ({
   label,
   name,
   placeHolder,
+  className = "",
 }: {
   label: string;
   name: string;
   placeHolder?: string;
+  className?: string;
 }) => {
   return (
-    <div className=" flex flex-col text-sm font-medium text-confetti-muted">
-      <label htmlFor={name}>{label}</label>
+    <div className={`flex flex-col ${className}`}>
+      {/* The section heading is the visible label; this keeps each input named for screen readers. */}
+      <label htmlFor={name} className="sr-only">
+        {label}
+      </label>
       <input
         type="text"
-        className="bg-gray-200 border-confetti-border rounded-3xl p-1 text-[11px]"
+        id={name}
         name={name}
         placeholder={placeHolder}
+        className={`${fieldBase} h-10`}
       />
     </div>
   );
