@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { ArrowButton } from "@/components/ui/ArrowButton";
-import type { Circle } from "@/data/circles";
-import type { Person } from "@/data/people";
+import type { Circle } from "@/lib/data/circles";
+import type { Person } from "@/lib/data/people";
 import { CalendarDay } from "./CalendarDay";
 import { monthNames, weekdayLabels } from "./calendarConstants";
 import {

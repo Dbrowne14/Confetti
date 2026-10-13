@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import type { Circle } from "@/data/circles";
-import type { Person } from "@/data/people";
+import type { Circle } from "@/lib/data/circles";
+import type { Person } from "@/lib/data/people";
 import { CircleFilter } from "./CircleFilter";
 import { MonthCalendar } from "./MonthCalendar";
 import { NextUp } from "./NextUp";

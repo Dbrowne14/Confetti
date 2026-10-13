@@ -1,4 +1,4 @@
-import type { Circle } from "@/data/circles";
+import type { Circle } from "@/lib/data/circles";
 import { Pill } from "../ui/Pill";
 
 type CircleFilterProps = {

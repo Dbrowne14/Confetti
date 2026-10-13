@@ -1,6 +1,6 @@
 import { Calendar } from "@/components/calendar/Calendar";
-import { circles } from "@/data/circles";
-import { people } from "@/data/people";
+import { circles } from "@/lib/data/circles";
+import { people } from "@/lib/data/people";
 
 export default function Home() {
   return (

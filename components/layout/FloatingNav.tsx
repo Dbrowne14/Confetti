@@ -1,5 +1,5 @@
 "use client";
-import { navigation } from "@/data/navigation";
+import { navigation } from "@/lib/data/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavIcon } from "./NavIcons";
