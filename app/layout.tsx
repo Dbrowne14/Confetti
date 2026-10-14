@@ -5,6 +5,9 @@ import { Header } from "@/components/layout/Header";
 import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
 import { AddBirthday } from "@/components/addBirthday/AddBirthday";
 import { getCircle } from "@/lib/fetches/getCircles";
+import { AddProfileProvider } from "@/components/profile/AddProfileProvider";
+import { Profile } from "@/components/profile/Profile";
+import { getPeople } from "@/lib/fetches/getPeople";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   const circles = getCircle();
+  const people = getPeople()
   return (
     <html
       lang="en"
@@ -36,9 +40,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-confetti-bg text-confetti-ink">
         <AddBirthdayProvider>
-          <Header />
-          <AddBirthday circles={circles} />
-          {children}
+          <AddProfileProvider>
+            <Header />
+            <AddBirthday circles={circles} />
+            <Profile circles={circles} people={people}/>
+            {children}
+          </AddProfileProvider>
         </AddBirthdayProvider>
       </body>
     </html>
