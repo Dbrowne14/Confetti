@@ -1,4 +1,4 @@
-import { PlusIcon } from "../layout/NavIcons";
+import { PlusIcon } from "@/components/layout/NavIcons";
 import { useAddBirthday } from "./AddBirthdayProvider";
 
 export const AddBirthdayButton = () => {

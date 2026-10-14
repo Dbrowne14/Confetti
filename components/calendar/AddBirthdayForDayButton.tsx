@@ -1,7 +1,7 @@
 "use client";
 import { useAddBirthday } from "@/components/addBirthday/AddBirthdayProvider";
 import { PlusIcon } from "@/components/layout/NavIcons";
-import { monthNames } from "./calendarConstants";
+import { monthNames } from "@/lib/utils/dateUtils";
 
 type AddBirthdayForDayButtonProps = {
   date: Date;

@@ -1,8 +1,8 @@
 "use client";
 import { ConfettiBrand } from "./ConfettiBrand";
 import { FloatingNav } from "./FloatingNav";
-import { AddBirthdayButton } from "../addBirthday/AddBirthdayButton";
-import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
+import { AddBirthdayButton } from "@/components/addBirthday/AddBirthdayButton";
+import { useAddBirthday } from "@/components/addBirthday/AddBirthdayProvider";
 
 export const Header = () => {
   const { isAddOpen, closeAddBirthday } = useAddBirthday();

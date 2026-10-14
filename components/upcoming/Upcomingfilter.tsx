@@ -1,10 +1,10 @@
-import { Circle } from "@/lib/data/circles";
-import { Pill } from "../ui/Pill";
-import { SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import type { Circle } from "@/lib/data/circles";
+import { Pill } from "@/components/ui/Pill";
 
 type UpcomingFilterProps = {
   circles: Circle[];
-  setSelectedCircle: React.Dispatch<SetStateAction<number | null>>;
+  setSelectedCircle: Dispatch<SetStateAction<number | null>>;
   selectedCircle: number | null;
 };
 
@@ -13,7 +13,6 @@ export const Upcomingfilter = ({
   setSelectedCircle,
   selectedCircle,
 }: UpcomingFilterProps) => {
-
   return (
     <div
       role="group"
@@ -23,24 +22,19 @@ export const Upcomingfilter = ({
       <Pill
         label="All"
         onClick={() => setSelectedCircle(null)}
-        isSelected={!selectedCircle}
+        isSelected={selectedCircle === null}
         size="compact"
       />
-      {circles.map(({ colour, name, id }) => {
-          const isSelected = id === selectedCircle
-        return (
-          <Pill
-            key={id}
-            colour={colour}
-            label={name}
-            onClick={() => setSelectedCircle(id)}
-            isSelected={isSelected}
-            size="compact"
-          />
-        );
-      })}
+      {circles.map(({ colour, name, id }) => (
+        <Pill
+          key={id}
+          colour={colour}
+          label={name}
+          onClick={() => setSelectedCircle(id)}
+          isSelected={id === selectedCircle}
+          size="compact"
+        />
+      ))}
     </div>
   );
 };
-
-

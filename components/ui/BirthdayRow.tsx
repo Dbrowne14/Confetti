@@ -1,6 +1,6 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { monthNames } from "../calendar/calendarConstants";
+import { monthNames } from "@/lib/utils/dateUtils";
 
 type BirthdayRowProps = {
   person: Person;

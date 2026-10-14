@@ -1,11 +1,21 @@
-import { Person } from "../data/people";
-import { startOfDay } from "@/components/calendar/calendarUtils";
+import { Person } from "@/lib/data/people";
+import { startOfDay } from "./dateUtils";
+
+// One person's next birthday occurrence.
+export type UpcomingBirthday = {
+  person: Person;
+  date: Date;
+};
 
 export const getNextBirthday = (people: Person[], date: Date) => {
   return getUpcomingBirthdays(people, date).at(0);
 };
 
-export const getUpcomingBirthdays = (people: Person[], date: Date) => {
+// Every person's next birthday, soonest first.
+export const getUpcomingBirthdays = (
+  people: Person[],
+  date: Date,
+): UpcomingBirthday[] => {
   return people
     .map((person) => ({
       person,

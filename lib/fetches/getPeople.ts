@@ -1,4 +1,4 @@
-import { people } from "../data/people";
+import { people } from "@/lib/data/people";
 export const getPeople = () => {
   return people;
 };

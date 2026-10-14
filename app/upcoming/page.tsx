@@ -1,8 +1,12 @@
+import { connection } from "next/server";
 import { Upcoming } from "@/components/upcoming/Upcoming";
 import { getCircle } from "@/lib/fetches/getCircles";
 import { getPeople } from "@/lib/fetches/getPeople";
 
-const page = () => {
+// Upcoming works out "today" while rendering, so render per request rather
+// than freezing the build date into a static page.
+const page = async () => {
+  await connection();
   const circles = getCircle();
   const people = getPeople();
   return (

@@ -1,28 +1,15 @@
 import { TextField } from "./NameField";
 import { fieldBase } from "./FormSection";
+import { monthNames } from "@/lib/utils/dateUtils";
 
 const days = Array.from({ length: 31 }, (_, index) => index + 1);
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 export const BirthdayFields = () => {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex gap-2">
         <BirthdayField label="Day" name="day" options={days} className="w-16" />
-        <BirthdayField label="Month" name="month" options={months} className="flex-1" />
+        <BirthdayField label="Month" name="month" options={monthNames} className="flex-1" />
         <TextField label="Year" name="Year" placeHolder="Year" className="w-20" />
       </div>
       <p className="text-[11px] text-confetti-muted">

@@ -1,11 +1,9 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { BirthdayRow } from "../ui/BirthdayRow";
-import {
-  getCircleForPerson,
-  getDaysUntil,
-} from "./calendarUtils";
-import { getNextBirthday } from "@/lib/utils/getNextBirthday";
+import { BirthdayRow } from "@/components/ui/BirthdayRow";
+import { getCircleForPerson } from "@/lib/utils/circleUtils";
+import { getDaysUntil } from "@/lib/utils/dateUtils";
+import { getNextBirthday } from "@/lib/utils/birthdayUtils";
 
 type NextUpProps = {
   people: Person[];

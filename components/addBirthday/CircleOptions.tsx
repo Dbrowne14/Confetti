@@ -1,5 +1,5 @@
 import { Circle } from "@/lib/data/circles";
-import { Pill } from "../ui/Pill";
+import { Pill } from "@/components/ui/Pill";
 
 export const CircleOptions = ({
   circles,

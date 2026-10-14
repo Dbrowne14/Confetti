@@ -1,4 +1,4 @@
-import { NavItem, FullNavItem } from "../types/System";
+import type { NavItem } from "@/types/System";
 
 export const navigation: NavItem[] = [
   { name: "Calendar", href: "/" },

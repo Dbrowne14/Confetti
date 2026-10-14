@@ -1,21 +1,11 @@
-import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
 
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
-
 // ---- Dates ------------------------------------------------------------------
-
-export const startOfDay = (date: Date) =>
-  new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
 export const isSameDay = (a: Date, b: Date) =>
   a.getFullYear() === b.getFullYear() &&
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate();
-
-// Whole calendar days from `from` until `to`, ignoring time of day.
-export const getDaysUntil = (to: Date, from: Date) =>
-  Math.round((startOfDay(to).getTime() - startOfDay(from).getTime()) / MS_PER_DAY);
 
 // Every date shown in the month view, grouped into Monday-first weeks,
 // including the leading/trailing days from adjacent months.
@@ -35,23 +25,9 @@ export const getCalendarWeeks = (year: number, month: number): Date[][] => {
   );
 };
 
-// ---- People & circles -------------------------------------------------------
-
-// `null` means "All circles".
-export const filterPeopleByCircle = (
-  people: Person[],
-  circleId: number | null,
-) =>
-  circleId === null
-    ? people
-    : people.filter((person) => person.circleId === circleId);
-
-export const getCircleForPerson = (person: Person, circles: Circle[]) =>
-  circles.find((circle) => circle.id === person.circleId);
-
 // ---- Birthdays --------------------------------------------------------------
-// Person.birthMonth is 1-based; Date months are 0-based. These helpers are the
-// only place that conversion happens.
+// Person.birthMonth is 1-based; Date months are 0-based, so convert with ±1
+// (lib/utils/birthdayUtils does the same when building birthday dates).
 
 export const getBirthdaysForDate = (people: Person[], date: Date) =>
   people.filter(
@@ -59,9 +35,6 @@ export const getBirthdaysForDate = (people: Person[], date: Date) =>
       person.birthDay === date.getDate() &&
       person.birthMonth === date.getMonth() + 1,
   );
-
-
-// The person's next birthday, counting today as upcoming.
 
 export const formatBirthdayCount = (count: number) =>
   `${count} birthday${count === 1 ? "" : "s"}`;

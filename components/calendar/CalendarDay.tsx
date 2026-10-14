@@ -1,6 +1,7 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { formatBirthdayCount, getCircleForPerson } from "./calendarUtils";
+import { getCircleForPerson } from "@/lib/utils/circleUtils";
+import { formatBirthdayCount } from "./calendarUtils";
 
 type CalendarDayProps = {
   date: Date;

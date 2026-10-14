@@ -6,7 +6,7 @@ import { CircleFilter } from "./CircleFilter";
 import { MonthCalendar } from "./MonthCalendar";
 import { NextUp } from "./NextUp";
 import { PickDay } from "./PickDay";
-import { filterPeopleByCircle } from "./calendarUtils";
+import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
 
 type CalendarProps = {
   people: Person[];

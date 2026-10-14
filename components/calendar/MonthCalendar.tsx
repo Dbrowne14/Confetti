@@ -4,7 +4,8 @@ import { ArrowButton } from "@/components/ui/ArrowButton";
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
 import { CalendarDay } from "./CalendarDay";
-import { monthNames, weekdayLabels } from "./calendarConstants";
+import { monthNames } from "@/lib/utils/dateUtils";
+import { weekdayLabels } from "./calendarConstants";
 import {
   getBirthdaysForDate,
   getCalendarWeeks,
