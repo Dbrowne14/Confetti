@@ -1,6 +1,6 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { monthNames } from "./calendarConstants";
+import { monthNames } from "../calendar/calendarConstants";
 
 type BirthdayRowProps = {
   person: Person;
@@ -18,7 +18,7 @@ export const BirthdayRow = ({
     <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-3.5">
       <div
         className="flex size-12 shrink-0 flex-col items-center justify-center rounded-full text-confetti-ink sm:size-13"
-        style={{ backgroundColor: circle?.colour }}
+        style={circle ? { backgroundColor: circle?.colour }: {backgroundColor:"lightgray"}}
       >
         <span className="text-[9px] leading-none font-semibold tracking-[0.12em] uppercase sm:text-[10px]">
           {/* birthMonth is 1-based */}

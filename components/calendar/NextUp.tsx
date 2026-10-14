@@ -1,11 +1,11 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { BirthdayRow } from "./BirthdayRow";
+import { BirthdayRow } from "../ui/BirthdayRow";
 import {
   getCircleForPerson,
   getDaysUntil,
-  getNextBirthdayDate,
 } from "./calendarUtils";
+import { getNextBirthday } from "@/lib/utils/getNextBirthday";
 
 type NextUpProps = {
   people: Person[];
@@ -15,10 +15,7 @@ type NextUpProps = {
 export const NextUp = ({ people, circles }: NextUpProps) => {
   const today = new Date();
   // Undefined when the current circle filter leaves nobody to show.
-  const next = people
-    .map((person) => ({ person, date: getNextBirthdayDate(person, today) }))
-    .toSorted((a, b) => a.date.getTime() - b.date.getTime())
-    .at(0);
+  const next = getNextBirthday(people,today)
 
   return (
     <section className="flex flex-col gap-3 rounded-3xl bg-confetti-surface p-5 sm:p-6">

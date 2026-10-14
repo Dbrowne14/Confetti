@@ -60,17 +60,8 @@ export const getBirthdaysForDate = (people: Person[], date: Date) =>
       person.birthMonth === date.getMonth() + 1,
   );
 
-const getBirthdayInYear = (person: Person, year: number) =>
-  new Date(year, person.birthMonth - 1, person.birthDay);
 
 // The person's next birthday, counting today as upcoming.
-export const getNextBirthdayDate = (person: Person, today: Date) => {
-  const birthdayThisYear = getBirthdayInYear(person, today.getFullYear());
-
-  return birthdayThisYear < startOfDay(today)
-    ? getBirthdayInYear(person, today.getFullYear() + 1)
-    : birthdayThisYear;
-};
 
 export const formatBirthdayCount = (count: number) =>
   `${count} birthday${count === 1 ? "" : "s"}`;

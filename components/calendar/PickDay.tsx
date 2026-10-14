@@ -1,7 +1,7 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
 import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
-import { BirthdayRow } from "./BirthdayRow";
+import { BirthdayRow } from "../ui/BirthdayRow";
 import { monthNames } from "./calendarConstants";
 import {
   formatBirthdayCount,
