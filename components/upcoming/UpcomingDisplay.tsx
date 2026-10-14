@@ -16,46 +16,33 @@ export const UpcomingDisplay = ({
   const upcoming = getUpcomingBirthdays(people, today);
 
   const groups = new Map();
-
-  upcoming.forEach((birthday) => {
-    const day = today.getTime();
-    const birthdayDay = birthday.date.getTime();
+  const getGroupLabel = (birthday: Birthday, today: Date) => {
     const birthdayMonth = birthday.date.getMonth();
-    const difference = (birthdayDay - day) / (1000 * 60 * 60 * 24);
-
     const birthdayYear = birthday.date.getFullYear();
+
     const isThisYear = birthdayYear === today.getFullYear();
     const isThisMonth = birthdayMonth === today.getMonth();
-    const month = monthNames[birthday.date.getMonth()];
+
+    const month = monthNames[birthdayMonth];
 
     if (isThisWeek(birthday, today)) {
-      if (groups.has("This Week")) {
-        const group = groups.get("This Week");
-        group.birthdays.push(birthday);
-      } else {
-        groups.set("This Week", { birthdays: [birthday] });
-      }
+      return "This Week";
     } else if (isThisMonth && isThisYear) {
-      if (groups.has("Later this Month")) {
-        const group = groups.get("Later this Month");
-        group.birthdays.push(birthday);
-      } else {
-        groups.set("Later this Month", { birthdays: [birthday] });
-      }
+      return "Later this Month";
     } else if (isThisYear) {
-      if (groups.has(month)) {
-        const group = groups.get(month);
-        group.birthdays.push(birthday);
-      } else {
-        groups.set(month, { birthdays: [birthday] });
-      }
+      return month;
     } else {
-      if (groups.has(`${month} ${birthdayYear}`)) {
-        const group = groups.get(`${month} ${birthdayYear}`);
-        group.birthdays.push(birthday);
-      } else {
-        groups.set(`${month} ${birthdayYear}`, { birthdays: [birthday] });
-      }
+      return `${month} ${birthdayYear}`;
+    }
+  };
+  upcoming.forEach((birthday) => {
+    const label = getGroupLabel(birthday, today);
+
+    if (groups.has(label)) {
+      const group = groups.get(label);
+      group.birthdays.push(birthday);
+    } else {
+      groups.set(label, { birthdays: [birthday] });
     }
   });
 
@@ -63,16 +50,22 @@ export const UpcomingDisplay = ({
 
   return (
     <div className="flex flex-col gap-3 mt-3">
-      {upcoming.map((person) => {
+      {Array.from(groups.entries()).map(([label, group]) => {
         return (
-          <div>
-            {upcoming ? (
-              <NextBirthday
-                person={person.person}
-                circle={getCircleForPerson(person.person, circles)}
-                date={today}
-                daysAway={getDaysUntil(person.date, today)}
-              />
+          <div key={group.label}>
+            <div>{label}</div>
+            {group ? (
+              group.birthdays.map((birthday: Birthday) => {
+                return (
+                  <NextBirthday
+                    key={birthday.person.id}
+                    person={birthday.person}
+                    circle={getCircleForPerson(birthday.person, circles)}
+                    date={today}
+                    daysAway={getDaysUntil(birthday.date, today)}
+                  />
+                );
+              })
             ) : (
               <p className="text-[15px] text-confetti-muted">
                 No upcoming birthdays
@@ -104,9 +97,11 @@ const NextBirthday = ({
     />
     <div className="flex shrink-0 flex-col items-end">
       <div className="leading-none text-[10px] font-medium text-confetti-ink tabular-nums sm:text-[13px]">
-        {daysAway < 8 ? (
+        {daysAway === 0 ? (
+          <span>today</span>
+        ) : daysAway < 8 ? (
           <span>
-            in {daysAway} day{daysAway == 1 ? "" : "s"}
+            in {daysAway} day{daysAway === 1 ? "" : "s"}
           </span>
         ) : (
           <span>{daysAway}d</span>
