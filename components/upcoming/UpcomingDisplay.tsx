@@ -8,12 +8,15 @@ import { monthNames } from "../calendar/calendarConstants";
 export const UpcomingDisplay = ({
   people,
   circles,
+  selectedCircle,
 }: {
   people: Person[];
   circles: Circle[];
+  selectedCircle: number | null;
 }) => {
   const today = new Date();
-  const upcoming = getUpcomingBirthdays(people, today);
+  const peopleByCircles = selectedCircle ? people.filter((person)=> person.circleId === selectedCircle) : people
+  const upcoming = getUpcomingBirthdays(peopleByCircles, today);
 
   const groups = new Map();
   const getGroupLabel = (birthday: Birthday, today: Date) => {
@@ -25,7 +28,7 @@ export const UpcomingDisplay = ({
 
     const month = monthNames[birthdayMonth];
 
-    if (isThisWeek(birthday, today)) {
+    if (isThisWeek(birthday, today) && isThisMonth) {
       return "This Week";
     } else if (isThisMonth && isThisYear) {
       return "Later this Month";
@@ -46,14 +49,15 @@ export const UpcomingDisplay = ({
     }
   });
 
-  console.log(groups);
 
   return (
-    <div className="flex flex-col gap-3 mt-3">
+    <div className="flex flex-col gap-6">
       {Array.from(groups.entries()).map(([label, group]) => {
         return (
-          <div key={group.label}>
-            <div>{label}</div>
+          <section key={label} className="flex flex-col gap-2">
+            <h2 className="text-[10px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">
+              {label}
+            </h2>
             {group ? (
               group.birthdays.map((birthday: Birthday) => {
                 return (
@@ -61,7 +65,7 @@ export const UpcomingDisplay = ({
                     key={birthday.person.id}
                     person={birthday.person}
                     circle={getCircleForPerson(birthday.person, circles)}
-                    date={today}
+                    date={birthday.date}
                     daysAway={getDaysUntil(birthday.date, today)}
                   />
                 );
@@ -71,7 +75,7 @@ export const UpcomingDisplay = ({
                 No upcoming birthdays
               </p>
             )}
-          </div>
+          </section>
         );
       })}
     </div>
@@ -89,14 +93,21 @@ const NextBirthday = ({
   date: Date;
   daysAway: number;
 }) => (
-  <div className="flex items-center gap-4 w-140">
+  <div className="flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 sm:px-3.5">
     <BirthdayRow
       person={person}
       circle={circle}
       occurrenceYear={date.getFullYear()}
+      size="compact"
     />
     <div className="flex shrink-0 flex-col items-end">
-      <div className="leading-none text-[10px] font-medium text-confetti-ink tabular-nums sm:text-[13px]">
+      <div
+        className={`rounded-md px-2 py-1 text-[11px] leading-none font-semibold tabular-nums ${
+          daysAway < 8
+            ? "bg-confetti-coral text-confetti-ink"
+            : "bg-confetti-active text-confetti-ink/80"
+        }`}
+      >
         {daysAway === 0 ? (
           <span>today</span>
         ) : daysAway < 8 ? (
@@ -118,10 +129,9 @@ type Birthday = {
 const isThisWeek = (birthday: Birthday, today: Date) => {
   const time = today.getTime();
   const birthdayTime = birthday.date.getTime();
-  const birthdayDay = (birthday.date.getDay() + 6) % 7;
   const day = (today.getDay() + 6) % 7;
-
+const daysLeftThisWeek = 6 - day;
   const difference = (birthdayTime - time) / (1000 * 60 * 60 * 24);
 
-  return difference >= 0 && birthdayDay - day >= 0;
+return difference >= 0 && difference <= daysLeftThisWeek;
 };

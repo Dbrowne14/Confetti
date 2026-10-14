@@ -15,16 +15,27 @@ export const Upcomingfilter = ({
 }: UpcomingFilterProps) => {
 
   return (
-    <div className="flex gap-1">
-      <Pill label="All" onClick={() => setSelectedCircle(null)}  colour={"black"} isSelected={!selectedCircle}/>
+    <div
+      role="group"
+      aria-label="Filter upcoming birthdays by circle"
+      className="flex flex-wrap gap-2"
+    >
+      <Pill
+        label="All"
+        onClick={() => setSelectedCircle(null)}
+        isSelected={!selectedCircle}
+        size="compact"
+      />
       {circles.map(({ colour, name, id }) => {
           const isSelected = id === selectedCircle
         return (
           <Pill
+            key={id}
             colour={colour}
             label={name}
             onClick={() => setSelectedCircle(id)}
             isSelected={isSelected}
+            size="compact"
           />
         );
       })}
