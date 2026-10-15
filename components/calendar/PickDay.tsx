@@ -67,14 +67,16 @@ const SelectedDay = ({
           {birthdays.map((person) => (
             <li
               key={person.id}
-              className="flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-bg/60 px-4 py-3.5"
+              className=""
             >
-              <BirthdayRow
-                person={person}
-                circle={getCircleForPerson(person, circles)}
-                occurrenceYear={day.getFullYear()}
-              />
-              <ChevronIcon />
+              <button className="w-full cursor-pointer flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-bg/60 px-4 py-3.5">
+                <BirthdayRow
+                  person={person}
+                  circle={getCircleForPerson(person, circles)}
+                  occurrenceYear={day.getFullYear()}
+                />
+                <ChevronIcon />
+              </button>
             </li>
           ))}
         </ul>

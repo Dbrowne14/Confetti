@@ -24,7 +24,7 @@ export const NextUp = ({ people, circles }: NextUpProps) => {
         Next Up
       </h2>
       <button
-        className=" w-full"
+        className=" w-full cursor-pointer"
         onClick={() => {
           if (next) {
             openProfile(next.person.id);

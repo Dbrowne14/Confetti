@@ -1,3 +1,5 @@
+'use client'
+
 import type { Person } from "@/lib/data/people";
 import type { Circle } from "@/lib/data/circles";
 import {
@@ -15,6 +17,8 @@ import {
   groupUpcomingBirthdays,
   SOON_THRESHOLD_DAYS,
 } from "./upcomingUtils";
+import { useAddProfile } from "../profile/AddProfileProvider";
+
 
 export const UpcomingDisplay = ({
   people,
@@ -70,9 +74,9 @@ const UpcomingBirthdayRow = ({
   daysAway: number;
 }) => {
   const isSoon = daysAway < SOON_THRESHOLD_DAYS;
-
+  const{openProfile} = useAddProfile();
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 sm:px-3.5">
+    <button className="flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 sm:px-3.5" onClick={()=> openProfile(birthday.person.id)}>
       <BirthdayRow
         person={birthday.person}
         circle={circle}
@@ -88,6 +92,6 @@ const UpcomingBirthdayRow = ({
       >
         {formatDaysAway(daysAway)}
       </span>
-    </div>
+    </button>
   );
 };
