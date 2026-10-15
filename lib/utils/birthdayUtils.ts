@@ -33,3 +33,4 @@ export const getNextBirthdayDate = (person: Person, today: Date) => {
 };
 const getBirthdayInYear = (person: Person, year: number) =>
   new Date(year, person.birthMonth - 1, person.birthDay);
+
