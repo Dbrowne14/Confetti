@@ -19,27 +19,31 @@ export const NextUp = ({ people, circles }: NextUpProps) => {
   const next = getNextBirthday(people, today);
   const { openProfile } = useAddProfile();
   return (
-    <section
-      className="flex flex-col gap-3 rounded-3xl bg-confetti-surface p-5 sm:p-6"
-      onClick={() => {
-        if (next) {
-          openProfile(next.person.id);
-        }
-      }}
-    >
+    <section className="flex flex-col gap-3 rounded-3xl bg-confetti-surface p-5 sm:p-6">
       <h2 className="text-[11px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">
         Next Up
       </h2>
-      {next ? (
-        <NextBirthday
-          person={next.person}
-          circle={getCircleForPerson(next.person, circles)}
-          date={next.date}
-          daysAway={getDaysUntil(next.date, today)}
-        />
-      ) : (
-        <p className="text-[15px] text-confetti-muted">No upcoming birthdays</p>
-      )}
+      <button
+        className=" w-full"
+        onClick={() => {
+          if (next) {
+            openProfile(next.person.id);
+          }
+        }}
+      >
+        {next ? (
+          <NextBirthday
+            person={next.person}
+            circle={getCircleForPerson(next.person, circles)}
+            date={next.date}
+            daysAway={getDaysUntil(next.date, today)}
+          />
+        ) : (
+          <p className="text-[15px] text-confetti-muted">
+            No upcoming birthdays
+          </p>
+        )}
+      </button>
     </section>
   );
 };

@@ -32,6 +32,7 @@ export const CircleFilter = ({
             isSelected={isSelected}
             label={name}
             colour={colour}
+            key={id}
           />
         );
       })}

@@ -1,11 +1,14 @@
 "use client";
 
+import { ReactNode, useEffect, useRef } from "react";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
-import { getDaysUntil, monthNames } from "@/lib/utils/dateUtils";
 import { getNextBirthdayDate } from "@/lib/utils/birthdayUtils";
+import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { ProfileHeader } from "./ProfileHeader";
 import { useAddProfile } from "./AddProfileProvider";
+import { ProfileIdentity } from "./ProfileIdentity";
+import { ProfileBirthdayDetails } from "./ProfileBirthdayDetails";
 
 export const Profile = ({
   circles,
@@ -14,82 +17,119 @@ export const Profile = ({
   circles: Circle[];
   people: Person[];
 }) => {
-  const { isProfileOpen, personId } = useAddProfile();
-  const today = new Date();
+  const { isProfileOpen, personId, closeProfile } = useAddProfile();
+  const panelRef = useRef<HTMLDivElement>(null);
   const person = people.find((person) => person.id === personId);
-  if (!person) return;
-  const { birthDay, circleId, firstName, surname, birthMonth, birthYear } =
-    person;
-  const initials = firstName[0] + surname[0];
-  const circle = circles.find((circle) => circle.id === circleId);
-  const next = getNextBirthdayDate(person, today);
-  const day = next.toLocaleDateString("en-GB", {
-    weekday: "long",
-  });
-  console.log(next);
-  const daysAway = getDaysUntil(next, today);
 
+  // While open: move focus into the drawer and stop the page behind it scrolling.
+  useEffect(() => {
+    if (!isProfileOpen) return;
+    panelRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isProfileOpen]);
+
+  useEffect(() => {
+    if (!isProfileOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeProfile();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isProfileOpen, closeProfile]);
+
+  // The backdrop and drawer stay mounted so both the open and close
+  // transitions can play; `invisible` + `inert` keep the closed drawer out of
+  // the tab order and accessibility tree.
   return (
-    <div
-      className={`p-4 fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[min(27rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-confetti-border bg-confetti-bg shadow-raised ${isProfileOpen ? "flex" : "hidden"}`}
-    >
-      <ProfileHeader />
-      <div id="profileMainItems" className="flex justify-between items-center">
-        <div className="flex flex-col items-center">
-          <div className="h-10 w-10 rounded-full bg-amber-400 text-black text-center">
-            {initials}
-          </div>
-          <div>
-            {firstName} {surname}
-          </div>
-          <div className="flex gap-2">
-            <span className="h-2 w-2 bg-black rounded-full"></span>{" "}
-            <span>{circle?.name}</span>
-          </div>
-          <div>
-            <h1>Next Birthday</h1>
-            <div className="flex flex-col">
-              <span>
-                {day}
-                {birthDay}
-                {dayToSuffix(birthDay)}
-                {monthNames[birthMonth - 1]}
-              </span>
-              <div>
-                Turns{" "}
-                {birthYear && (
-                  <span>{next.getFullYear() - birthYear}</span>
-                )}{" "}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          {daysAway === 0 ? (
-            <span>Today</span>
-          ) : (
-            <>
-              <span>{daysAway}</span>
-              <span>day{daysAway === 1 ? "" : "s"}</span>
-            </>
-          )}
-        </div>
+    <>
+      <div
+        aria-hidden
+        onClick={closeProfile}
+        className={`fixed inset-0 z-50 bg-confetti-ink/30 transition-opacity duration-300 ease-out motion-reduce:transition-none ${
+          isProfileOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="profile-name"
+        tabIndex={-1}
+        inert={!isProfileOpen}
+        className={`fixed inset-y-0 right-0 z-50 flex h-dvh w-full flex-col bg-confetti-bg shadow-raised outline-none duration-300 ease-out motion-reduce:transition-none sm:w-104 sm:border-l sm:border-confetti-border ${
+          // Visibility only transitions on close, so the drawer is visible (and
+          // focusable) immediately on open but stays visible while sliding out.
+          isProfileOpen
+            ? "visible translate-x-0 transition-[translate]"
+            : "invisible translate-x-full transition-[translate,visibility]"
+        }`}
+      >
+        {person && <ProfileContent person={person} circles={circles} />}
       </div>
-    </div>
+    </>
   );
 };
 
-const dayToSuffix = (day: number) => {
-  if (day === 11 || day === 12 || day === 13) return "th";
-  if (day % 10 === 1) return "st";
-  if (day % 10 === 2) return "nd";
-  if (day % 10 === 3) return "rd";
-  return "th";
+const ProfileContent = ({
+  person,
+  circles,
+}: {
+  person: Person;
+  circles: Circle[];
+}) => {
+  const today = new Date();
+  const next = getNextBirthdayDate(person, today);
+
+  return (
+    <>
+      <ProfileHeader person={person} />
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-5 pt-1 pb-10">
+        <ProfileIdentity person={person} circles={circles} />
+        <ProfileBirthdayDetails next={next} today={today} person={person} />
+
+        {/* Reminders, gift notes and delete are presentational until the
+            backend exists: no state, persistence or deletion behind them. */}
+        <ProfileSection label="Reminders">
+          <ReminderOptions />
+        </ProfileSection>
+
+        <ProfileSection label="Gift notes">
+          <textarea
+            readOnly
+            aria-label="Gift notes"
+            value={person.giftNotes ?? ""}
+            placeholder="No gift notes yet"
+            className="max-h-60 min-h-20 w-full resize-y rounded-xl border border-confetti-border bg-confetti-surface px-3 py-2.5 text-sm text-confetti-ink placeholder:text-confetti-muted focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-confetti-ink"
+          />
+        </ProfileSection>
+
+        <button
+          type="button"
+          disabled
+          className="self-start text-sm font-semibold text-confetti-danger"
+        >
+          Delete {person.firstName}
+        </button>
+      </div>
+    </>
+  );
 };
 
-/*
-To do:
-- Create the next birthday box 
-- Refactor this whole section 
-- add dummy areas for reminders, gift notes and delete button
-*/
+const ProfileSection = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) => (
+  <section className="flex flex-col gap-2">
+    <h3 className="text-[10px] font-semibold tracking-[0.12em] text-confetti-muted uppercase">
+      {label}
+    </h3>
+    {children}
+  </section>
+);

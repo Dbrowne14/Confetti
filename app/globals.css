@@ -9,6 +9,7 @@
   --color-confetti-border: #e8e1d3; /* hairline borders */
   --color-confetti-active: #efe8e0; /* active navigation background */
   --color-confetti-coral: #ee8369; /* coral accent (Add birthday) */
+  --color-confetti-danger: #c2462c; /* destructive text (Delete) */
 
   /* --- Circle colours (defined for future use) -------------------------- */
   --color-circle-pink: #f2b6c6;

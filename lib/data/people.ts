@@ -1,7 +1,7 @@
 export type Person = {
   id: number;
   firstName: string;
-  surname: string;
+  surname: string | null;
   birthMonth: number; // 1–12 (January = 1), unlike Date#getMonth()
   birthDay: number;
   birthYear: number | null; // null when the year is unknown

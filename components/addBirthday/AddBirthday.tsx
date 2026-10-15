@@ -5,7 +5,7 @@ import { NameField } from "./NameField";
 import { BirthdayFields } from "./BirthdayFields";
 import { AddHeader } from "./AddHeader";
 import { CircleOptions } from "./CircleOptions";
-import { ReminderOptions } from "./ReminderOptions";
+import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { FormSection, fieldBase } from "./FormSection";
 import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
