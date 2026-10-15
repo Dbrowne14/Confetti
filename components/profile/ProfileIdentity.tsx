@@ -10,7 +10,7 @@ export const ProfileIdentity = ({
 }) => {
   const { firstName, surname, circleId } = person;
   const circle = circles.find((circle) => circle.id === circleId);
-  const initials = surname ? firstName[0] + surname[0]: firstName[0];
+
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       <div
@@ -18,7 +18,7 @@ export const ProfileIdentity = ({
         className={`flex size-20 items-center justify-center rounded-full font-serif text-3xl font-semibold text-confetti-ink ${circle ? "" : "bg-confetti-active"}`}
         style={circle ? { backgroundColor: circle.colour } : undefined}
       >
-        {initials}
+        {initialsRetrieval(person)}
       </div>
       <h2
         id="profile-name"
@@ -39,3 +39,8 @@ export const ProfileIdentity = ({
     </div>
   );
 };
+
+export const initialsRetrieval = (person:Person) => {
+  const {surname, firstName} =person
+  return surname ? firstName[0] + surname[0]: firstName[0];
+}
