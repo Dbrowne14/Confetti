@@ -1,3 +1,5 @@
+'use client'
+
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
 import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
@@ -5,6 +7,8 @@ import { BirthdayRow } from "@/components/ui/BirthdayRow";
 import { monthNames } from "@/lib/utils/dateUtils";
 import { getCircleForPerson } from "@/lib/utils/circleUtils";
 import { formatBirthdayCount, getBirthdaysForDate } from "./calendarUtils";
+import { useAddProfile } from "../profile/AddProfileProvider";
+
 
 type PickDayProps = {
   selectedDay: Date | null;
@@ -50,7 +54,7 @@ const SelectedDay = ({
   const birthdays = getBirthdaysForDate(people, day);
   const hasBirthdays = birthdays.length > 0;
   const weekday = day.toLocaleDateString("en-GB", { weekday: "long" });
-
+  const {openProfile} = useAddProfile()
   return (
     <>
       <h2 className="font-serif text-2xl leading-tight font-medium text-confetti-ink sm:text-[28px]">
@@ -69,7 +73,7 @@ const SelectedDay = ({
               key={person.id}
               className=""
             >
-              <button className="w-full cursor-pointer flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-bg/60 px-4 py-3.5">
+              <button className="w-full cursor-pointer flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-bg/60 px-4 py-3.5" onClick={() => {openProfile(person.id)}}>
                 <BirthdayRow
                   person={person}
                   circle={getCircleForPerson(person, circles)}
