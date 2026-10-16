@@ -26,7 +26,7 @@ export const CirclesDisplay = () => {
         {circles.map((circle) => {
           return <CircleComponent circle={circle} people={people} />;
         })}
-        <AddCircleButton isCircleOpen={isCircleOpen} closeCircle={closeCircle} openCircle={openCircle}/>
+        <AddCircleButton isCircleOpen={isCircleOpen} closeCircle={closeCircle} openCircle={openCircle} people={people} circles={circles}/>
       </div>
       <UncategorisedGroup people={people} circles={circles} />
     </div>
