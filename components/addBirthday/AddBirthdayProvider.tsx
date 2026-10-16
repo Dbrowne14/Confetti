@@ -8,10 +8,12 @@ type AddBirthdayContextType = {
   openAddBirthday: (options?: OpenAddBirthdayOptions) => void;
   closeAddBirthday: () => void;
   editingPersonId: number | null;
+  initialCircleId: number | null;
 };
 type OpenAddBirthdayOptions = {
   date?: Date;
   personId?: number;
+  circleId?: number;
 };
 
 const AddBirthdayContext = createContext<AddBirthdayContextType | null>(null);
@@ -20,9 +22,11 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [initialDate, setInitialDate] = useState<Date | null>(null);
   const [editingPersonId, setEditingPersonId] = useState<number | null>(null);
+  const [initialCircleId, setInitialCircleId] = useState<number | null>(null);
 
   const openAddBirthday = (options: OpenAddBirthdayOptions = {}) => {
-    const { date, personId } = options;
+    const { date, personId, circleId } = options;
+    setInitialCircleId(circleId ?? null);
     setInitialDate(date ?? null);
     setIsAddOpen(true);
     setEditingPersonId(personId ?? null);
@@ -32,6 +36,7 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
     setIsAddOpen(false);
     setInitialDate(null);
     setEditingPersonId(null);
+    setInitialCircleId(null);
   };
 
   return (
@@ -42,6 +47,7 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
         openAddBirthday,
         closeAddBirthday,
         editingPersonId,
+        initialCircleId,
       }}
     >
       {children}
