@@ -1,18 +1,19 @@
 "use client";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
+import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
 import { useEffect, useRef, useState } from "react";
 
 export const AddCircle = ({
   isCircleOpen,
   closeCircle,
   people,
-  circles,
+  selectedCircle,
 }: {
   isCircleOpen: boolean;
   closeCircle: () => void;
   people: Person[];
-  circles: Circle[];
+  selectedCircle?: Circle;
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -36,9 +37,9 @@ export const AddCircle = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isCircleOpen, closeCircle]);
 
-  // The backdrop and drawer stay mounted so both the open and close
-  // transitions can play; `invisible` + `inert` keep the closed drawer out of
-  // the tab order and accessibility tree.
+  if(!selectedCircle) return
+
+
   return (
     <>
       <div
@@ -64,7 +65,7 @@ export const AddCircle = ({
         }`}
       >
         <AddCircleHeader closeCircle={closeCircle} />
-        <CircleForm people={people} circles={circles} />
+        <CircleForm people={people} circle={selectedCircle}/>
       </div>
     </>
   );
@@ -80,41 +81,43 @@ const AddCircleHeader = ({ closeCircle }: { closeCircle: () => void }) => {
 };
 
 const CircleForm = ({
-  people,
-  circles,
+circle,
+  people
 }: {
+circle:Circle
   people: Person[];
-  circles: Circle[];
 }) => {
+      const {colour, name, id} = circle
+    const peopleInCircle = filterPeopleByCircle(people,id)
   return (
     <form>
-      <input placeholder="Circle Name"></input>
+      <div>{name}</div>
       <div>
-        {people.length} {people.length === 0 ? "person" : "people"}
+        {peopleInCircle.length} {peopleInCircle.length === 0 ? "person" : "people"}
       </div>
-      <Colour/>
+      <Colour circleColour={colour}   key={id}/>
     </form>
   );
 };
 
-const Colour = () => {
-  const [colour, setColour] = useState("");
+const Colour = ({circleColour}:{circleColour?:string}) => {
+  const [colour, setColour] = useState(circleColour);
   return (
     <div className="flex flex-col">
-        <span>Colour</span>
-        <label
-          htmlFor="circle-colour"
-          className="h-8 w-8 cursor-pointer rounded-full border"
-          style={{ backgroundColor: colour }}
-        >
-          <input
-            id="circle-colour"
-            type="color"
-            value={colour}
-            onChange={(e) => setColour(e.target.value)}
-            className="sr-only "
-          />
-        </label>
+      <span>Colour</span>
+      <label
+        htmlFor="circle-colour"
+        className="h-8 w-8 cursor-pointer rounded-full border"
+        style={{ backgroundColor: colour }}
+      >
+        <input
+          id="circle-colour"
+          type="color"
+          value={colour}
+          onChange={(e) => setColour(e.target.value)}
+          className="sr-only "
+        />
+      </label>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { getPeople } from "@/lib/fetches/getPeople";
 import { getCircle } from "@/lib/fetches/getCircles";
 import { Circle } from "@/lib/data/circles";
@@ -6,17 +6,25 @@ import { Person } from "@/lib/data/people";
 import { initialsRetrieval } from "../profile/ProfileIdentity";
 import { AddCircleButton } from "./AddCircleButton";
 import { useState } from "react";
+import { UncategorisedGroup } from "./UncategorisedGroup";
+import { AddCircle } from "./AddCircle";
+import { getSpecifcCircle } from "@/lib/utils/circleUtils";
 
 export const CirclesDisplay = () => {
   const [isCircleOpen, setIsCircleOpen] = useState(false);
+  const [selectedCircleId, setSelectedCircleId] = useState<number | null>(null);
   const closeCircle = () => {
     setIsCircleOpen(false);
   };
-  const openCircle = () => {
+  const openCircle = (circleId:number) => {
     setIsCircleOpen(true);
+    setSelectedCircleId(circleId)
   };
   const people = getPeople();
   const circles = getCircle();
+
+  const selectedCircle = getSpecifcCircle(selectedCircleId, circles)
+
 
   return (
     <div className="flex justify-center flex-col items-center">
@@ -24,22 +32,30 @@ export const CirclesDisplay = () => {
       <h2>Each circle owns a colour. That colour is how the calendar reads.</h2>
       <div className="flex gap-4">
         {circles.map((circle) => {
-          return <CircleComponent circle={circle} people={people} />;
+          return (
+            <button onClick={()=> openCircle(circle.id)} key={circle.id}>
+              <CircleComponent circleId={circle.id} people={people} />
+            </button>
+          );
         })}
-        <AddCircleButton isCircleOpen={isCircleOpen} closeCircle={closeCircle} openCircle={openCircle} people={people} circles={circles}/>
       </div>
       <UncategorisedGroup people={people} circles={circles} />
+      <AddCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/>
     </div>
   );
 };
 
 const CircleComponent = ({
-  circle,
+  circleId,
   people,
 }: {
-  circle: Circle;
+  circleId: number | null;
   people: Person[];
 }) => {
+  const circles = getCircle();
+  const circle = getSpecifcCircle(circleId, circles)
+
+  if (!circle) return;
   const peopleInCircle = people.filter(
     (people) => people.circleId === circle.id,
   );
@@ -93,34 +109,3 @@ const PeopleInitials = ({
     </div>
   );
 };
-
-export const UncategorisedGroup = ({
-  people,
-  circles,
-}: {
-  people: Person[];
-  circles: Circle[];
-}) => {
-  const UncategorisedGroup = people.filter(
-    (person) => person.circleId === null,
-  );
-
-  return (
-    <div className="w-full flex justify-between bg-gray-400 p-5 rounded-2xl">
-      <div className="flex">
-        <div className="h-8 w-8 bg-gray-200 rounded-xl"></div>
-        <div className="flex flex-col">
-          <h1>Uncategorised</h1>
-          <div>
-            {UncategorisedGroup.length}{" "}
-            {UncategorisedGroup.length === 1 ? "person" : "people"} with no
-            circle yet
-          </div>
-        </div>
-      </div>
-      <button className="text-red-700">sort</button>
-    </div>
-  );
-};
-
-export const AddCircleComponent = () => {};
