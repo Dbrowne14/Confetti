@@ -1,8 +1,13 @@
 "use client";
 import { Circle } from "@/lib/data/circles";
-import { Person } from "@/lib/data/people";
+import { people, Person } from "@/lib/data/people";
 import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
 import { useEffect, useRef, useState } from "react";
+import { BirthdayRow } from "../ui/BirthdayRow";
+import {
+  getNextBirthday,
+  getUpcomingBirthdays,
+} from "@/lib/utils/birthdayUtils";
 
 export const AddCircle = ({
   isCircleOpen,
@@ -37,8 +42,7 @@ export const AddCircle = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isCircleOpen, closeCircle]);
 
-  if(!selectedCircle) return
-
+  if (!selectedCircle) return;
 
   return (
     <>
@@ -65,7 +69,7 @@ export const AddCircle = ({
         }`}
       >
         <AddCircleHeader closeCircle={closeCircle} />
-        <CircleForm people={people} circle={selectedCircle}/>
+        <CircleForm people={people} circle={selectedCircle} />
       </div>
     </>
   );
@@ -81,26 +85,30 @@ const AddCircleHeader = ({ closeCircle }: { closeCircle: () => void }) => {
 };
 
 const CircleForm = ({
-circle,
-  people
+  circle,
+  people,
 }: {
-circle:Circle
+  circle: Circle;
   people: Person[];
 }) => {
-      const {colour, name, id} = circle
-    const peopleInCircle = filterPeopleByCircle(people,id)
+  const { colour, name, id } = circle;
+  const peopleInCircle = filterPeopleByCircle(people, id);
   return (
     <form>
       <div>{name}</div>
       <div>
-        {peopleInCircle.length} {peopleInCircle.length === 0 ? "person" : "people"}
+        {peopleInCircle.length}{" "}
+        {peopleInCircle.length === 0 ? "person" : "people"}
       </div>
-      <Colour circleColour={colour}   key={id}/>
+      <Colour circleColour={colour} key={id} />
+        <div>
+        <CirclePeople people={peopleInCircle} circle={circle}/>
+      </div>
     </form>
   );
 };
 
-const Colour = ({circleColour}:{circleColour?:string}) => {
+const Colour = ({ circleColour }: { circleColour?: string }) => {
   const [colour, setColour] = useState(circleColour);
   return (
     <div className="flex flex-col">
@@ -118,6 +126,34 @@ const Colour = ({circleColour}:{circleColour?:string}) => {
           className="sr-only "
         />
       </label>
+
+    </div>
+  );
+};
+
+const CirclePeople = ({
+  people,
+  circle,
+}: {
+  people: Person[];
+  circle: Circle;
+}) => {
+  const today = new Date();
+  const upComingBirthdays = getUpcomingBirthdays(people, today);
+  return (
+    <div>
+      <div>People</div>
+      <div>
+        {upComingBirthdays.map((birthday) => {
+          return (
+            <BirthdayRow
+              person={birthday.person}
+              circle={circle}
+              occurrenceYear={birthday.date.getFullYear()}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
