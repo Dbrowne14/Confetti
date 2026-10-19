@@ -2,7 +2,8 @@
 import { Person } from "@/lib/data/people";
 import { Circle } from "@/lib/data/circles";
 import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
-import { BirthdayRow } from "../ui/BirthdayRow";
+import { getDaysUntil } from "@/lib/utils/dateUtils";
+import { UpcomingBirthdayRow } from "../upcoming/UpcomingDisplay";
 import { getUpcomingBirthdays } from "@/lib/utils/birthdayUtils";
 import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
 import { useAddProfile } from "../profile/AddProfileProvider";
@@ -45,24 +46,19 @@ const CirclePeople = ({
   const today = new Date();
   const upComingBirthdays = getUpcomingBirthdays(people, today);
   const { openAddBirthday } = useAddBirthday()
-  const {openProfile}= useAddProfile()
   return (
     <div >
-      <div>People</div>
-      <div>
-        {upComingBirthdays.map((birthday) => {
-            console.log(birthday.person.id)
-          return (
-            <button type="button" className="flex flex-col cursor-pointer" onClick={()=> openProfile(birthday.person.id)} key={birthday.person.id}>
-                <BirthdayRow
-                  person={birthday.person}
+         <div>People</div>
+            {upComingBirthdays.map((birthday) => {
+              return (
+                <UpcomingBirthdayRow
+                  birthday={birthday}
                   circle={circle}
-                  occurrenceYear={birthday.date.getFullYear()}
+                  daysAway={getDaysUntil(birthday.date, today)}
+                  key={birthday.person.id}
                 />
-            </button>
-          );
-        })}
-      </div>
+              );
+            })}
       <button type="button" onClick={()=>openAddBirthday({circleId: circle.id})}>Add New Person</button>
     </div>
   );
