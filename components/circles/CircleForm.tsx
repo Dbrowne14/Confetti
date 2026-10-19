@@ -2,11 +2,11 @@
 import { Person } from "@/lib/data/people";
 import { Circle } from "@/lib/data/circles";
 import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
-import { useState } from "react";
 import { BirthdayRow } from "../ui/BirthdayRow";
 import { getUpcomingBirthdays } from "@/lib/utils/birthdayUtils";
 import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
 import { useAddProfile } from "../profile/AddProfileProvider";
+import { CircleColour } from "./CircleColour";
 
 
 export const CircleForm = ({
@@ -25,7 +25,7 @@ export const CircleForm = ({
         {peopleInCircle.length}{" "}
         {peopleInCircle.length === 0 ? "person" : "people"}
       </div>
-      <Colour circleColour={colour} key={id} />
+      <CircleColour circleColour={colour} key={id} />
       <div>
         <CirclePeople people={peopleInCircle} circle={circle} />
       </div>
@@ -33,27 +33,7 @@ export const CircleForm = ({
   );
 };
 
-const Colour = ({ circleColour }: { circleColour?: string }) => {
-  const [colour, setColour] = useState(circleColour);
-  return (
-    <div className="flex flex-col">
-      <span>Colour</span>
-      <label
-        htmlFor="circle-colour"
-        className="h-8 w-8 cursor-pointer rounded-full border"
-        style={{ backgroundColor: colour }}
-      >
-        <input
-          id="circle-colour"
-          type="color"
-          value={colour}
-          onChange={(e) => setColour(e.target.value)}
-          className="sr-only "
-        />
-      </label>
-    </div>
-  );
-};
+
 
 const CirclePeople = ({
   people,

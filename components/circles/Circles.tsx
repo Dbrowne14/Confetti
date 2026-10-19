@@ -7,10 +7,11 @@ import { initialsRetrieval } from "../profile/ProfileIdentity";
 import { AddCircleButton } from "./AddCircleButton";
 import { useState } from "react";
 import { UncategorisedGroup } from "./UncategorisedGroup";
-import { AddCircle } from "./AddCircle";
+import { EditCircle } from "./AddCircle";
 import { getSpecifcCircle } from "@/lib/utils/circleUtils";
+import { NewCircle } from "./NewCircle";
 
-export const CirclesDisplay = () => {
+export const Circles = () => {
   const [isCircleOpen, setIsCircleOpen] = useState(false);
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(null);
   const closeCircle = () => {
@@ -25,6 +26,10 @@ export const CirclesDisplay = () => {
 
   const selectedCircle = getSpecifcCircle(selectedCircleId, circles)
 
+  const openNewCircle = () => {
+  setSelectedCircleId(null);
+  setIsCircleOpen(true);
+};
 
   return (
     <div className="flex justify-center flex-col items-center">
@@ -38,10 +43,10 @@ export const CirclesDisplay = () => {
             </button>
           );
         })}
-        <AddCircleButton/>
+        <AddCircleButton openNewCircle={openNewCircle}/>
       </div>
       <UncategorisedGroup people={people} circles={circles} />
-      {isCircleOpen && (<AddCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/>)}
+      {isCircleOpen && ( selectedCircle ?<EditCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/> : <NewCircle closeCircle={closeCircle}/>)}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { Person } from "@/lib/data/people";
 import { CircleForm } from "./CircleForm";
 import { Drawer } from "./Drawer";
 
-export const AddCircle = ({
+export const EditCircle = ({
   closeCircle,
   people,
   selectedCircle,
