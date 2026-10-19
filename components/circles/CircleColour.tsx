@@ -14,6 +14,7 @@ export const CircleColour = ({ circleColour }: { circleColour?: string }) => {
         <input
           id="circle-colour"
           type="color"
+          name="colour"
           value={colour}
           onChange={(e) => setColour(e.target.value)}
           className="sr-only "

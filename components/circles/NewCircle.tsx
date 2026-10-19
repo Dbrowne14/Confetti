@@ -4,7 +4,14 @@ import { Drawer } from "./Drawer";
 export const NewCircle = ({ closeCircle }: { closeCircle: () => void }) => {
   return (
     <Drawer closeDrawer={closeCircle}>
-      <CircleColour />
+      <button type="button" onClick={closeCircle}>
+        x
+      </button>
+      <form action="">
+        <input placeholder="Circle Name" />
+        <CircleColour />
+        <button type="submit"> Save </button>
+      </form>
     </Drawer>
   );
 };
