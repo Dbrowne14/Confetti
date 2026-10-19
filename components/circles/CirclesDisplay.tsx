@@ -38,6 +38,7 @@ export const CirclesDisplay = () => {
             </button>
           );
         })}
+        <AddCircleButton/>
       </div>
       <UncategorisedGroup people={people} circles={circles} />
       {isCircleOpen && (<AddCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/>)}
