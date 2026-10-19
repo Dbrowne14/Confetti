@@ -4,10 +4,15 @@ import { useState, useContext, createContext, ReactNode } from "react";
 
 export type AddProfileProps = {
   closeProfile: () => void;
-  openProfile: (personId: number | null) => void;
+  openProfile: (personId:number|null) => void;
   isProfileOpen: boolean;
   personId: number | null;
 };
+
+type OpenAddProfileOptions = {
+  personId: number;
+};
+
 
 const AddProfileContext = createContext<AddProfileProps | null>(null);
 
@@ -19,9 +24,9 @@ export const AddProfileProvider = ({ children }: { children: ReactNode }) => {
     setIsProfileOpen(false);
   };
 
-  const openProfile = (personId: number | null) => {
+  const openProfile = (personId:number|null) => {
     setIsProfileOpen(true);
-    setPersonId(personId)    
+    setPersonId(personId )    
   };
 
   return (

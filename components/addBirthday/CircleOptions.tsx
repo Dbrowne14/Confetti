@@ -1,5 +1,7 @@
+
 import { Circle } from "@/lib/data/circles";
 import { Pill } from "@/components/ui/Pill";
+
 
 export const CircleOptions = ({
   circles,
@@ -10,6 +12,7 @@ export const CircleOptions = ({
   selectedCircleId: number | null;
   setSelectedCircleId: (circleId: number | null) => void;
 }) => {
+
   return (
     <div role="group" aria-label="Circle" className="flex flex-wrap gap-2">
       <Pill

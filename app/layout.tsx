@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
-import { AddBirthday } from "@/components/addBirthday/AddBirthday";
+import { AddBirthdayModal } from "@/components/addBirthday/AddBirthdayModal";
 import { getCircle } from "@/lib/fetches/getCircles";
 import { AddProfileProvider } from "@/components/profile/AddProfileProvider";
 import { Profile } from "@/components/profile/Profile";
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AddBirthdayProvider>
           <AddProfileProvider>
             <Header />
-            <AddBirthday circles={circles} />
+            <AddBirthdayModal circles={circles} />
             <Profile circles={circles} people={people}/>
             {children}
           </AddProfileProvider>

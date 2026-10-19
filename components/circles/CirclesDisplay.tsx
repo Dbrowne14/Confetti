@@ -40,7 +40,7 @@ export const CirclesDisplay = () => {
         })}
       </div>
       <UncategorisedGroup people={people} circles={circles} />
-      <AddCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/>
+      {isCircleOpen && (<AddCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/>)}
     </div>
   );
 };

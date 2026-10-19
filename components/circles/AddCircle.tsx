@@ -17,23 +17,25 @@ export const AddCircle = ({
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!isCircleOpen) return;
     panelRef.current?.focus();
+
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [isCircleOpen]);
+  }, []);
 
   useEffect(() => {
-    if (!isCircleOpen) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeCircle();
     };
+
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isCircleOpen, closeCircle]);
+  }, [closeCircle]);
 
   if (!selectedCircle) return;
 
@@ -42,7 +44,7 @@ export const AddCircle = ({
       <div
         aria-hidden
         onClick={closeCircle}
-        className={`fixed inset-0 z-40 bg-confetti-ink/30 transition-opacity duration-300 ease-out motion-reduce:transition-none ${
+        className={`fixed inset-0 z-40 bg-confetti-ink/30 transition-opacity duration-300 ease-out motion-reduce:transition-none animate-[fade-in_300ms_ease-out]${
           isCircleOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
@@ -50,14 +52,8 @@ export const AddCircle = ({
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="profile-name"
         tabIndex={-1}
-        inert={!isCircleOpen}
-        className={`fixed p-4 inset-y-0 right-0 z-40 flex h-dvh w-full flex-col bg-confetti-bg shadow-raised outline-none duration-300 ease-out motion-reduce:transition-none sm:w-104 sm:border-l sm:border-confetti-border ${
-          isCircleOpen
-            ? "visible translate-x-0 transition-[translate]"
-            : "invisible translate-x-full transition-[translate,visibility]"
-        }`}
+        className="fixed inset-y-0 right-0 z-40 flex h-dvh w-full animate-slide-in-right flex-col bg-confetti-bg p-4 shadow-raised outline-none sm:w-104 sm:border-l sm:border-confetti-border animate-[slide-in-right_300ms_ease-out]"
       >
         <AddCircleHeader closeCircle={closeCircle} />
         <CircleForm people={people} circle={selectedCircle} />
@@ -74,4 +70,3 @@ const AddCircleHeader = ({ closeCircle }: { closeCircle: () => void }) => {
     </div>
   );
 };
-

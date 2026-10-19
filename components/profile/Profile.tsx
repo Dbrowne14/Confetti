@@ -21,6 +21,7 @@ export const Profile = ({
   const panelRef = useRef<HTMLDivElement>(null);
   const person = people.find((person) => person.id === personId);
 
+  
   // While open: move focus into the drawer and stop the page behind it scrolling.
   useEffect(() => {
     if (!isProfileOpen) return;

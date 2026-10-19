@@ -11,8 +11,8 @@ import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
-  const { isAddOpen, closeAddBirthday } = useAddBirthday();
-  const [selectedCircleId, setSelectedCircleId] = useState<number | null>(null);
+  const { isAddOpen, closeAddBirthday,initialCircleId } = useAddBirthday();
+  const [selectedCircleId, setSelectedCircleId] = useState<number | null>(initialCircleId);
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
   event.preventDefault();
 

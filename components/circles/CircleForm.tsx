@@ -5,7 +5,9 @@ import { filterPeopleByCircle } from "@/lib/utils/circleUtils";
 import { useState } from "react";
 import { BirthdayRow } from "../ui/BirthdayRow";
 import { getUpcomingBirthdays } from "@/lib/utils/birthdayUtils";
+import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
 import { useAddProfile } from "../profile/AddProfileProvider";
+
 
 export const CircleForm = ({
   circle,
@@ -62,7 +64,8 @@ const CirclePeople = ({
 }) => {
   const today = new Date();
   const upComingBirthdays = getUpcomingBirthdays(people, today);
-  const { openProfile } = useAddProfile();
+  const { openAddBirthday } = useAddBirthday()
+  const {openProfile}= useAddProfile()
   return (
     <div >
       <div>People</div>
@@ -80,7 +83,7 @@ const CirclePeople = ({
           );
         })}
       </div>
-      <button onClick={()=>openProfile}>Add New Person</button>
+      <button type="button" onClick={()=>openAddBirthday({circleId: circle.id})}>Add New Person</button>
     </div>
   );
 };
