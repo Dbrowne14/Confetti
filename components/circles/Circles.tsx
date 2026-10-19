@@ -3,13 +3,17 @@ import { getPeople } from "@/lib/fetches/getPeople";
 import { getCircle } from "@/lib/fetches/getCircles";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
-import { initialsRetrieval } from "../profile/ProfileIdentity";
 import { AddCircleButton } from "./AddCircleButton";
 import { useState } from "react";
 import { UncategorisedGroup } from "./UncategorisedGroup";
 import { EditCircle } from "./AddCircle";
-import { getSpecifcCircle } from "@/lib/utils/circleUtils";
+import {
+  filterPeopleByCircle,
+  formatPeopleCount,
+  getSpecifcCircle,
+} from "@/lib/utils/circleUtils";
 import { NewCircle } from "./NewCircle";
+import { PeopleInitials } from "./PeopleInitials";
 
 export const Circles = () => {
   const [isCircleOpen, setIsCircleOpen] = useState(false);
@@ -32,86 +36,70 @@ export const Circles = () => {
 };
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <h1>Circles</h1>
-      <h2>Each circle owns a colour. That colour is how the calendar reads.</h2>
-      <div className="flex gap-4">
-        {circles.map((circle) => {
-          return (
-            <button onClick={()=> openCircle(circle.id)} key={circle.id}>
-              <CircleComponent circleId={circle.id} people={people} />
-            </button>
-          );
-        })}
-        <AddCircleButton openNewCircle={openNewCircle}/>
+    <div className="flex w-full flex-col gap-6 sm:gap-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-serif text-4xl leading-tight font-medium tracking-tight text-confetti-ink sm:text-[2.75rem]">
+          Circles
+        </h1>
+        <p className="text-[15px] text-confetti-muted">
+          Each circle owns a colour. That colour is how the calendar reads.
+        </p>
       </div>
-      <UncategorisedGroup people={people} circles={circles} />
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {circles.map((circle) => {
+            return (
+              <CircleComponent
+                key={circle.id}
+                circle={circle}
+                people={people}
+                onOpen={() => openCircle(circle.id)}
+              />
+            );
+          })}
+          <AddCircleButton openNewCircle={openNewCircle}/>
+        </div>
+        <UncategorisedGroup people={people} />
+      </div>
       {isCircleOpen && ( selectedCircle ?<EditCircle isCircleOpen={isCircleOpen} people ={people} closeCircle={closeCircle} selectedCircle={selectedCircle}/> : <NewCircle closeCircle={closeCircle}/>)}
     </div>
   );
 };
 
 const CircleComponent = ({
-  circleId,
-  people,
-}: {
-  circleId: number | null;
-  people: Person[];
-}) => {
-  const circles = getCircle();
-  const circle = getSpecifcCircle(circleId, circles)
-
-  if (!circle) return;
-  const peopleInCircle = people.filter(
-    (people) => people.circleId === circle.id,
-  );
-  return (
-    <div className="flex flex-col rounded-2xl bg-confetti-surface p-5">
-      <div
-        className="h-10 w-10 rounded-2xl"
-        style={{ backgroundColor: circle.colour }}
-      ></div>
-      <div>{circle.name}</div>
-      <div>
-        {people.length !== 1 ? (
-          <span>{peopleInCircle.length} people</span>
-        ) : (
-          <span>1 person</span>
-        )}
-      </div>
-      <PeopleInitials circle={circle} people={peopleInCircle} />
-    </div>
-  );
-};
-
-const PeopleInitials = ({
   circle,
   people,
+  onOpen,
 }: {
   circle: Circle;
   people: Person[];
+  onOpen: () => void;
 }) => {
-  const OVERLAPNUMBER = 3;
-  const viewedInitials = people.slice(0, OVERLAPNUMBER);
-  const additionals = people.slice(OVERLAPNUMBER);
-  const lengthOverMax = people.length > OVERLAPNUMBER;
+  const peopleInCircle = filterPeopleByCircle(people, circle.id);
   return (
-    <div className="flex">
-      {viewedInitials?.map((person) => {
-        return (
-          <div
-            className="h-5 w-5 rounded-xl text-sm"
-            style={{ backgroundColor: circle.colour }}
-          >
-            {initialsRetrieval(person)}
-          </div>
-        );
-      })}
-      {lengthOverMax && (
-        <div className="h-5 w-5 rounded-xl text-sm bg-black text-amber-50">
-          +{additionals?.length}
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group flex min-h-44 min-w-0 cursor-pointer flex-col items-start rounded-2xl border border-confetti-border bg-confetti-surface p-4 text-left transition-[translate,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-confetti-ink/15 hover:shadow-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:translate-y-0 active:shadow-none motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-5"
+    >
+      <span
+        aria-hidden
+        className="size-10 shrink-0 rounded-xl ring-1 ring-confetti-ink/5 ring-inset transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none"
+        style={{ backgroundColor: circle.colour }}
+      />
+      <span className="mt-4 w-full truncate text-base leading-snug font-semibold text-confetti-ink">
+        {circle.name}
+      </span>
+      <span className="text-sm text-confetti-muted">
+        {formatPeopleCount(peopleInCircle.length)}
+      </span>
+      <span className="mt-auto flex h-7 items-center pt-4">
+        {peopleInCircle.length > 0 ? (
+          <PeopleInitials colour={circle.colour} people={peopleInCircle} />
+        ) : (
+          <span className="text-xs text-confetti-muted">No one yet</span>
+        )}
+      </span>
+    </button>
   );
 };

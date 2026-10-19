@@ -41,7 +41,7 @@ export const Drawer = ({
       <div
         aria-hidden
         onClick={closeDrawer}
-        className="fixed inset-0 z-40 bg-confetti-ink/30 animate-[fade-in_300ms_ease-out]"
+        className="fixed inset-0 z-40 bg-confetti-ink/30 animate-[fade-in_300ms_ease-out] motion-reduce:animate-none"
       />
 
       <div
@@ -50,10 +50,73 @@ export const Drawer = ({
         aria-modal="true"
         aria-label={ariaLabel}
         tabIndex={-1}
-        className="fixed inset-y-0 right-0 z-40 flex h-dvh w-full animate-[slide-in-right_300ms_ease-out] flex-col bg-confetti-bg p-4 shadow-raised outline-none sm:w-104 sm:border-l sm:border-confetti-border"
+        className="fixed inset-y-0 right-0 z-40 flex h-dvh w-full animate-[slide-in-right_300ms_ease-out] flex-col bg-confetti-bg shadow-raised outline-none motion-reduce:animate-none sm:w-104 sm:border-l sm:border-confetti-border"
       >
         {children}
       </div>
     </>
   );
 };
+
+// Layout pieces shared by every drawer's content: a fixed header with the
+// close control, a body that scrolls on its own, and a footer that stays
+// pinned to the bottom so the main action is always within reach.
+
+export const DrawerHeader = ({
+  onClose,
+  closeLabel = "Close",
+}: {
+  onClose: () => void;
+  closeLabel?: string;
+}) => (
+  <div className="flex shrink-0 items-center justify-between px-5 pt-5 pb-3">
+    <button
+      type="button"
+      aria-label={closeLabel}
+      onClick={onClose}
+      className="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-confetti-border bg-confetti-surface text-confetti-ink transition-colors hover:bg-confetti-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:bg-confetti-border"
+    >
+      <svg
+        aria-hidden
+        viewBox="0 0 16 16"
+        className="size-3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      >
+        <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" />
+      </svg>
+    </button>
+  </div>
+);
+
+export const DrawerBody = ({ children }: { children: ReactNode }) => (
+  <div className="flex min-h-0 flex-1 flex-col gap-7 overflow-y-auto px-5 pt-1 pb-8">
+    {children}
+  </div>
+);
+
+export const DrawerFooter = ({ children }: { children: ReactNode }) => (
+  <div className="shrink-0 border-t border-confetti-border bg-confetti-bg px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+    {children}
+  </div>
+);
+
+export const DrawerTitle = ({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: ReactNode;
+}) => (
+  <div className="flex flex-col gap-1">
+    <h2 className="font-serif text-3xl leading-tight font-semibold tracking-tight wrap-anywhere text-confetti-ink">
+      {title}
+    </h2>
+    {subtitle && <p className="text-sm text-confetti-muted">{subtitle}</p>}
+  </div>
+);
+
+export const primaryButton =
+  "flex h-11 w-full cursor-pointer items-center justify-center rounded-xl bg-confetti-ink px-4 text-sm font-semibold text-confetti-surface shadow-pill transition-colors hover:bg-confetti-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:bg-confetti-ink/80 disabled:cursor-not-allowed disabled:opacity-50";

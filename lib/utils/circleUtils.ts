@@ -17,3 +17,6 @@ export const getSpecifcCircle = (
   circleId:number | null,
   circles: Circle[],
 ) => circles.find((circle) => circle.id === circleId);
+
+export const formatPeopleCount = (count: number) =>
+  `${count} ${count === 1 ? "person" : "people"}`;

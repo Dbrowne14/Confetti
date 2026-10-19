@@ -2,7 +2,7 @@
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
 import { CircleForm } from "./CircleForm";
-import { Drawer } from "./Drawer";
+import { Drawer, DrawerHeader } from "./Drawer";
 
 export const EditCircle = ({
   closeCircle,
@@ -16,18 +16,9 @@ export const EditCircle = ({
 }) => {
   if (!selectedCircle) return null;
   return (
-    <Drawer closeDrawer={closeCircle}>
-      <AddCircleHeader closeCircle={closeCircle} />
+    <Drawer closeDrawer={closeCircle} ariaLabel={`Edit ${selectedCircle.name}`}>
+      <DrawerHeader onClose={closeCircle} closeLabel="Close circle" />
       <CircleForm people={people} circle={selectedCircle} />
     </Drawer>
-  );
-};
-
-const AddCircleHeader = ({ closeCircle }: { closeCircle: () => void }) => {
-  return (
-    <div className="flex justify-between">
-      <button onClick={closeCircle}>x</button>
-      <button className="text-red-900 disabled">delete circle</button>
-    </div>
   );
 };
