@@ -64,7 +64,7 @@ export const UpcomingDisplay = ({
   );
 };
 
-const UpcomingBirthdayRow = ({
+export const UpcomingBirthdayRow = ({
   birthday,
   circle,
   daysAway,
@@ -76,7 +76,7 @@ const UpcomingBirthdayRow = ({
   const isSoon = daysAway < SOON_THRESHOLD_DAYS;
   const{openProfile} = useAddProfile();
   return (
-    <button className="flex items-center gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 sm:px-3.5" onClick={()=> openProfile(birthday.person.id)}>
+    <button className="flex items-center w-full gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 sm:px-3.5" onClick={()=> openProfile(birthday.person.id)}>
       <BirthdayRow
         person={birthday.person}
         circle={circle}
