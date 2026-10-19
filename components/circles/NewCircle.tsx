@@ -1,4 +1,4 @@
-import { FormSection, fieldBase } from "../addBirthday/FormSection";
+import { FormSection, fieldBase } from "@/components/ui/FormSection";
 import { CircleColour } from "./CircleColour";
 import {
   Drawer,
@@ -7,7 +7,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   primaryButton,
-} from "./Drawer";
+} from "@/components/ui/Drawer";
 
 export const NewCircle = ({ closeCircle }: { closeCircle: () => void }) => {
   return (

@@ -1,24 +1,20 @@
 
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
-import { CircleForm } from "./CircleForm";
-import { Drawer, DrawerHeader } from "./Drawer";
+import { Drawer, DrawerHeader } from "@/components/ui/Drawer";
+import { EditCircleForm } from "./EditCircleForm";
 
-export const EditCircle = ({
-  closeCircle,
-  people,
-  selectedCircle,
-}: {
-  isCircleOpen: boolean;
-  closeCircle: () => void;
+type EditCircleProps = {
+  circle: Circle;
   people: Person[];
-  selectedCircle?: Circle;
-}) => {
-  if (!selectedCircle) return null;
+  closeCircle: () => void;
+};
+
+export const EditCircle = ({ circle, people, closeCircle }: EditCircleProps) => {
   return (
-    <Drawer closeDrawer={closeCircle} ariaLabel={`Edit ${selectedCircle.name}`}>
+    <Drawer closeDrawer={closeCircle} ariaLabel={`Edit ${circle.name}`}>
       <DrawerHeader onClose={closeCircle} closeLabel="Close circle" />
-      <CircleForm people={people} circle={selectedCircle} />
+      <EditCircleForm people={people} circle={circle} />
     </Drawer>
   );
 };

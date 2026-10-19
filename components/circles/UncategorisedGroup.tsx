@@ -1,16 +1,16 @@
 "use client";
 import { Person } from "@/lib/data/people";
-import { Drawer, DrawerBody, DrawerHeader, DrawerTitle } from "./Drawer";
-import { useState } from "react";
 import {
-  getUpcomingBirthdays,
-  UpcomingBirthday,
-} from "@/lib/utils/birthdayUtils";
-import { getDaysUntil } from "@/lib/utils/dateUtils";
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/Drawer";
+import { useState } from "react";
 import { formatPeopleCount } from "@/lib/utils/circleUtils";
-import { UpcomingBirthdayRow } from "../upcoming/UpcomingDisplay";
-import { FormSection } from "../addBirthday/FormSection";
+import { FormSection } from "@/components/ui/FormSection";
 import { PeopleInitials } from "./PeopleInitials";
+import { PeopleBirthdayList } from "./CirclePeople";
 
 // Not a real circle: these are the people whose `circleId` is null, so this is
 // shown as a utility row under the grid rather than as another circle card.
@@ -21,7 +21,7 @@ export const UncategorisedGroup = ({
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const UncategorisedGroup = people.filter(
+  const uncategorisedPeople = people.filter(
     (person) => person.circleId === null,
   );
 
@@ -50,13 +50,13 @@ export const UncategorisedGroup = ({
             Uncategorised
           </span>
           <span className="truncate text-sm text-confetti-muted">
-            {formatPeopleCount(UncategorisedGroup.length)} with no circle yet
+            {formatPeopleCount(uncategorisedPeople.length)} with no circle yet
           </span>
         </span>
-        {UncategorisedGroup.length > 0 && (
+        {uncategorisedPeople.length > 0 && (
           <span className="hidden sm:block">
             <PeopleInitials
-              people={UncategorisedGroup}
+              people={uncategorisedPeople}
               ringClassName="ring-confetti-active"
             />
           </span>
@@ -80,7 +80,7 @@ export const UncategorisedGroup = ({
       {drawerOpen && (
         <UncategorisedDrawer
           closeDrawer={closeDrawer}
-          people={UncategorisedGroup}
+          people={uncategorisedPeople}
         />
       )}
     </>
@@ -94,8 +94,6 @@ const UncategorisedDrawer = ({
   closeDrawer: () => void;
   people: Person[];
 }) => {
-  const today = new Date();
-  const upComingBirthdays = getUpcomingBirthdays(people, today);
   return (
     <Drawer closeDrawer={closeDrawer} ariaLabel="Uncategorised people">
       <DrawerHeader onClose={closeDrawer} closeLabel="Close uncategorised" />
@@ -104,31 +102,14 @@ const UncategorisedDrawer = ({
           title="Uncategorised"
           subtitle={`${formatPeopleCount(people.length)} not in a circle yet`}
         />
-        <PeopleRow birthdays={upComingBirthdays} />
+        <FormSection label="People">
+          <PeopleBirthdayList
+            people={people}
+            circle={undefined}
+            emptyMessage="Everyone is in a circle."
+          />
+        </FormSection>
       </DrawerBody>
     </Drawer>
-  );
-};
-
-const PeopleRow = ({ birthdays }: { birthdays: UpcomingBirthday[] }) => {
-  const today = new Date();
-  return (
-    <FormSection label="People">
-      {birthdays.length === 0 && (
-        <p className="text-sm text-confetti-muted">
-          Everyone is in a circle.
-        </p>
-      )}
-      {birthdays.map((birthday) => {
-        return (
-          <UpcomingBirthdayRow
-            birthday={birthday}
-            circle={undefined}
-            daysAway={getDaysUntil(birthday.date, today)}
-            key={birthday.person.id}
-          />
-        );
-      })}
-    </FormSection>
   );
 };

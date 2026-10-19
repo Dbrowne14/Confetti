@@ -1,4 +1,4 @@
-import { fieldBase } from "./FormSection";
+import { fieldBase } from "@/components/ui/FormSection";
 
 export const NameField = () => {
   return (

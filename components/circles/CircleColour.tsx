@@ -1,9 +1,12 @@
 'use client'
 import { useState } from "react";
-import { FormSection } from "../addBirthday/FormSection";
+import { FormSection } from "@/components/ui/FormSection";
 
-export const CircleColour = ({ circleColour }: { circleColour?: string }) => {
-  const [colour, setColour] = useState(circleColour);
+// `initialColour` is only read on mount; the parent remounts this (via `key`)
+// to show a different circle. Undefined means no colour has been picked yet.
+export const CircleColour = ({ initialColour }: { initialColour?: string }) => {
+  // Always a string so the colour input stays controlled.
+  const [colour, setColour] = useState(initialColour ?? "");
   return (
     <FormSection label="Colour">
       {/* The whole row opens the native colour picker; the hidden input

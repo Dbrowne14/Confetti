@@ -5,21 +5,17 @@ import {
   filterPeopleByCircle,
   formatPeopleCount,
 } from "@/lib/utils/circleUtils";
-import { getDaysUntil } from "@/lib/utils/dateUtils";
-import { UpcomingBirthdayRow } from "../upcoming/UpcomingDisplay";
-import { getUpcomingBirthdays } from "@/lib/utils/birthdayUtils";
-import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
-import { FormSection } from "../addBirthday/FormSection";
-import { CircleColour } from "./CircleColour";
 import {
   DrawerBody,
   DrawerFooter,
   DrawerTitle,
   primaryButton,
-} from "./Drawer";
+} from "@/components/ui/Drawer";
+import { CircleColour } from "./CircleColour";
+import { CirclePeople } from "./CirclePeople";
 
 
-export const CircleForm = ({
+export const EditCircleForm = ({
   circle,
   people,
 }: {
@@ -40,7 +36,7 @@ export const CircleForm = ({
           title={name}
           subtitle={formatPeopleCount(peopleInCircle.length)}
         />
-        <CircleColour circleColour={colour} key={id} />
+        <CircleColour initialColour={colour} key={id} />
         <CirclePeople people={peopleInCircle} circle={circle} />
 
         <div className="mt-auto border-t border-confetti-border pt-5">
@@ -60,45 +56,5 @@ export const CircleForm = ({
         </button>
       </DrawerFooter>
     </form>
-  );
-};
-
-
-
-const CirclePeople = ({
-  people,
-  circle,
-}: {
-  people: Person[];
-  circle: Circle;
-}) => {
-  const today = new Date();
-  const upComingBirthdays = getUpcomingBirthdays(people, today);
-  const { openAddBirthday } = useAddBirthday()
-  return (
-    <FormSection label="People">
-      {upComingBirthdays.length === 0 && (
-        <p className="text-sm text-confetti-muted">
-          No one in this circle yet.
-        </p>
-      )}
-      {upComingBirthdays.map((birthday) => {
-        return (
-          <UpcomingBirthdayRow
-            birthday={birthday}
-            circle={circle}
-            daysAway={getDaysUntil(birthday.date, today)}
-            key={birthday.person.id}
-          />
-        );
-      })}
-      <button
-        type="button"
-        onClick={() => openAddBirthday({ circleId: circle.id })}
-        className="flex h-12 w-full cursor-pointer items-center justify-center gap-1.5 rounded-2xl border border-dashed border-confetti-ink/20 text-sm font-semibold text-confetti-ink transition-colors hover:border-confetti-ink/40 hover:bg-confetti-surface/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:bg-confetti-surface"
-      >
-        <span aria-hidden>+</span> Add someone to this circle
-      </button>
-    </FormSection>
   );
 };

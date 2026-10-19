@@ -1,6 +1,6 @@
 "use client";
 import { TextField } from "./NameField";
-import { fieldBase } from "./FormSection";
+import { fieldBase } from "@/components/ui/FormSection";
 import { monthNames } from "@/lib/utils/dateUtils";
 import { useAddBirthday } from "./AddBirthdayProvider";
 

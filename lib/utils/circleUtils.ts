@@ -13,7 +13,7 @@ export const filterPeopleByCircle = (
 export const getCircleForPerson = (person: Person, circles: Circle[]) =>
   circles.find((circle) => circle.id === person.circleId);
 
-export const getSpecifcCircle = (
+export const getSpecificCircle = (
   circleId:number | null,
   circles: Circle[],
 ) => circles.find((circle) => circle.id === circleId);

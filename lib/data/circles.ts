@@ -10,12 +10,12 @@ export const circles: Circle[] = [
     id: 1,
     name: "Family",
     description: "Immediate and extended family",
-    colour: "rgb(234, 120, 98)",
+    colour: "#ea7862",
   },
   {
     id: 2,
     name: "Friends",
     description: "Friends",
-    colour: "rgb(120, 160, 140)",
+    colour: "#78a08c",
   },
 ];

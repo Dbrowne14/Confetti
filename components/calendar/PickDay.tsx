@@ -3,7 +3,7 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
 import { AddBirthdayForDayButton } from "./AddBirthdayForDayButton";
-import { BirthdayRow } from "@/components/ui/BirthdayRow";
+import { BirthdayRow } from "@/components/birthday/BirthdayRow";
 import { monthNames } from "@/lib/utils/dateUtils";
 import { getCircleForPerson } from "@/lib/utils/circleUtils";
 import { formatBirthdayCount, getBirthdaysForDate } from "./calendarUtils";

@@ -2,7 +2,7 @@
 
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
-import { BirthdayRow } from "@/components/ui/BirthdayRow";
+import { BirthdayRow } from "@/components/birthday/BirthdayRow";
 import { getCircleForPerson } from "@/lib/utils/circleUtils";
 import { getDaysUntil } from "@/lib/utils/dateUtils";
 import { getNextBirthday } from "@/lib/utils/birthdayUtils";

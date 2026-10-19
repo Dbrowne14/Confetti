@@ -1,5 +1,5 @@
 import { Person } from "@/lib/data/people";
-import { initialsRetrieval } from "../profile/ProfileIdentity";
+import { initialsRetrieval } from "@/lib/utils/personUtils";
 
 const OVERLAPNUMBER = 3;
 

@@ -1,5 +1,6 @@
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
+import { initialsRetrieval } from "@/lib/utils/personUtils";
 
 export const ProfileIdentity = ({
   person,
@@ -39,8 +40,3 @@ export const ProfileIdentity = ({
     </div>
   );
 };
-
-export const initialsRetrieval = (person:Person) => {
-  const {surname, firstName} =person
-  return surname ? firstName[0] + surname[0]: firstName[0];
-}
