@@ -48,7 +48,7 @@ export const MonthCalendar = ({
   const weeks = getCalendarWeeks(year, month);
 
   return (
-    <div className="w-180 self-start rounded-3xl bg-confetti-surface p-4 sm:p-5">
+    <div className="w-full max-w-180 self-start rounded-3xl bg-confetti-surface p-4 sm:p-5">
       <div className="flex items-center justify-between gap-4 pb-4 sm:pb-5">
         <h2 className="font-serif text-2xl leading-tight font-semibold tracking-tight text-confetti-ink sm:text-[2rem]">
           {`${monthNames[month]} ${year}`}
