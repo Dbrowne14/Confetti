@@ -3,7 +3,7 @@
 import { useAddBirthday } from "./AddBirthdayProvider";
 import { NameField } from "./NameField";
 import { BirthdayFields } from "./BirthdayFields";
-import { AddHeader } from "./AddHeader";
+import { AddHeader, addBirthdayTitleId } from "./AddHeader";
 import { CircleOptions } from "./CircleOptions";
 import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { FormSection, fieldBase } from "@/components/ui/FormSection";
@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
-  const { isAddOpen, closeAddBirthday,initialCircleId } = useAddBirthday();
+  const { closeAddBirthday, initialCircleId } = useAddBirthday();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(initialCircleId);
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
   event.preventDefault();
@@ -25,13 +25,12 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
 };
   return (
     <form
-      aria-label="Add birthday"
-      className={`fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[min(27rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-confetti-border bg-confetti-bg shadow-raised ${isAddOpen ? "flex" : "hidden"}`}
-      onClick={(e) => e.stopPropagation()}
+      aria-labelledby={addBirthdayTitleId}
+      className="flex min-h-0 flex-1 flex-col"
       onSubmit={handleSubmit}
     >
       <AddHeader closeAddBirthday={closeAddBirthday} />
-      <div className="flex flex-col gap-5 overflow-y-auto px-5 pt-5 pb-8">
+      <div className="flex min-h-0 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-8">
         <FormSection label="Name">
           <NameField />
         </FormSection>

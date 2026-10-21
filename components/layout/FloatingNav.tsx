@@ -8,8 +8,8 @@ export const FloatingNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="w-full lg:w-auto">
-      <ul className="mx-auto flex w-fit items-center rounded-full border border-white/70 bg-confetti-surface p-1 shadow-pill">
+    <nav aria-label="Primary" className="min-w-0">
+      <ul className="flex w-fit items-center rounded-full border border-white/70 bg-confetti-surface p-1 shadow-pill">
         {navigation.map((item) => {
           const { href, name } = item;
           const isActive = pathname === href;
@@ -17,7 +17,7 @@ export const FloatingNav = () => {
           return (
             <li key={name}>
               <Link
-                className={`flex h-10 items-center gap-2 rounded-full px-4 text-sm whitespace-nowrap transition-colors ${
+                className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-full px-2.5 py-1.5 text-[10px] leading-none whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink sm:h-10 sm:min-h-0 sm:flex-row sm:gap-2 sm:px-4 sm:py-0 sm:text-sm sm:leading-normal ${
                   isActive
                     ? "bg-confetti-active font-semibold text-confetti-ink"
                     : "font-medium text-confetti-muted hover:text-confetti-ink"
@@ -26,7 +26,7 @@ export const FloatingNav = () => {
                 aria-current={isActive ? "page" : undefined}
               >
                 <NavIcon name={name} isActive={isActive} />
-                <span className="sr-only sm:not-sr-only">{name}</span>
+                <span className="sr-only min-[360px]:not-sr-only">{name}</span>
               </Link>
             </li>
           );

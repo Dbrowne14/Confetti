@@ -32,11 +32,10 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
     setEditingPersonId(personId ?? null);
   };
 
+  // Only closes: the initial values are left as they were so the form doesn't
+  // reset while the mobile sheet slides out. openAddBirthday sets them afresh.
   const closeAddBirthday = () => {
     setIsAddOpen(false);
-    setInitialDate(null);
-    setEditingPersonId(null);
-    setInitialCircleId(null);
   };
 
   return (

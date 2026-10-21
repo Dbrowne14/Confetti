@@ -69,7 +69,7 @@ export const NavIcon = ({ name, isActive }: { name: MainNav } & IconProps) => {
   return <Icon isActive={isActive} />;
 };
 
-export const PlusIcon = () => (
+export const PlusIcon = ({ className }: { className?: string }) => (
   <svg
     width="10"
     height="10"
@@ -78,6 +78,7 @@ export const PlusIcon = () => (
     stroke="currentColor"
     strokeWidth="1.6"
     strokeLinecap="round"
+    className={className}
     aria-hidden
   >
     <path d="M5 1v8M1 5h8" />

@@ -22,14 +22,18 @@ export const Profile = ({
   const person = people.find((person) => person.id === personId);
 
   
-  // While open: move focus into the drawer and stop the page behind it scrolling.
+  // While open: move focus into the drawer and stop the page behind it
+  // scrolling. On close, focus goes back to whatever opened it, so a sheet
+  // underneath (e.g. the selected day) still receives Escape.
   useEffect(() => {
     if (!isProfileOpen) return;
+    const previouslyFocused = document.activeElement;
     panelRef.current?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
     };
   }, [isProfileOpen]);
 

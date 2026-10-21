@@ -19,8 +19,8 @@ export const NextUp = ({ people, circles }: NextUpProps) => {
   const next = getNextBirthday(people, today);
   const { openProfile } = useAddProfile();
   return (
-    <section className="flex flex-col gap-3 rounded-3xl bg-confetti-surface p-5 sm:p-6">
-      <h2 className="text-[11px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">
+    <section className="flex flex-col gap-1 rounded-3xl bg-confetti-surface p-3 sm:gap-3 sm:p-6">
+      <h2 className="text-[9px] flex sm:text-[11px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">
         Next Up
       </h2>
       <button
@@ -64,12 +64,13 @@ const NextBirthday = ({
       person={person}
       circle={circle}
       occurrenceYear={date.getFullYear()}
+      size="compact"
     />
     <div className="flex shrink-0 flex-col items-end">
-      <span className="text-3xl leading-none font-bold text-confetti-ink tabular-nums sm:text-[34px]">
+      <span className="text-[17px] leading-none font-bold text-confetti-ink tabular-nums sm:text-[34px]">
         {daysAway}
       </span>
-      <span className="mt-2 text-[11px] font-semibold tracking-[0.14em] text-confetti-muted uppercase">
+      <span className="mt-2 text-[9px] sm:text-[11px] font-semibold tracking-[0.14em] text-confetti-muted uppercase">
         day{daysAway === 1 ? "" : "s"}
       </span>
     </div>
