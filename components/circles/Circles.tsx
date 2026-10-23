@@ -9,7 +9,8 @@ import { getSpecificCircle } from "@/lib/utils/circleUtils";
 import { NewCircle } from "./NewCircle";
 import { CircleCard } from "./CircleCard";
 
-export const Circles = () => {
+
+export const Circles =  () => {
   // Open with an id → editing that circle; open with null → creating one.
   const [isCircleOpen, setIsCircleOpen] = useState(false);
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(null);
@@ -22,7 +23,7 @@ export const Circles = () => {
   };
   const people = getPeople();
   const circles = getCircle();
-
+  
   const selectedCircle = getSpecificCircle(selectedCircleId, circles)
 
   const openNewCircle = () => {

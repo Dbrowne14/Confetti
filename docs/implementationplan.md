@@ -160,12 +160,12 @@ Current application model:
 
 ### Decisions to make
 
-- [ ] ID strategy
-- [ ] Required fields
-- [ ] Colour representation
-- [ ] Whether timestamps are useful
-- [ ] Relationship to people
-- [ ] What happens when a circle is deleted
+- [x] ID strategy
+- [x] Required fields
+- [x] Colour representation
+- [x] Whether timestamps are useful
+- [x] Relationship to people
+- [x] What happens when a circle is deleted
 
 Expected relationship:
 
@@ -207,15 +207,15 @@ I understand the relationship between people and circles and what the database s
 
 Once the schema decisions are understood:
 
-- [ ] Create `circles`
-- [ ] Create `people`
-- [ ] Add primary keys
-- [ ] Add foreign key from `people.circle_id` to `circles.id`
-- [ ] Add appropriate nullable fields
-- [ ] Add constraints
-- [ ] Add timestamps if decided
-- [ ] Configure circle deletion behaviour
-- [ ] Inspect the resulting schema in Supabase
+- [x] Create `circles`
+- [x] Create `people`
+- [x] Add primary keys
+- [x] Add foreign key from `people.circle_id` to `circles.id`
+- [x] Add appropriate nullable fields
+- [x] Add constraints
+- [x] Add timestamps if decided
+- [x] Configure circle deletion behaviour
+- [x] Inspect the resulting schema in Supabase
 
 ### Completion criteria
 
