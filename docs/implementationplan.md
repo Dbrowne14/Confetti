@@ -18,11 +18,11 @@ The important principle is to introduce these concepts one at a time rather than
 
 ### Tasks
 
-- [ ] Create a Supabase project
-- [ ] Understand what Supabase is providing
-- [ ] Locate the project URL
-- [ ] Locate the appropriate API keys
-- [ ] Understand which keys can and cannot be exposed to the browser
+- [x] Create a Supabase project
+- [x] Understand what Supabase is providing
+- [x] Locate the project URL
+- [x] Locate the appropriate API keys
+- [x] Understand which keys can and cannot be exposed to the browser
 
 ### I should understand
 
@@ -46,14 +46,14 @@ I have a Supabase project and understand the basic pieces Confetti will use.
 
 ### Tasks
 
-- [ ] Install the required Supabase packages
-- [ ] Add Supabase environment variables to `.env.local`
-- [ ] Ensure secrets are not committed to Git
-- [ ] Create the appropriate Supabase server client
-- [ ] Create a browser client only if it is actually required
-- [ ] Understand where each client can be used
-- [ ] Make one simple query from Next.js
-- [ ] Confirm the application can communicate with Supabase
+- [x] Install the required Supabase packages
+- [x] Add Supabase environment variables to `.env.local`
+- [x] Ensure secrets are not committed to Git
+- [x] Create the appropriate Supabase server client
+- [x] Create a browser client only if it is actually required
+- [x] Understand where each client can be used
+- [x] Make one simple query from Next.js
+- [x] Confirm the application can communicate with Supabase
 
 ### I should understand
 
@@ -110,15 +110,15 @@ Current application model:
 
 ### Decisions to make
 
-- [ ] Integer IDs vs UUIDs
-- [ ] Keep birthday as month/day/year columns vs PostgreSQL date
-- [ ] How an unknown birth year should be represented
-- [ ] Which fields are nullable
-- [ ] Whether `created_at` is required
-- [ ] Whether `updated_at` is required
-- [ ] Month constraints
-- [ ] Day constraints
-- [ ] Whether impossible dates should be prevented at DB level or application level
+- [x] Integer IDs vs UUIDs - going with integer for person and circle Id and 
+- [x] Keep birthday as month/day/year columns vs PostgreSQL date - going with month/day year
+- [x] How an unknown birth year should be represented - null
+- [x] Which fields are nullable
+- [x] Whether `created_at` is required - yes
+- [x] Whether `updated_at` is required - yes
+- [x] Month constraints
+- [x] Day constraints
+- [x] Whether impossible dates should be prevented at DB level or application level - application level
 - [ ] Database naming conventions
 - [ ] Application naming conventions
 
