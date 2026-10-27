@@ -114,13 +114,3 @@ export const people: Person[] = [
     giftNotes: null,
   },
 ];
-
-export const getPeople = async () => {
-  const supabase = await createClient();
-  const { data: people, error } = await supabase.from("people").select();
-
-  if (error) {
-    throw new Error(`error ${error.message}`);
-  }
-  return people;
-};

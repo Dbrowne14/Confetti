@@ -1,5 +1,5 @@
 import { Reminders } from "@/components/reminders/Reminders";
-import { getPeople } from "@/lib/data/people";
+import { getPeople } from "@/lib/fetches/getPeople";
 
 const page = async () => {
   const testPeople = await getPeople()

@@ -64,7 +64,7 @@ export const BirthdayField = ({
       >
         {options?.map((option, index) => {
           return (
-            <option key={option} value={index}>
+            <option key={option} value={index +1}>
               {option}
             </option>
           );

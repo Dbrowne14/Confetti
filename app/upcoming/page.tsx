@@ -1,6 +1,6 @@
 import { connection } from "next/server";
 import { Upcoming } from "@/components/upcoming/Upcoming";
-import { getCircles } from "@/lib/data/circles";
+import { getCircles } from "@/lib/fetches/getCircles";
 import { getPeople } from "@/lib/fetches/getPeople";
 
 // Upcoming works out "today" while rendering, so render per request rather

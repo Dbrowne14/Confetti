@@ -9,18 +9,19 @@ import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { FormSection, fieldBase } from "@/components/ui/FormSection";
 import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
+import { addPerson } from "@/lib/actions/addPerson";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
   const { closeAddBirthday, initialCircleId } = useAddBirthday();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(initialCircleId);
-  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
   event.preventDefault();
 
   const formData = new FormData(event.currentTarget);
 
   const newBirthday = Object.fromEntries(formData);
 
-  console.log(newBirthday);
+  await addPerson(formData)
   closeAddBirthday();
 };
   return (
