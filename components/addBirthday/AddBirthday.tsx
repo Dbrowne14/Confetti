@@ -13,17 +13,19 @@ import { addPerson } from "@/lib/actions/addPerson";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
   const { closeAddBirthday, initialCircleId } = useAddBirthday();
-  const [selectedCircleId, setSelectedCircleId] = useState<number | null>(initialCircleId);
+  const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
+    initialCircleId,
+  );
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const formData = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget);
 
-  const newBirthday = Object.fromEntries(formData);
+    const newBirthday = Object.fromEntries(formData);
 
-  await addPerson(formData)
-  closeAddBirthday();
-};
+    await addPerson(formData);
+    closeAddBirthday();
+  };
   return (
     <form
       aria-labelledby={addBirthdayTitleId}
@@ -44,6 +46,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
             setSelectedCircleId={setSelectedCircleId}
             circles={circles}
           />
+          <input type="hidden" name="circleId" value={selectedCircleId ?? ""} />
         </FormSection>
         <FormSection label="Reminders">
           <ReminderOptions />
