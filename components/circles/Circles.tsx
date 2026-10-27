@@ -1,6 +1,5 @@
 "use client";
-import { getPeople } from "@/lib/fetches/getPeople";
-import { getCircle } from "@/lib/fetches/getCircles";
+
 import { AddCircleButton } from "./AddCircleButton";
 import { useState } from "react";
 import { UncategorisedGroup } from "./UncategorisedGroup";
@@ -8,9 +7,11 @@ import { EditCircle } from "./EditCircle";
 import { getSpecificCircle } from "@/lib/utils/circleUtils";
 import { NewCircle } from "./NewCircle";
 import { CircleCard } from "./CircleCard";
+import { Person } from "@/lib/data/people";
+import { Circle } from "@/lib/data/circles";
 
 
-export const Circles =  () => {
+export const Circles =  ({people,circles}: {people:Person[], circles: Circle[]}) => {
   // Open with an id → editing that circle; open with null → creating one.
   const [isCircleOpen, setIsCircleOpen] = useState(false);
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(null);
@@ -21,8 +22,7 @@ export const Circles =  () => {
     setIsCircleOpen(true);
     setSelectedCircleId(circleId)
   };
-  const people = getPeople();
-  const circles = getCircle();
+
   
   const selectedCircle = getSpecificCircle(selectedCircleId, circles)
 

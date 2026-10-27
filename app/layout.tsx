@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
 import { AddBirthdayModal } from "@/components/addBirthday/AddBirthdayModal";
-import { getCircle } from "@/lib/fetches/getCircles";
+import { getCircles } from "@/lib/fetches/getCircles";
 import { AddProfileProvider } from "@/components/profile/AddProfileProvider";
 import { Profile } from "@/components/profile/Profile";
 import { getPeople } from "@/lib/fetches/getPeople";
@@ -35,9 +35,9 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  const circles = getCircle();
-  const people = getPeople();
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const circles = await getCircles();
+  const people = await getPeople();
 
   return (
     <html

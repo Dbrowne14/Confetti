@@ -1,4 +1,4 @@
-import { circles } from "../fetches/getCircles";
+
 import { createClient } from "../supabase/server";
 
 export type Person = {
