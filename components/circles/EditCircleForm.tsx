@@ -14,7 +14,6 @@ import {
 import { CircleColour } from "./CircleColour";
 import { CirclePeople } from "./CirclePeople";
 
-
 export const EditCircleForm = ({
   circle,
   people,
@@ -32,10 +31,18 @@ export const EditCircleForm = ({
       onSubmit={(e) => e.preventDefault()}
     >
       <DrawerBody>
-        <DrawerTitle
-          title={name}
-          subtitle={formatPeopleCount(peopleInCircle.length)}
-        />
+        <div className="flex flex-col gap-1">
+          <input
+            className="font-serif text-3xl leading-tight font-semibold tracking-tight wrap-anywhere text-confetti-ink"
+            defaultValue={name}
+          />
+
+          {formatPeopleCount(peopleInCircle.length) && (
+            <p className="text-sm text-confetti-muted">
+              {formatPeopleCount(peopleInCircle.length)}
+            </p>
+          )}
+        </div>
         <CircleColour initialColour={colour} key={id} />
         <CirclePeople people={peopleInCircle} circle={circle} />
 
