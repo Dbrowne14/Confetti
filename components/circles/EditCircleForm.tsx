@@ -7,6 +7,7 @@ import {
 } from "@/lib/utils/circleUtils";
 import {
   DrawerBody,
+  DrawerError,
   DrawerFooter,
   DrawerTitle,
   primaryButton,
@@ -15,6 +16,7 @@ import { CircleColour } from "./CircleColour";
 import { CirclePeople } from "./CirclePeople";
 import { deleteCircle } from "@/lib/actions/deleteCircle";
 import { editCircle } from "@/lib/actions/editCircle";
+import { useState } from "react";
 
 export const EditCircleForm = ({
   circle,
@@ -25,30 +27,35 @@ export const EditCircleForm = ({
   people: Person[];
   closeCircle: () => void;
 }) => {
+  const [error, setError] = useState<string | null>(null);
   const { colour, name, id } = circle;
   const peopleInCircle = filterPeopleByCircle(people, id);
   const handleSubmit = async (
     event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>,
   ) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget)
-    const response = await editCircle(id, formData)
+    const formData = new FormData(event.currentTarget);
+    console.log(Object.fromEntries(formData));
+    const response = await editCircle(id, formData);
+    if (!response.success) {
+      setError(response.error);
+      return;
+    }
   };
   const handleDelete = async () => {
     await deleteCircle(id);
     closeCircle();
   };
   return (
-    // Saving is presentational until the backend exists; this stops the
-    // submit from reloading the page in the meantime.
     <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
       <DrawerBody>
         <div className="flex flex-col gap-1">
           <input
+            name="name"
             className="font-serif text-3xl leading-tight font-semibold tracking-tight wrap-anywhere text-confetti-ink"
             defaultValue={name}
           />
-
+          {error && <DrawerError error={error} />}
           {formatPeopleCount(peopleInCircle.length) && (
             <p className="text-sm text-confetti-muted">
               {formatPeopleCount(peopleInCircle.length)}

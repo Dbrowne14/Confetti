@@ -104,3 +104,11 @@ export const DrawerTitle = ({
 
 export const primaryButton =
   "flex h-11 w-full cursor-pointer items-center justify-center rounded-xl bg-confetti-ink px-4 text-sm font-semibold text-confetti-surface shadow-pill transition-colors hover:bg-confetti-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:bg-confetti-ink/80 disabled:cursor-not-allowed disabled:opacity-50";
+
+export const DrawerError = ({ error }: { error: string }) => {
+  return (
+    <p role="alert" className="mt-1 text-sm text-red-600">
+      {error}
+    </p>
+  );
+};

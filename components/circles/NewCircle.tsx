@@ -4,6 +4,7 @@ import { CircleColour } from "./CircleColour";
 import {
   Drawer,
   DrawerBody,
+  DrawerError,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -53,11 +54,7 @@ export const NewCircle = ({ closeCircle }: { closeCircle: () => void }) => {
               placeholder="e.g. University friends"
               className={`${fieldBase} h-11`}
             />
-            {error && (
-              <p role="alert" className="mt-1 text-sm text-red-600">
-                {error}
-              </p>
-            )}
+            {error && <DrawerError error={error} />}
           </FormSection>
           <CircleColour />
         </DrawerBody>
