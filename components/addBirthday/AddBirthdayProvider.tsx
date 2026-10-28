@@ -32,7 +32,7 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
     setIsAddOpen(true);
     setEditingPersonId(personId ?? null);
   };
-
+//to do editBirthday provider
   const openEditBirthday = (personId:number) => {
     setIsEditOpen(true)
   }
