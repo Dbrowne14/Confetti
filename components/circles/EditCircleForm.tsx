@@ -14,6 +14,7 @@ import {
 import { CircleColour } from "./CircleColour";
 import { CirclePeople } from "./CirclePeople";
 import { deleteCircle } from "@/lib/actions/deleteCircle";
+import { editCircle } from "@/lib/actions/editCircle";
 
 export const EditCircleForm = ({
   circle,
@@ -26,7 +27,13 @@ export const EditCircleForm = ({
 }) => {
   const { colour, name, id } = circle;
   const peopleInCircle = filterPeopleByCircle(people, id);
-
+  const handleSubmit = async (
+    event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>,
+  ) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget)
+    const response = await editCircle(id, formData)
+  };
   const handleDelete = async () => {
     await deleteCircle(id);
     closeCircle();
@@ -34,10 +41,7 @@ export const EditCircleForm = ({
   return (
     // Saving is presentational until the backend exists; this stops the
     // submit from reloading the page in the meantime.
-    <form
-      className="flex min-h-0 flex-1 flex-col"
-      onSubmit={(e) => e.preventDefault()}
-    >
+    <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
       <DrawerBody>
         <div className="flex flex-col gap-1">
           <input

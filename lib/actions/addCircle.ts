@@ -1,5 +1,6 @@
 "use server";
 
+import { parseFormDataCircle } from "./dataParsing";
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
 
@@ -13,7 +14,7 @@ export const addCircle = async (formData: FormData) => {
   const userId = claimsData.claims.sub;
   console.log(userId);
 
-  const { name, colour, description } = parseFormData(formData);
+  const { name, colour, description } = parseFormDataCircle(formData);
   const { error } = await supabase.from("circles").insert({
     user_id: userId,
     name: name,
@@ -36,26 +37,3 @@ export const addCircle = async (formData: FormData) => {
   };
 };
 
-const parseFormData = (formData: FormData) => {
-  const nameValue = formData.get("name");
-  if (typeof nameValue !== "string" || nameValue.trim() === "") {
-    throw new Error("Name must be a string");
-  }
-  const name = nameValue.trim();
-
-  const colourValue = formData.get("colour");
-  if (typeof colourValue !== "string" || colourValue.trim() === "") {
-    throw new Error("Colour must be a recognised colour or hexcode");
-  }
-
-  const colour = colourValue.trim();
-
-  const descriptionValue = formData.get("description");
-
-  const description =
-    typeof descriptionValue === "string" && descriptionValue.trim() !== ""
-      ? descriptionValue.trim()
-      : null;
-
-  return { name, colour, description };
-};
