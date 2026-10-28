@@ -9,6 +9,7 @@ import { ProfileHeader } from "./ProfileHeader";
 import { useAddProfile } from "./AddProfileProvider";
 import { ProfileIdentity } from "./ProfileIdentity";
 import { ProfileBirthdayDetails } from "./ProfileBirthdayDetails";
+import { deletePerson } from "@/lib/actions/deletePerson";
 
 export const Profile = ({
   circles,
@@ -21,7 +22,6 @@ export const Profile = ({
   const panelRef = useRef<HTMLDivElement>(null);
   const person = people.find((person) => person.id === personId);
 
-  
   // While open: move focus into the drawer and stop the page behind it
   // scrolling. On close, focus goes back to whatever opened it, so a sheet
   // underneath (e.g. the selected day) still receives Escape.
@@ -73,7 +73,13 @@ export const Profile = ({
             : "invisible translate-x-full transition-[translate,visibility]"
         }`}
       >
-        {person && <ProfileContent person={person} circles={circles} />}
+        {person && (
+          <ProfileContent
+            person={person}
+            circles={circles}
+            closeProfile={closeProfile}
+          />
+        )}
       </div>
     </>
   );
@@ -82,12 +88,18 @@ export const Profile = ({
 const ProfileContent = ({
   person,
   circles,
+  closeProfile,
 }: {
   person: Person;
   circles: Circle[];
+  closeProfile: () => void;
 }) => {
   const today = new Date();
   const next = getNextBirthdayDate(person, today);
+  const handleDelete = async () => {
+    await deletePerson(person.id)
+    closeProfile();
+  };
 
   return (
     <>
@@ -114,8 +126,8 @@ const ProfileContent = ({
 
         <button
           type="button"
-          disabled
           className="self-start text-sm font-semibold text-confetti-danger"
+          onClick={handleDelete}
         >
           Delete {person.firstName}
         </button>

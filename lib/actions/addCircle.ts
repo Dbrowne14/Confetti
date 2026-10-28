@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "../supabase/server";
+import { revalidatePath } from "next/cache";
 
 export const addCircle = async (formData: FormData) => {
   const supabase = await createClient();
@@ -28,6 +29,7 @@ export const addCircle = async (formData: FormData) => {
   if (error) {
     throw new Error(`Failed to create new circle: ${error.message}`);
   }
+  revalidatePath("/");
   return {
     success: true,
     error: null,
