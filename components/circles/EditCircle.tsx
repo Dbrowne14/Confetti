@@ -14,7 +14,7 @@ export const EditCircle = ({ circle, people, closeCircle }: EditCircleProps) => 
   return (
     <Drawer closeDrawer={closeCircle} ariaLabel={`Edit ${circle.name}`}>
       <DrawerHeader onClose={closeCircle} closeLabel="Close circle" />
-      <EditCircleForm people={people} circle={circle} />
+      <EditCircleForm people={people} circle={circle} closeCircle={closeCircle}/>
     </Drawer>
   );
 };

@@ -13,16 +13,24 @@ import {
 } from "@/components/ui/Drawer";
 import { CircleColour } from "./CircleColour";
 import { CirclePeople } from "./CirclePeople";
+import { deleteCircle } from "@/lib/actions/deleteCircle";
 
 export const EditCircleForm = ({
   circle,
   people,
+  closeCircle,
 }: {
   circle: Circle;
   people: Person[];
+  closeCircle: () => void;
 }) => {
   const { colour, name, id } = circle;
   const peopleInCircle = filterPeopleByCircle(people, id);
+
+  const handleDelete = async () => {
+    await deleteCircle(id);
+    closeCircle();
+  };
   return (
     // Saving is presentational until the backend exists; this stops the
     // submit from reloading the page in the meantime.
@@ -50,7 +58,7 @@ export const EditCircleForm = ({
           {/* Presentational until deleting circles is supported. */}
           <button
             type="button"
-            disabled
+            onClick={handleDelete}
             className="text-sm font-semibold text-confetti-danger transition-colors enabled:cursor-pointer enabled:hover:text-confetti-danger/80 disabled:cursor-not-allowed"
           >
             Delete circle
