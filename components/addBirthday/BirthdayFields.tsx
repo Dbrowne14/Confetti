@@ -5,7 +5,15 @@ import { monthNames } from "@/lib/utils/dateUtils";
 import { useAddBirthday } from "./AddBirthdayProvider";
 
 const days = Array.from({ length: 31 }, (_, index) => index + 1);
-export const BirthdayFields = () => {
+export const BirthdayFields = ({
+  birthDayDefault,
+  birthMonthDefault,
+  birthYearDefault,
+}: {
+  birthDayDefault?: number;
+  birthMonthDefault?: string;
+  birthYearDefault?: string;
+}) => {
   const { initialDate } = useAddBirthday();
 
   return (
@@ -14,12 +22,30 @@ export const BirthdayFields = () => {
       key={initialDate?.getTime() ?? "no-initial-date"}
     >
       <div className="flex gap-2">
-        <BirthdayField label="Day" name="day" options={days} className="w-16" defaultValue={initialDate ? initialDate.getDate()-1 : 0}/>
+        <BirthdayField
+          label="Day"
+          name="day"
+          options={days}
+          className="w-16"
+          defaultValue={
+            initialDate
+              ? initialDate.getDate() - 1
+              : birthDayDefault
+                ? birthDayDefault
+                : 0
+          }
+        />
         <BirthdayField
           label="Month"
           name="month"
           options={monthNames}
-          defaultValue={initialDate ? initialDate.getMonth() : 0}
+          defaultValue={
+            initialDate
+              ? initialDate.getMonth()
+              : birthMonthDefault
+                ? birthMonthDefault
+                : 0
+          }
           className="flex-1"
         />
         <TextField
@@ -27,6 +53,7 @@ export const BirthdayFields = () => {
           name="Year"
           placeHolder="Year"
           className="w-20"
+          defaultValue={birthYearDefault}
         />
       </div>
       <p className="text-[11px] text-confetti-muted">
@@ -64,7 +91,7 @@ export const BirthdayField = ({
       >
         {options?.map((option, index) => {
           return (
-            <option key={option} value={index +1}>
+            <option key={option} value={index + 1}>
               {option}
             </option>
           );

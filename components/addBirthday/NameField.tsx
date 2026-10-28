@@ -1,6 +1,12 @@
 import { fieldBase } from "@/components/ui/FormSection";
 
-export const NameField = () => {
+export const NameField = ({
+  firstNameDefault,
+  surnameDefault,
+}: {
+  firstNameDefault?: string;
+  surnameDefault?: string | null;
+}) => {
   return (
     <div className="flex gap-2">
       <TextField
@@ -8,12 +14,14 @@ export const NameField = () => {
         name="firstName"
         placeHolder="Who's celebrating?"
         className="flex-1"
+        defaultValue={firstNameDefault}
       />
       <TextField
         label="Last Name"
         name="lastName"
         placeHolder="Last name"
         className="flex-1"
+        defaultValue={surnameDefault}
       />
     </div>
   );
@@ -24,11 +32,13 @@ export const TextField = ({
   name,
   placeHolder,
   className = "",
+  defaultValue,
 }: {
   label: string;
   name: string;
   placeHolder?: string;
   className?: string;
+  defaultValue?: string | null;
 }) => {
   return (
     <div className={`flex flex-col ${className}`}>
@@ -42,6 +52,7 @@ export const TextField = ({
         name={name}
         placeholder={placeHolder}
         className={`${fieldBase} h-10`}
+        defaultValue={defaultValue ?? ""}
       />
     </div>
   );
