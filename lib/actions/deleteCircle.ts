@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
@@ -9,14 +9,17 @@ export const deleteCircle = async (circleId: number) => {
     throw new Error("Invalid circleId");
   }
 
-  const { error } = await supabase
-    .from("circles")
-    .delete()
-    .eq("id", circleId);
+  const { error } = await supabase.from("circles").delete().eq("id", circleId);
 
- if (error) {
-  console.error("DELETE CIRCLE ERROR:", error);
-  throw new Error(error.message);
-}
+  if (error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
   revalidatePath("/");
+  return {
+    success: true,
+    error: null,
+  };
 };

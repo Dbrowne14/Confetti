@@ -29,9 +29,16 @@ export const editPerson = async (personId: number, formData: FormData) => {
       gift_notes: giftNotes,
     })
     .eq("id", personId);
-  console.log("Parsed birth year:", birthYear);
+
   if (error) {
-    throw new Error(`Unable to update person: ${error.message}`);
+    return {
+      success: false,
+      error: error.message,
+    };
   }
   revalidatePath("/");
+  return {
+    success: true,
+    error: null,
+  };
 };

@@ -10,31 +10,40 @@ export const addPerson = async (formData: FormData) => {
   if (claimsError || !claimsData?.claims?.sub) {
     throw new Error("User is not authenticated");
   }
-
-  const {
-    firstName,
-    surname,
-    birthDay,
-    birthMonth,
-    birthYear,
-    circleId,
-    giftNotes,
-  } = parsePersonFormData(formData);
   const userId = claimsData.claims.sub;
-  const { error } = await supabase.from("people").insert({
-    user_id: userId,
-    first_name: firstName,
-    surname: surname,
-    birth_day: birthDay,
-    birth_month: birthMonth,
-    birth_year: birthYear,
-    circle_id: circleId,
-    gift_notes: giftNotes,
-  });
-  if (error) {
-    throw new Error(`Failed to create new birthday: ${error.message}`);
-  }
+  try {
+    const {
+      firstName,
+      surname,
+      birthDay,
+      birthMonth,
+      birthYear,
+      circleId,
+      giftNotes,
+    } = parsePersonFormData(formData);
 
+    const { error } = await supabase.from("people").insert({
+      user_id: userId,
+      first_name: firstName,
+      surname: surname,
+      birth_day: birthDay,
+      birth_month: birthMonth,
+      birth_year: birthYear,
+      circle_id: circleId,
+      gift_notes: giftNotes,
+    });
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
   revalidatePath("/");
   return {
     success: true,

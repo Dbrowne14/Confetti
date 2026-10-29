@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
 import { editPerson } from "@/lib/actions/editPerson";
+import { DrawerError } from "../ui/Drawer";
 
 export const EditBirthday = ({
   circles,
@@ -33,13 +34,17 @@ export const EditBirthday = ({
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
     circleId ?? null,
   );
+  const [error, setError] = useState<string | null>(null);
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
 
-    console.log(Object.fromEntries(formData));
-    await editPerson(id, formData);
+    const response = await editPerson(id, formData);
+    if (!response.success) {
+      setError(response.error);
+      return;
+    }
     closeEditBirthday();
   };
   return (
@@ -83,6 +88,7 @@ export const EditBirthday = ({
             defaultValue={giftNotes ?? ""}
           />
         </FormSection>
+        {error && <DrawerError error={error}/>}
       </div>
     </form>
   );

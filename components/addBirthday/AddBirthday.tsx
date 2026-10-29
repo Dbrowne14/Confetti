@@ -17,7 +17,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
     initialCircleId,
   );
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string|null>(null);
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -26,6 +26,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
     const result = await addPerson(formData);
     if (!result.success) {
       setError(result.error);
+      return;
     }
     closeAddBirthday();
   };

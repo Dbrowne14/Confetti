@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
 import { getNextBirthdayDate } from "@/lib/utils/birthdayUtils";
@@ -10,6 +10,7 @@ import { useAddProfile } from "./AddProfileProvider";
 import { ProfileIdentity } from "./ProfileIdentity";
 import { ProfileBirthdayDetails } from "./ProfileBirthdayDetails";
 import { deletePerson } from "@/lib/actions/deletePerson";
+import { DrawerError } from "../ui/Drawer";
 
 export const Profile = ({
   circles,
@@ -94,10 +95,15 @@ const ProfileContent = ({
   circles: Circle[];
   closeProfile: () => void;
 }) => {
+  const [error, setError] = useState<string | null>(null);
   const today = new Date();
   const next = getNextBirthdayDate(person, today);
   const handleDelete = async () => {
-    await deletePerson(person.id)
+    const response = await deletePerson(person.id);
+    if (!response.success) {
+      setError(response.error);
+      return;
+    }
     closeProfile();
   };
 
@@ -131,6 +137,7 @@ const ProfileContent = ({
         >
           Delete {person.firstName}
         </button>
+        {error && <DrawerError error={error} />}
       </div>
     </>
   );

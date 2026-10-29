@@ -8,13 +8,17 @@ export const deletePerson = async (personId: number) => {
   if (!Number.isInteger(personId) || personId < 1) {
     throw new Error("Invalid person ID");
   }
-  const { error } = await supabase
-    .from("people")
-    .delete()
-    .eq("id", personId)
+  const { error } = await supabase.from("people").delete().eq("id", personId);
 
   if (error) {
-    throw new Error(`Unable to delete person: ${error.message}`);;
+    return {
+      success: false,
+      error: error.message,
+    };
   }
-revalidatePath("/")
+  revalidatePath("/");
+  return {
+    success: true,
+    error: null,
+  };
 };

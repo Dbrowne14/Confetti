@@ -41,9 +41,13 @@ export const parsePersonFormData = (formData: FormData) => {
   }
 
   const birthMonth = Number(formData.get("month"));
-  if (birthMonth < 1 || birthMonth > 12) {
-    throw new Error("Invalid month");
-  }
+ if (
+  !Number.isInteger(birthMonth) ||
+  birthMonth < 1 ||
+  birthMonth > 12
+) {
+  throw new Error("Invalid month");
+}
 
   const yearValue = formData.get("year");
 

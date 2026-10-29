@@ -33,8 +33,8 @@ export const EditCircleForm = ({
     event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>,
   ) => {
     event.preventDefault();
+    setError(null);
     const formData = new FormData(event.currentTarget);
-    console.log(Object.fromEntries(formData));
     const response = await editCircle(id, formData);
     if (!response.success) {
       setError(response.error);
@@ -42,7 +42,12 @@ export const EditCircleForm = ({
     }
   };
   const handleDelete = async () => {
-    await deleteCircle(id);
+    setError(null);
+    const response = await deleteCircle(id);
+    if (!response.success) {
+      setError(response.error);
+      return;
+    }
     closeCircle();
   };
   return (
