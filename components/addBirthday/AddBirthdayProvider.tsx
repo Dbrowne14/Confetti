@@ -8,6 +8,9 @@ type AddBirthdayContextType = {
   openAddBirthday: (options?: OpenAddBirthdayOptions) => void;
   closeAddBirthday: () => void;
   editingPersonId: number | null;
+  openEditBirthday: (person: number) => void;
+  closeEditBirthday: () => void;
+  isEditOpen: boolean;
   initialCircleId: number | null;
 };
 type OpenAddBirthdayOptions = {
@@ -20,7 +23,7 @@ const AddBirthdayContext = createContext<AddBirthdayContextType | null>(null);
 
 export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [initialDate, setInitialDate] = useState<Date | null>(null);
   const [editingPersonId, setEditingPersonId] = useState<number | null>(null);
   const [initialCircleId, setInitialCircleId] = useState<number | null>(null);
@@ -32,10 +35,15 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
     setIsAddOpen(true);
     setEditingPersonId(personId ?? null);
   };
-//to do editBirthday provider
-  const openEditBirthday = (personId:number) => {
-    setIsEditOpen(true)
-  }
+  //to do editBirthday provider
+  const openEditBirthday = (personId: number) => {
+    setIsEditOpen(true);
+    setEditingPersonId(personId);
+  };
+
+  const closeEditBirthday = () => {
+    setIsEditOpen(false);
+  };
   // Only closes: the initial values are left as they were so the form doesn't
   // reset while the mobile sheet slides out. openAddBirthday sets them afresh.
   const closeAddBirthday = () => {
@@ -50,6 +58,9 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
         openAddBirthday,
         closeAddBirthday,
         editingPersonId,
+        openEditBirthday,
+        closeEditBirthday,
+        isEditOpen,
         initialCircleId,
       }}
     >

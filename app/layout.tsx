@@ -50,7 +50,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <AddBirthdayProvider>
           <AddProfileProvider>
             <Header />
-            <AddBirthdayModal circles={circles} />
+            <AddBirthdayModal circles={circles} people={people} />
             <Profile circles={circles} people={people} />
             {children}
           </AddProfileProvider>
