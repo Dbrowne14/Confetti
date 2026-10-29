@@ -3,65 +3,59 @@ import { createContext, useState, useContext } from "react";
 import { ReactNode } from "react";
 
 type BirthdayFormContextType = {
-  isAddOpen: boolean;
-  initialDate: Date | null;
-  openAddBirthday: (options?: OpenAddBirthdayOptions) => void;
-  closeAddBirthday: () => void;
+  isOpen: boolean;
   editingPersonId: number | null;
-  openEditBirthday: (person: number) => void;
-  closeEditBirthday: () => void;
-  isEditOpen: boolean;
+  initialDate: Date | null;
   initialCircleId: number | null;
+  openAddBirthday: (options?: OpenAddBirthdayOptions) => void;
+  openEditBirthday: (personId: number) => void;
+  closeBirthdayForm: () => void;
 };
 type OpenAddBirthdayOptions = {
   date?: Date;
-  personId?: number;
   circleId?: number;
 };
 
 const BirthdayFormContext = createContext<BirthdayFormContextType | null>(null);
 
 export const BirthdayFormProvider = ({ children }: { children: ReactNode }) => {
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [initialDate, setInitialDate] = useState<Date | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [editingPersonId, setEditingPersonId] = useState<number | null>(null);
+  const [initialDate, setInitialDate] = useState<Date | null>(null);
   const [initialCircleId, setInitialCircleId] = useState<number | null>(null);
 
-  const openAddBirthday = (options: OpenAddBirthdayOptions = {}) => {
-    const { date, personId, circleId } = options;
-    setInitialCircleId(circleId ?? null);
+  const openAddBirthday = ({ date, circleId }: OpenAddBirthdayOptions = {}) => {
+    setEditingPersonId(null);
     setInitialDate(date ?? null);
-    setIsAddOpen(true);
-    setEditingPersonId(personId ?? null);
-  };
-  //to do editBirthday provider
-  const openEditBirthday = (personId: number) => {
-    setIsEditOpen(true);
-    setEditingPersonId(personId);
+    setInitialCircleId(circleId ?? null);
+    setIsOpen(true);
   };
 
-  const closeEditBirthday = () => {
-    setIsEditOpen(false);
+  // Clears the add-only values so they can't override the person's own
+  // birthday in BirthdayFields.
+  const openEditBirthday = (personId: number) => {
+    setEditingPersonId(personId);
+    setInitialDate(null);
+    setInitialCircleId(null);
+    setIsOpen(true);
   };
-  // Only closes: the initial values are left as they were so the form doesn't
-  // reset while the mobile sheet slides out. openAddBirthday sets them afresh.
-  const closeAddBirthday = () => {
-    setIsAddOpen(false);
+
+  // Only closes: the values are left as they were so the form doesn't
+  // reset while the mobile sheet slides out. The open functions set them afresh.
+  const closeBirthdayForm = () => {
+    setIsOpen(false);
   };
 
   return (
     <BirthdayFormContext.Provider
       value={{
-        isAddOpen,
-        initialDate,
-        openAddBirthday,
-        closeAddBirthday,
+        isOpen,
         editingPersonId,
-        openEditBirthday,
-        closeEditBirthday,
-        isEditOpen,
+        initialDate,
         initialCircleId,
+        openAddBirthday,
+        openEditBirthday,
+        closeBirthdayForm,
       }}
     >
       {children}

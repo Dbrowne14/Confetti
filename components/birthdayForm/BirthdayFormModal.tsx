@@ -18,7 +18,7 @@ export const BirthdayFormModal = ({
   circles: Circle[];
   people: Person[];
 }) => {
-  const { isAddOpen, closeAddBirthday, editingPersonId, isEditOpen } = useBirthdayForm();
+  const { isOpen, closeBirthdayForm, editingPersonId } = useBirthdayForm();
   const isDesktop = useIsDesktop();
 
   const editingPerson = people.find((person) => person.id === editingPersonId);
@@ -28,7 +28,7 @@ export const BirthdayFormModal = ({
   ) : (
     <AddBirthday circles={circles} />
   );
-const isOpen = isAddOpen || isEditOpen;
+
   if (isDesktop) {
     if (!isOpen) return null;
 
@@ -37,7 +37,7 @@ const isOpen = isAddOpen || isEditOpen;
         <div
           aria-hidden
           className="fixed inset-0 z-50 bg-black/10"
-          onClick={closeAddBirthday}
+          onClick={closeBirthdayForm}
         />
 
         <div className="fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-[min(27rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-3xl border border-confetti-border bg-confetti-bg shadow-raised">
@@ -49,8 +49,8 @@ const isOpen = isAddOpen || isEditOpen;
 
   return (
     <BottomSheet
-      isOpen={isAddOpen}
-      onClose={closeAddBirthday}
+      isOpen={isOpen}
+      onClose={closeBirthdayForm}
       labelledBy={birthdayFormTitleId}
       layer="dialog"
       size="full"

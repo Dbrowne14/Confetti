@@ -16,7 +16,7 @@ import { addPerson } from "@/lib/actions/addPerson";
 import { ErrorMessage } from "../ui/ErrorMessage";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
-  const { closeAddBirthday, initialCircleId } = useBirthdayForm();
+  const { closeBirthdayForm, initialCircleId } = useBirthdayForm();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
     initialCircleId,
   );
@@ -31,7 +31,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
       setError(result.error);
       return;
     }
-    closeAddBirthday();
+    closeBirthdayForm();
   };
   return (
     <form
@@ -39,7 +39,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
       className="flex min-h-0 flex-1 flex-col"
       onSubmit={handleSubmit}
     >
-      <BirthdayFormHeader onClose={closeAddBirthday} />
+      <BirthdayFormHeader title="Add birthday" onClose={closeBirthdayForm} />
       <div className="flex min-h-0 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-8">
         <FormSection label="Name">
           <NameField />

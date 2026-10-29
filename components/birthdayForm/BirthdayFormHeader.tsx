@@ -1,6 +1,12 @@
 export const birthdayFormTitleId = "birthday-form-title";
 
-export const BirthdayFormHeader = ({ onClose }: { onClose: () => void }) => {
+export const BirthdayFormHeader = ({
+  title,
+  onClose,
+}: {
+  title: string;
+  onClose: () => void;
+}) => {
   return (
     <div className="grid shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-confetti-border px-5 py-3">
       {/* Padding widens the tap target; the negative margin keeps the text aligned. */}
@@ -15,7 +21,7 @@ export const BirthdayFormHeader = ({ onClose }: { onClose: () => void }) => {
         id={birthdayFormTitleId}
         className="font-serif text-lg font-medium text-confetti-ink"
       >
-        Add birthday
+        {title}
       </h2>
       <button
         type="submit"
