@@ -2,7 +2,7 @@
 import { createContext, useState, useContext } from "react";
 import { ReactNode } from "react";
 
-type AddBirthdayContextType = {
+type BirthdayFormContextType = {
   isAddOpen: boolean;
   initialDate: Date | null;
   openAddBirthday: (options?: OpenAddBirthdayOptions) => void;
@@ -19,9 +19,9 @@ type OpenAddBirthdayOptions = {
   circleId?: number;
 };
 
-const AddBirthdayContext = createContext<AddBirthdayContextType | null>(null);
+const BirthdayFormContext = createContext<BirthdayFormContextType | null>(null);
 
-export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
+export const BirthdayFormProvider = ({ children }: { children: ReactNode }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [initialDate, setInitialDate] = useState<Date | null>(null);
@@ -51,7 +51,7 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AddBirthdayContext.Provider
+    <BirthdayFormContext.Provider
       value={{
         isAddOpen,
         initialDate,
@@ -65,15 +65,15 @@ export const AddBirthdayProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </AddBirthdayContext.Provider>
+    </BirthdayFormContext.Provider>
   );
 };
 
-export const useAddBirthday = () => {
-  const context = useContext(AddBirthdayContext);
+export const useBirthdayForm = () => {
+  const context = useContext(BirthdayFormContext);
 
   if (!context) {
-    throw new Error("useAddBirthday must be used inside AddBirthdayProvider");
+    throw new Error("useBirthdayForm must be used inside BirthdayFormProvider");
   }
 
   return context;

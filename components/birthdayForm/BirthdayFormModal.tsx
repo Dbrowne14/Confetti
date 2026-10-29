@@ -1,8 +1,8 @@
 "use client";
 
-import { useAddBirthday } from "./AddBirthdayProvider";
+import { useBirthdayForm } from "./BirthdayFormProvider";
 import { AddBirthday } from "./AddBirthday";
-import { addBirthdayTitleId } from "./AddHeader";
+import { birthdayFormTitleId } from "./BirthdayFormHeader";
 import { Circle } from "@/lib/data/circles";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { useIsDesktop } from "@/lib/hooks/useIsDesktop";
@@ -11,14 +11,14 @@ import { EditBirthday } from "./EditBirthday";
 
 // One form, two presentations: a centred modal on desktop, and a near
 // full-height sheet that slides up from the bottom on mobile.
-export const AddBirthdayModal = ({
+export const BirthdayFormModal = ({
   circles,
   people,
 }: {
   circles: Circle[];
   people: Person[];
 }) => {
-  const { isAddOpen, closeAddBirthday, editingPersonId, isEditOpen } = useAddBirthday();
+  const { isAddOpen, closeAddBirthday, editingPersonId, isEditOpen } = useBirthdayForm();
   const isDesktop = useIsDesktop();
 
   const editingPerson = people.find((person) => person.id === editingPersonId);
@@ -51,7 +51,7 @@ const isOpen = isAddOpen || isEditOpen;
     <BottomSheet
       isOpen={isAddOpen}
       onClose={closeAddBirthday}
-      labelledBy={addBirthdayTitleId}
+      labelledBy={birthdayFormTitleId}
       layer="dialog"
       size="full"
     >

@@ -1,9 +1,9 @@
 import { PlusIcon } from "@/components/layout/NavIcons";
-import { useAddBirthday } from "./AddBirthdayProvider";
+import { useBirthdayForm } from "./BirthdayFormProvider";
 
 // The label is visually hidden below lg but stays readable to screen readers.
 export const AddBirthdayButton = () => {
-  const { openAddBirthday } = useAddBirthday();
+  const { openAddBirthday } = useBirthdayForm();
   return (
     <button
       type="button"

@@ -1,5 +1,5 @@
 "use client";
-import { useAddBirthday } from "@/components/addBirthday/AddBirthdayProvider";
+import { useBirthdayForm } from "@/components/birthdayForm/BirthdayFormProvider";
 import { PlusIcon } from "@/components/layout/NavIcons";
 import { monthNames } from "@/lib/utils/dateUtils";
 
@@ -12,7 +12,7 @@ export const AddBirthdayForDayButton = ({
   date,
   hasBirthdays,
 }: AddBirthdayForDayButtonProps) => {
-  const { openAddBirthday } = useAddBirthday();
+  const { openAddBirthday } = useBirthdayForm();
 
   return (
     <button

@@ -2,21 +2,16 @@
 
 import { useState, useContext, createContext, ReactNode } from "react";
 
-export type AddProfileProps = {
+export type ProfileContextType = {
   closeProfile: () => void;
   openProfile: (personId:number|null) => void;
   isProfileOpen: boolean;
   personId: number | null;
 };
 
-type OpenAddProfileOptions = {
-  personId: number;
-};
+const ProfileContext = createContext<ProfileContextType | null>(null);
 
-
-const AddProfileContext = createContext<AddProfileProps | null>(null);
-
-export const AddProfileProvider = ({ children }: { children: ReactNode }) => {
+export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [personId, setPersonId] = useState<number | null>(null);
 
@@ -30,18 +25,18 @@ export const AddProfileProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AddProfileContext.Provider
+    <ProfileContext.Provider
       value={{ closeProfile, openProfile, isProfileOpen, personId }}
     >
       {children}
-    </AddProfileContext.Provider>
+    </ProfileContext.Provider>
   );
 };
 
-export const useAddProfile = () => {
-  const context = useContext(AddProfileContext);
+export const useProfile = () => {
+  const context = useContext(ProfileContext);
   if (!context) {
-    throw new Error("useAddProfile must be used inside AddProfileProvider");
+    throw new Error("useProfile must be used inside ProfileProvider");
   }
   return context;
 };

@@ -1,8 +1,8 @@
 "use client";
-import { TextField } from "./NameField";
+import { TextField } from "@/components/ui/TextField";
 import { fieldBase } from "@/components/ui/FormSection";
 import { monthNames } from "@/lib/utils/dateUtils";
-import { useAddBirthday } from "./AddBirthdayProvider";
+import { useBirthdayForm } from "./BirthdayFormProvider";
 
 const days = Array.from({ length: 31 }, (_, index) => index + 1);
 export const BirthdayFields = ({
@@ -14,7 +14,7 @@ export const BirthdayFields = ({
   birthMonthDefault?: number;
   birthYearDefault?: number | null;
 }) => {
-  const { initialDate } = useAddBirthday();
+  const { initialDate } = useBirthdayForm();
 
   return (
     <div

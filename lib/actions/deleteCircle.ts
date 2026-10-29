@@ -2,8 +2,11 @@
 
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "./actionResult";
 
-export const deleteCircle = async (circleId: number) => {
+export const deleteCircle = async (
+  circleId: number,
+): Promise<ActionResult> => {
   const supabase = await createClient();
   if (!Number.isInteger(circleId) || circleId < 1) {
     throw new Error("Invalid circleId");

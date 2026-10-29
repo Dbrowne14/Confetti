@@ -1,11 +1,11 @@
 "use client";
-import { useAddBirthday } from "@/components/addBirthday/AddBirthdayProvider";
-import { useAddProfile } from "./AddProfileProvider";
+import { useBirthdayForm } from "@/components/birthdayForm/BirthdayFormProvider";
+import { useProfile } from "./ProfileProvider";
 import { Person } from "@/lib/data/people";
 
 export const ProfileHeader = ({person}:{person:Person}) => {
-  const { closeProfile } = useAddProfile();
-  const { openEditBirthday } = useAddBirthday();
+  const { closeProfile } = useProfile();
+  const { openEditBirthday } = useBirthdayForm();
   return (
     <div className="flex shrink-0 items-center justify-between px-5 pt-5 pb-3">
       <button

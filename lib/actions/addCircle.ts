@@ -3,8 +3,11 @@
 import { parseFormDataCircle } from "./dataParsing";
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "./actionResult";
 
-export const addCircle = async (formData: FormData) => {
+export const addCircle = async (
+  formData: FormData,
+): Promise<ActionResult> => {
   const supabase = await createClient();
   const { data: claimsData, error: claimsError } =
     await supabase.auth.getClaims();

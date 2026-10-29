@@ -6,7 +6,7 @@ import {
   SOON_THRESHOLD_DAYS,
   type UpcomingBirthday,
 } from "@/lib/utils/birthdayUtils";
-import { useAddProfile } from "../profile/AddProfileProvider";
+import { useProfile } from "../profile/ProfileProvider";
 import { BirthdayRow } from "./BirthdayRow";
 
 export const UpcomingBirthdayRow = ({
@@ -19,7 +19,7 @@ export const UpcomingBirthdayRow = ({
   daysAway: number;
 }) => {
   const isSoon = daysAway < SOON_THRESHOLD_DAYS;
-  const{openProfile} = useAddProfile();
+  const{openProfile} = useProfile();
   return (
     <button type="button" className="flex items-center w-full min-w-0 cursor-pointer gap-3 rounded-2xl border border-confetti-border bg-confetti-surface px-3 py-2.5 text-left transition-colors hover:border-confetti-ink/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink active:bg-confetti-active sm:px-3.5" onClick={()=> openProfile(birthday.person.id)}>
       <BirthdayRow

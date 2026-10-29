@@ -4,12 +4,12 @@ import { CircleColour } from "./CircleColour";
 import {
   Drawer,
   DrawerBody,
-  DrawerError,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   primaryButton,
 } from "@/components/ui/Drawer";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { addCircle } from "@/lib/actions/addCircle";
 import { useState } from "react";
 
@@ -54,7 +54,7 @@ export const NewCircle = ({ closeCircle }: { closeCircle: () => void }) => {
               placeholder="e.g. University friends"
               className={`${fieldBase} h-11`}
             />
-            {error && <DrawerError error={error} />}
+            {error && <ErrorMessage message={error} />}
           </FormSection>
           <CircleColour />
         </DrawerBody>

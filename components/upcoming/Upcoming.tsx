@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { Person } from "@/lib/data/people";
 import type { Circle } from "@/lib/data/circles";
-import { Upcomingfilter } from "./Upcomingfilter";
+import { UpcomingFilter } from "./UpcomingFilter";
 import { UpcomingDisplay } from "./UpcomingDisplay";
 
 export const Upcoming = ({
@@ -21,7 +21,7 @@ export const Upcoming = ({
       <h1 className="font-serif text-4xl leading-tight font-medium tracking-tight text-confetti-ink sm:text-[2.75rem]">
         Upcoming
       </h1>
-      <Upcomingfilter
+      <UpcomingFilter
         circles={circles}
         selectedCircle={selectedCircle}
         setSelectedCircle={setSelectedCircle}

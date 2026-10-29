@@ -5,7 +5,7 @@ import { getDaysUntil } from "@/lib/utils/dateUtils";
 import { getUpcomingBirthdays } from "@/lib/utils/birthdayUtils";
 import { UpcomingBirthdayRow } from "@/components/birthday/UpcomingBirthdayRow";
 import { FormSection } from "@/components/ui/FormSection";
-import { useAddBirthday } from "../addBirthday/AddBirthdayProvider";
+import { useBirthdayForm } from "../birthdayForm/BirthdayFormProvider";
 
 // The people in an existing circle, plus the action to add someone to it.
 export const CirclePeople = ({
@@ -15,7 +15,7 @@ export const CirclePeople = ({
   people: Person[];
   circle: Circle;
 }) => {
-  const { openAddBirthday } = useAddBirthday()
+  const { openAddBirthday } = useBirthdayForm()
   return (
     <FormSection label="People">
       <PeopleBirthdayList

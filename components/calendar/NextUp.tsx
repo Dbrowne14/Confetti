@@ -6,7 +6,7 @@ import { BirthdayRow } from "@/components/birthday/BirthdayRow";
 import { getCircleForPerson } from "@/lib/utils/circleUtils";
 import { getDaysUntil } from "@/lib/utils/dateUtils";
 import { getNextBirthday } from "@/lib/utils/birthdayUtils";
-import { useAddProfile } from "../profile/AddProfileProvider";
+import { useProfile } from "../profile/ProfileProvider";
 
 type NextUpProps = {
   people: Person[];
@@ -17,7 +17,7 @@ export const NextUp = ({ people, circles }: NextUpProps) => {
   const today = new Date();
   // Undefined when the current circle filter leaves nobody to show.
   const next = getNextBirthday(people, today);
-  const { openProfile } = useAddProfile();
+  const { openProfile } = useProfile();
   return (
     <section className="flex flex-col gap-1 rounded-3xl bg-confetti-surface p-3 sm:gap-3 sm:p-6">
       <h2 className="text-[9px] flex sm:text-[11px] font-semibold tracking-[0.16em] text-confetti-muted uppercase">

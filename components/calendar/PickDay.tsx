@@ -7,7 +7,7 @@ import { BirthdayRow } from "@/components/birthday/BirthdayRow";
 import { monthNames } from "@/lib/utils/dateUtils";
 import { getCircleForPerson } from "@/lib/utils/circleUtils";
 import { formatBirthdayCount, getBirthdaysForDate } from "./calendarUtils";
-import { useAddProfile } from "../profile/AddProfileProvider";
+import { useProfile } from "../profile/ProfileProvider";
 import { CloseButton } from "@/components/ui/CloseButton";
 
 
@@ -63,7 +63,7 @@ export const SelectedDay = ({
   const birthdays = getBirthdaysForDate(people, day);
   const hasBirthdays = birthdays.length > 0;
   const weekday = day.toLocaleDateString("en-GB", { weekday: "long" });
-  const {openProfile} = useAddProfile()
+  const {openProfile} = useProfile()
   return (
     <div className="flex min-h-0 flex-col">
       <div className="flex shrink-0 items-start justify-between gap-3">

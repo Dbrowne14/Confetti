@@ -3,8 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/server";
 import { parsePersonFormData } from "./dataParsing";
+import { ActionResult } from "./actionResult";
 
-export const editPerson = async (personId: number, formData: FormData) => {
+export const editPerson = async (
+  personId: number,
+  formData: FormData,
+): Promise<ActionResult> => {
   const supabase = await createClient();
   try {
     const {

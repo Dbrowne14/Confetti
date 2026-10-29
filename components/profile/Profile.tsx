@@ -6,11 +6,11 @@ import { Person } from "@/lib/data/people";
 import { getNextBirthdayDate } from "@/lib/utils/birthdayUtils";
 import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { ProfileHeader } from "./ProfileHeader";
-import { useAddProfile } from "./AddProfileProvider";
+import { useProfile } from "./ProfileProvider";
 import { ProfileIdentity } from "./ProfileIdentity";
 import { ProfileBirthdayDetails } from "./ProfileBirthdayDetails";
 import { deletePerson } from "@/lib/actions/deletePerson";
-import { DrawerError } from "../ui/Drawer";
+import { ErrorMessage } from "../ui/ErrorMessage";
 
 export const Profile = ({
   circles,
@@ -19,7 +19,7 @@ export const Profile = ({
   circles: Circle[];
   people: Person[];
 }) => {
-  const { isProfileOpen, personId, closeProfile } = useAddProfile();
+  const { isProfileOpen, personId, closeProfile } = useProfile();
   const panelRef = useRef<HTMLDivElement>(null);
   const person = people.find((person) => person.id === personId);
 
@@ -99,9 +99,9 @@ const ProfileContent = ({
   const today = new Date();
   const next = getNextBirthdayDate(person, today);
   const handleDelete = async () => {
-    const response = await deletePerson(person.id);
-    if (!response.success) {
-      setError(response.error);
+    const result = await deletePerson(person.id);
+    if (!result.success) {
+      setError(result.error);
       return;
     }
     closeProfile();
@@ -137,7 +137,7 @@ const ProfileContent = ({
         >
           Delete {person.firstName}
         </button>
-        {error && <DrawerError error={error} />}
+        {error && <ErrorMessage message={error} />}
       </div>
     </>
   );

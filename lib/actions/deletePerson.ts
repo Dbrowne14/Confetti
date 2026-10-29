@@ -1,8 +1,11 @@
 "use server";
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "./actionResult";
 
-export const deletePerson = async (personId: number) => {
+export const deletePerson = async (
+  personId: number,
+): Promise<ActionResult> => {
   const supabase = await createClient();
 
   if (!Number.isInteger(personId) || personId < 1) {

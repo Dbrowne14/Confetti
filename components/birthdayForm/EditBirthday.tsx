@@ -1,9 +1,12 @@
 "use client";
 
-import { useAddBirthday } from "./AddBirthdayProvider";
+import { useBirthdayForm } from "./BirthdayFormProvider";
 import { NameField } from "./NameField";
 import { BirthdayFields } from "./BirthdayFields";
-import { AddHeader, addBirthdayTitleId } from "./AddHeader";
+import {
+  BirthdayFormHeader,
+  birthdayFormTitleId,
+} from "./BirthdayFormHeader";
 import { CircleOptions } from "./CircleOptions";
 import { ReminderOptions } from "@/components/ui/ReminderOptions";
 import { FormSection, fieldBase } from "@/components/ui/FormSection";
@@ -11,7 +14,7 @@ import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
 import { editPerson } from "@/lib/actions/editPerson";
-import { DrawerError } from "../ui/Drawer";
+import { ErrorMessage } from "../ui/ErrorMessage";
 
 export const EditBirthday = ({
   circles,
@@ -30,7 +33,7 @@ export const EditBirthday = ({
     giftNotes,
     circleId,
   } = person;
-  const { closeEditBirthday } = useAddBirthday();
+  const { closeEditBirthday } = useBirthdayForm();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
     circleId ?? null,
   );
@@ -40,20 +43,20 @@ export const EditBirthday = ({
 
     const formData = new FormData(event.currentTarget);
 
-    const response = await editPerson(id, formData);
-    if (!response.success) {
-      setError(response.error);
+    const result = await editPerson(id, formData);
+    if (!result.success) {
+      setError(result.error);
       return;
     }
     closeEditBirthday();
   };
   return (
     <form
-      aria-labelledby={addBirthdayTitleId}
+      aria-labelledby={birthdayFormTitleId}
       className="flex min-h-0 flex-1 flex-col"
       onSubmit={handleSubmit}
     >
-      <AddHeader closeAddBirthday={closeEditBirthday} />
+      <BirthdayFormHeader onClose={closeEditBirthday} />
       <div className="flex min-h-0 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-8">
         <FormSection label="Name">
           <NameField firstNameDefault={firstName} surnameDefault={surname} />
@@ -88,7 +91,7 @@ export const EditBirthday = ({
             defaultValue={giftNotes ?? ""}
           />
         </FormSection>
-        {error && <DrawerError error={error}/>}
+        {error && <ErrorMessage message={error} />}
       </div>
     </form>
   );

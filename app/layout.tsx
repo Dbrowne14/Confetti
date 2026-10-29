@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
-import { AddBirthdayProvider } from "@/components/addBirthday/AddBirthdayProvider";
-import { AddBirthdayModal } from "@/components/addBirthday/AddBirthdayModal";
+import { BirthdayFormProvider } from "@/components/birthdayForm/BirthdayFormProvider";
+import { BirthdayFormModal } from "@/components/birthdayForm/BirthdayFormModal";
 import { getCircles } from "@/lib/fetches/getCircles";
-import { AddProfileProvider } from "@/components/profile/AddProfileProvider";
+import { ProfileProvider } from "@/components/profile/ProfileProvider";
 import { Profile } from "@/components/profile/Profile";
 import { getPeople } from "@/lib/fetches/getPeople";
 
@@ -47,14 +47,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       {/* Below lg the nav floats over the bottom of the page; the bottom
           padding keeps the end of every page clear of it. */}
       <body className="flex min-h-dvh flex-col bg-confetti-bg pb-[calc(6rem+env(safe-area-inset-bottom))] text-confetti-ink lg:pb-0">
-        <AddBirthdayProvider>
-          <AddProfileProvider>
+        <BirthdayFormProvider>
+          <ProfileProvider>
             <Header />
-            <AddBirthdayModal circles={circles} people={people} />
+            <BirthdayFormModal circles={circles} people={people} />
             <Profile circles={circles} people={people} />
             {children}
-          </AddProfileProvider>
-        </AddBirthdayProvider>
+          </ProfileProvider>
+        </BirthdayFormProvider>
       </body>
     </html>
   );

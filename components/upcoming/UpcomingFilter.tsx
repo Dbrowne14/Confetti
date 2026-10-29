@@ -8,7 +8,7 @@ type UpcomingFilterProps = {
   selectedCircle: number | null;
 };
 
-export const Upcomingfilter = ({
+export const UpcomingFilter = ({
   circles,
   setSelectedCircle,
   selectedCircle,

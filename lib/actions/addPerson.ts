@@ -2,8 +2,11 @@
 import { createClient } from "../supabase/server";
 import { revalidatePath } from "next/cache";
 import { parsePersonFormData } from "./dataParsing";
+import { ActionResult } from "./actionResult";
 
-export const addPerson = async (formData: FormData) => {
+export const addPerson = async (
+  formData: FormData,
+): Promise<ActionResult> => {
   const supabase = await createClient();
   const { data: claimsData, error: claimsError } =
     await supabase.auth.getClaims();

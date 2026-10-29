@@ -2,8 +2,12 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/server";
 import { parseFormDataCircle } from "./dataParsing";
+import { ActionResult } from "./actionResult";
 
-export const editCircle = async (circleId: number, formData: FormData) => {
+export const editCircle = async (
+  circleId: number,
+  formData: FormData,
+): Promise<ActionResult> => {
   const supabase = await createClient();
 
   const { name, colour, description } = parseFormDataCircle(formData);

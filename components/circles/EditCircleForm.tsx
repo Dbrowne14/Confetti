@@ -7,10 +7,10 @@ import {
 } from "@/lib/utils/circleUtils";
 import {
   DrawerBody,
-  DrawerError,
   DrawerFooter,
   primaryButton,
 } from "@/components/ui/Drawer";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { CircleColour } from "./CircleColour";
 import { CirclePeople } from "./CirclePeople";
 import { deleteCircle } from "@/lib/actions/deleteCircle";
@@ -35,17 +35,17 @@ export const EditCircleForm = ({
     event.preventDefault();
     setError(null);
     const formData = new FormData(event.currentTarget);
-    const response = await editCircle(id, formData);
-    if (!response.success) {
-      setError(response.error);
+    const result = await editCircle(id, formData);
+    if (!result.success) {
+      setError(result.error);
       return;
     }
   };
   const handleDelete = async () => {
     setError(null);
-    const response = await deleteCircle(id);
-    if (!response.success) {
-      setError(response.error);
+    const result = await deleteCircle(id);
+    if (!result.success) {
+      setError(result.error);
       return;
     }
     closeCircle();
@@ -56,10 +56,11 @@ export const EditCircleForm = ({
         <div className="flex flex-col gap-1">
           <input
             name="name"
+            required
             className="font-serif text-3xl leading-tight font-semibold tracking-tight wrap-anywhere text-confetti-ink"
             defaultValue={name}
           />
-          {error && <DrawerError error={error} />}
+          {error && <ErrorMessage message={error} />}
           {formatPeopleCount(peopleInCircle.length) && (
             <p className="text-sm text-confetti-muted">
               {formatPeopleCount(peopleInCircle.length)}

@@ -1,7 +1,7 @@
 "use client";
 import { ConfettiBrand } from "./ConfettiBrand";
 import { FloatingNav } from "./FloatingNav";
-import { AddBirthdayButton } from "@/components/addBirthday/AddBirthdayButton";
+import { AddBirthdayButton } from "@/components/birthdayForm/AddBirthdayButton";
 
 export const Header = () => {
   return (
