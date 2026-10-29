@@ -50,7 +50,7 @@ export const BirthdayFields = ({
         />
         <TextField
           label="Year"
-          name="Year"
+          name="year"
           placeHolder="Year"
           className="w-20"
           defaultValue={birthYearDefault ?? ""}

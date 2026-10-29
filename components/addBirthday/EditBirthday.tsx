@@ -10,6 +10,7 @@ import { FormSection, fieldBase } from "@/components/ui/FormSection";
 import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
+import { editPerson } from "@/lib/actions/editPerson";
 
 export const EditBirthday = ({
   circles,
@@ -18,10 +19,19 @@ export const EditBirthday = ({
   circles: Circle[];
   person: Person;
 }) => {
-  const { firstName, surname, birthDay, birthMonth, birthYear, giftNotes, circleId } = person;
+  const {
+    id,
+    firstName,
+    surname,
+    birthDay,
+    birthMonth,
+    birthYear,
+    giftNotes,
+    circleId,
+  } = person;
   const { closeEditBirthday } = useAddBirthday();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
-   circleId ?? null,
+    circleId ?? null,
   );
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,7 +39,7 @@ export const EditBirthday = ({
     const formData = new FormData(event.currentTarget);
 
     console.log(Object.fromEntries(formData));
-
+    editPerson(id, formData);
     closeEditBirthday();
   };
   return (
@@ -44,7 +54,11 @@ export const EditBirthday = ({
           <NameField firstNameDefault={firstName} surnameDefault={surname} />
         </FormSection>
         <FormSection label="Birthday">
-          <BirthdayFields birthDayDefault={birthDay} birthMonthDefault={birthMonth} birthYearDefault={birthYear}/>
+          <BirthdayFields
+            birthDayDefault={birthDay}
+            birthMonthDefault={birthMonth}
+            birthYearDefault={birthYear}
+          />
         </FormSection>
         <FormSection label="Circle">
           <CircleOptions
