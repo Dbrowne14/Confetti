@@ -5,7 +5,7 @@ import { Person } from "@/lib/data/people";
 
 export const ProfileHeader = ({person}:{person:Person}) => {
   const { closeProfile } = useAddProfile();
-  const { openAddBirthday } = useAddBirthday();
+  const { openEditBirthday } = useAddBirthday();
   return (
     <div className="flex shrink-0 items-center justify-between px-5 pt-5 pb-3">
       <button
@@ -21,7 +21,8 @@ export const ProfileHeader = ({person}:{person:Person}) => {
       <button
         type="button"
         onClick={() => {
-          openAddBirthday({ personId: person.id });
+          console.log(person.id)
+          openEditBirthday(person.id);
           closeProfile();
         }}
         className="h-8 rounded-lg border border-confetti-border bg-confetti-surface px-3 text-xs font-semibold text-confetti-ink transition-colors hover:bg-confetti-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-confetti-ink"

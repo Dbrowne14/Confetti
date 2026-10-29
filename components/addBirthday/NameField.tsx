@@ -38,7 +38,7 @@ export const TextField = ({
   name: string;
   placeHolder?: string;
   className?: string;
-  defaultValue?: string | null;
+  defaultValue?: string | number| null;
 }) => {
   return (
     <div className={`flex flex-col ${className}`}>

@@ -18,7 +18,7 @@ export const AddBirthdayModal = ({
   circles: Circle[];
   people: Person[];
 }) => {
-  const { isAddOpen, closeAddBirthday, editingPersonId } = useAddBirthday();
+  const { isAddOpen, closeAddBirthday, editingPersonId, isEditOpen } = useAddBirthday();
   const isDesktop = useIsDesktop();
 
   const editingPerson = people.find((person) => person.id === editingPersonId);
@@ -28,9 +28,9 @@ export const AddBirthdayModal = ({
   ) : (
     <AddBirthday circles={circles} />
   );
-
+const isOpen = isAddOpen || isEditOpen;
   if (isDesktop) {
-    if (!isAddOpen) return null;
+    if (!isOpen) return null;
 
     return (
       <>

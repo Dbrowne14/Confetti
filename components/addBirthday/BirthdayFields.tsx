@@ -11,8 +11,8 @@ export const BirthdayFields = ({
   birthYearDefault,
 }: {
   birthDayDefault?: number;
-  birthMonthDefault?: string;
-  birthYearDefault?: string;
+  birthMonthDefault?: number;
+  birthYearDefault?: number | null;
 }) => {
   const { initialDate } = useAddBirthday();
 
@@ -53,7 +53,7 @@ export const BirthdayFields = ({
           name="Year"
           placeHolder="Year"
           className="w-20"
-          defaultValue={birthYearDefault}
+          defaultValue={birthYearDefault ?? ""}
         />
       </div>
       <p className="text-[11px] text-confetti-muted">

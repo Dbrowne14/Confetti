@@ -19,7 +19,7 @@ export const EditBirthday = ({
   person: Person;
 }) => {
   const { firstName, surname, birthDay, birthMonth, birthYear, giftNotes, circleId } = person;
-  const { closeAddBirthday } = useAddBirthday();
+  const { closeEditBirthday } = useAddBirthday();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
    circleId ?? null,
   );
@@ -30,7 +30,7 @@ export const EditBirthday = ({
 
     console.log(Object.fromEntries(formData));
 
-    closeAddBirthday();
+    closeEditBirthday();
   };
   return (
     <form
@@ -38,13 +38,13 @@ export const EditBirthday = ({
       className="flex min-h-0 flex-1 flex-col"
       onSubmit={handleSubmit}
     >
-      <AddHeader closeAddBirthday={closeAddBirthday} />
+      <AddHeader closeAddBirthday={closeEditBirthday} />
       <div className="flex min-h-0 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-8">
         <FormSection label="Name">
           <NameField firstNameDefault={firstName} surnameDefault={surname} />
         </FormSection>
         <FormSection label="Birthday">
-          <BirthdayFields />
+          <BirthdayFields birthDayDefault={birthDay} birthMonthDefault={birthMonth} birthYearDefault={birthYear}/>
         </FormSection>
         <FormSection label="Circle">
           <CircleOptions
