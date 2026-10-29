@@ -35,6 +35,9 @@ export const addPerson = async (formData: FormData) => {
     throw new Error(`Failed to create new birthday: ${error.message}`);
   }
 
-  revalidatePath("/")
+  revalidatePath("/");
+  return {
+    success: true,
+    error: null,
+  };
 };
-

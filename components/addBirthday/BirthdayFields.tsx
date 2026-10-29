@@ -29,7 +29,7 @@ export const BirthdayFields = ({
           className="w-16"
           defaultValue={
             initialDate
-              ? initialDate.getDate() - 1
+              ? initialDate.getDate()
               : birthDayDefault
                 ? birthDayDefault
                 : 0
@@ -41,7 +41,7 @@ export const BirthdayFields = ({
           options={monthNames}
           defaultValue={
             initialDate
-              ? initialDate.getMonth()
+              ? initialDate.getMonth() +1
               : birthMonthDefault
                 ? birthMonthDefault
                 : 0

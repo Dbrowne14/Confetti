@@ -31,7 +31,7 @@ export const editPerson = async (personId: number, formData: FormData) => {
     .eq("id", personId);
   console.log("Parsed birth year:", birthYear);
   if (error) {
-    throw new Error(`Unable to update person ${console.error}`);
+    throw new Error(`Unable to update person: ${error.message}`);
   }
   revalidatePath("/");
 };

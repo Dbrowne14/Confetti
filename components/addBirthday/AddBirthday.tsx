@@ -10,20 +10,23 @@ import { FormSection, fieldBase } from "@/components/ui/FormSection";
 import { useState } from "react";
 import { Circle } from "@/lib/data/circles";
 import { addPerson } from "@/lib/actions/addPerson";
+import { DrawerError } from "../ui/Drawer";
 
 export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
   const { closeAddBirthday, initialCircleId } = useAddBirthday();
   const [selectedCircleId, setSelectedCircleId] = useState<number | null>(
     initialCircleId,
   );
+  const [error, setError] = useState(null);
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
 
-    const newBirthday = Object.fromEntries(formData);
-
-    await addPerson(formData);
+    const result = await addPerson(formData);
+    if (!result.success) {
+      setError(result.error);
+    }
     closeAddBirthday();
   };
   return (
@@ -62,6 +65,7 @@ export const AddBirthday = ({ circles }: { circles: Circle[] }) => {
             className={`${fieldBase} max-h-48 min-h-20 resize-y py-2.5`}
           />
         </FormSection>
+        {error && <DrawerError error={error} />}
       </div>
     </form>
   );

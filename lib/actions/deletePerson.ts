@@ -14,7 +14,7 @@ export const deletePerson = async (personId: number) => {
     .eq("id", personId)
 
   if (error) {
-    throw new Error("unable to delete user");
+    throw new Error(`Unable to delete person: ${error.message}`);;
   }
 revalidatePath("/")
 };

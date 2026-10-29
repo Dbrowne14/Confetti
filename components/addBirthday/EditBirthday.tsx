@@ -39,7 +39,7 @@ export const EditBirthday = ({
     const formData = new FormData(event.currentTarget);
 
     console.log(Object.fromEntries(formData));
-    editPerson(id, formData);
+    await editPerson(id, formData);
     closeEditBirthday();
   };
   return (
