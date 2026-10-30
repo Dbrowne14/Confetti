@@ -1,5 +1,6 @@
 import { Circle } from "@/lib/data/circles";
 import { Person } from "@/lib/data/people";
+import { compareColours } from "@/lib/utils/colourContrastUtils";
 import { initialsRetrieval } from "@/lib/utils/personUtils";
 
 export const ProfileIdentity = ({
@@ -11,12 +12,18 @@ export const ProfileIdentity = ({
 }) => {
   const { firstName, surname, circleId } = person;
   const circle = circles.find((circle) => circle.id === circleId);
-
+  const textTone = circle ? compareColours(circle.colour) : "dark";;
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       <div
         aria-hidden
-        className={`flex size-20 items-center justify-center rounded-full font-serif text-3xl font-semibold text-confetti-ink ${circle ? "" : "bg-confetti-active"}`}
+        className={`flex size-20 items-center justify-center rounded-full font-serif text-3xl font-semibold ${
+          circle
+            ? textTone === "dark"
+              ? "text-confetti-ink"
+              : "text-confetti-surface"
+            : "bg-confetti-active text-confetti-ink"
+        }`}
         style={circle ? { backgroundColor: circle.colour } : undefined}
       >
         {initialsRetrieval(person)}
