@@ -1,4 +1,5 @@
 import { Person } from "@/lib/data/people";
+import { compareColours } from "@/lib/utils/colourContrastUtils";
 import { initialsRetrieval } from "@/lib/utils/personUtils";
 
 const OVERLAPNUMBER = 3;
@@ -20,13 +21,13 @@ export const PeopleInitials = ({
   const additionals = people.length - OVERLAPNUMBER;
 
   const avatar = `-ml-1 flex size-7 shrink-0 items-center justify-center rounded-full text-[10px] leading-none font-semibold ring-2 first:ml-0 ${ringClassName}`;
-
+  const textTone = colour ? compareColours(colour) : "dark";
   return (
     <div aria-hidden className="flex items-center">
       {viewedInitials.map((person) => (
         <span
           key={person.id}
-          className={`${avatar} text-confetti-ink ${colour ? "" : "bg-confetti-border"}`}
+          className={`${avatar} ${colour ? textTone === "dark" ? "text-confetti-ink" :"text-confetti-surface" : "bg-confetti-border text-confetti-ink"}`}
           style={colour ? { backgroundColor: colour } : undefined}
         >
           {initialsRetrieval(person)}

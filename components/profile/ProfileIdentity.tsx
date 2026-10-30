@@ -12,7 +12,7 @@ export const ProfileIdentity = ({
 }) => {
   const { firstName, surname, circleId } = person;
   const circle = circles.find((circle) => circle.id === circleId);
-  const textTone = circle ? compareColours(circle.colour) : "dark";;
+  const textTone = circle ? compareColours(circle.colour) : "dark";
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       <div

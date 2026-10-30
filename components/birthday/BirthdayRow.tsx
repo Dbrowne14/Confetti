@@ -1,5 +1,6 @@
 import type { Circle } from "@/lib/data/circles";
 import type { Person } from "@/lib/data/people";
+import { compareColours } from "@/lib/utils/colourContrastUtils";
 import { monthNames } from "@/lib/utils/dateUtils";
 
 type BirthdayRowProps = {
@@ -35,11 +36,11 @@ export const BirthdayRow = ({
   size = "default",
 }: BirthdayRowProps) => {
   const styles = sizeStyles[size];
-
+  const textTone = circle ? compareColours(circle.colour) : "dark";
   return (
     <div className="flex min-w-0 flex-1 items-center gap-3 text-left sm:gap-3.5">
       <div
-        className={`flex ${styles.badge} shrink-0 flex-col items-center justify-center rounded-full text-confetti-ink`}
+        className={`flex ${styles.badge} shrink-0 flex-col items-center justify-center rounded-full text-confetti-ink ${textTone === "dark" ? "text-confetti-ink" : "text-confetti-surface"}`}
         style={{
           backgroundColor: circle?.colour ?? "lightgray",
         }}
@@ -67,9 +68,7 @@ export const BirthdayRow = ({
         <div
           className={`flex min-w-0 items-center ${styles.meta} leading-snug text-confetti-muted`}
         >
-          <span className="truncate">
-            {circle?.name ?? "Uncategorised"}
-          </span>
+          <span className="truncate">{circle?.name ?? "Uncategorised"}</span>
 
           {person.birthYear !== null && (
             <span className="shrink-0">
