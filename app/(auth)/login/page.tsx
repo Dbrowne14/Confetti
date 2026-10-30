@@ -1,5 +1,6 @@
 "use client";
 import { createClient } from "@/lib/supabase/client";
+import { LoginForm } from "@/components/login/LoginForm";
 
 const page = async () => {
   const supabase = createClient();
@@ -15,25 +16,10 @@ const page = async () => {
       password,
     });
     console.log("data:", data);
-console.log("error:", error);
+    console.log("error:", error);
   };
 
-  return (
-    <form
-      className="flex flex-col justify-center items-center"
-      onSubmit={handleSubmit}
-    >
-      <div>
-        <label htmlFor="email"> Email:</label>
-        <input type="text" id="email" name="email" />
-      </div>
-      <div>
-        <label htmlFor="password"> Password:</label>
-        <input type="text" id="password" name="password" />
-      </div>
-      <button type="submit">Log in</button>
-    </form>
-  );
+  return <LoginForm onSubmit={handleSubmit} />;
 };
 
 export default page;

@@ -1,13 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { BirthdayFormProvider } from "@/components/birthdayForm/BirthdayFormProvider";
-import { BirthdayFormModal } from "@/components/birthdayForm/BirthdayFormModal";
-import { getCircles } from "@/lib/fetches/getCircles";
-import { ProfileProvider } from "@/components/profile/ProfileProvider";
-import { Profile } from "@/components/profile/Profile";
-import { getPeople } from "@/lib/fetches/getPeople";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,26 +28,14 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const circles = await getCircles();
-  const people = await getPeople();
-
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}
     >
-      {/* Below lg the nav floats over the bottom of the page; the bottom
-          padding keeps the end of every page clear of it. */}
-      <body className="flex min-h-dvh flex-col bg-confetti-bg pb-[calc(6rem+env(safe-area-inset-bottom))] text-confetti-ink lg:pb-0">
-        <BirthdayFormProvider>
-          <ProfileProvider>
-            <Header />
-            <BirthdayFormModal circles={circles} people={people} />
-            <Profile circles={circles} people={people} />
-            {children}
-          </ProfileProvider>
-        </BirthdayFormProvider>
+      <body className="flex min-h-dvh flex-col bg-confetti-bg text-confetti-ink">
+        {children}
       </body>
     </html>
   );
