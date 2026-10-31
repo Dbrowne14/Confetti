@@ -36,10 +36,15 @@ export const EditCircleForm = ({
     setError(null);
     const formData = new FormData(event.currentTarget);
     const result = await editCircle(id, formData);
+    console.log("edit result:", result);
+
     if (!result.success) {
       setError(result.error);
       return;
     }
+
+    console.log("closing circle");
+    closeCircle();
   };
   const handleDelete = async () => {
     setError(null);
