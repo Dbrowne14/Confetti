@@ -10,7 +10,7 @@ export const LoginForm = ({
   error,
 }: {
   onSubmit: SubmitEventHandler<HTMLFormElement>;
-  error: string;
+  error: string | null;
 }) => {
   return (
     <main className="relative flex flex-1 flex-col items-center justify-center px-5 py-10 sm:px-6 sm:py-16">
@@ -59,7 +59,7 @@ export const LoginForm = ({
             <button type="submit" className={`${primaryButton} mt-2 h-12`}>
               Log in
             </button>
-            <ErrorMessage message={error}/>
+            {error && <ErrorMessage message={error} />}
           </form>
         </div>
       </div>
