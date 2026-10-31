@@ -7,21 +7,18 @@ import { Profile } from "@/components/profile/Profile";
 import { getPeople } from "@/lib/fetches/getPeople";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-{
-  redirect;
-}
 
 // Shell for the signed-in app: header, nav and the overlays every page can
 // open. Routes outside this group (e.g. /login) render without any of it.
 export default async function AppLayout({ children }: LayoutProps<"/">) {
-  const circles = await getCircles();
-  const people = await getPeople();
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
-
   if (!data?.claims?.sub) {
     redirect("/login");
   }
+
+  const circles = await getCircles();
+  const people = await getPeople();
 
   return (
     // Below lg the nav floats over the bottom of the page; the bottom

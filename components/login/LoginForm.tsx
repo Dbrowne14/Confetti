@@ -2,7 +2,6 @@ import { ReactNode, SubmitEventHandler } from "react";
 import { fieldBase } from "@/components/ui/FormSection";
 import { primaryButton } from "@/components/ui/Drawer";
 import { ConfettiScatter } from "./ConfettiScatter";
-import type { AuthError } from "@supabase/supabase-js";
 import { ErrorMessage } from "../ui/ErrorMessage";
 
 // Presentational only: the page owns submission and passes it in.
@@ -11,7 +10,7 @@ export const LoginForm = ({
   error,
 }: {
   onSubmit: SubmitEventHandler<HTMLFormElement>;
-  error: string | null;
+  error: string;
 }) => {
   return (
     <main className="relative flex flex-1 flex-col items-center justify-center px-5 py-10 sm:px-6 sm:py-16">
@@ -60,7 +59,7 @@ export const LoginForm = ({
             <button type="submit" className={`${primaryButton} mt-2 h-12`}>
               Log in
             </button>
-            <ErrorMessage message={error ?? ""}/>
+            <ErrorMessage message={error}/>
           </form>
         </div>
       </div>
